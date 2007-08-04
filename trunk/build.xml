@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ProfileChecker build.xml -->
+
+<project basedir="." default="jar" name="ProfileChecker">
+	<property file="build.properties" />
+
+	<path id="cobertura.classpath">
+		<fileset dir="${profilechecker.cobertura}">
+			<include name="cobertura.jar" />
+			<include name="lib/**/*.jar" />
+		</fileset>
+	</path>
+
+	<taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
+
+	<!-- CLEAN -->
+	<target name="clean">
+		<delete dir="${profilechecker.classes}" />
+		<delete dir="${profilechecker.classes-cobertura}" />
+		<delete dir="${profilechecker.classes-test}" />
+		<delete dir="${profilechecker.report}" />
+		<delete dir="${profilechecker.docs.api}" />
+		<delete file="${profilechecker.jar}" />
+		<delete file="${profilechecker.release}" />
+		<delete file="${profilechecker.release}.MD5" />
+		<delete file="cobertura.ser" />
+	</target>
+	<!-- /CLEAN -->
+
+	<!-- INIT -->
+	<target name="init" depends="clean">
+		<mkdir dir="${profilechecker.classes}" />
+		<mkdir dir="${profilechecker.classes-cobertura}" />
+		<mkdir dir="${profilechecker.classes-test}" />
+		<mkdir dir="${profilechecker.report}" />
+		<mkdir dir="${profilechecker.report.cobertura}" />
+		<mkdir dir="${profilechecker.report.test}" />
+		<mkdir dir="${profilechecker.docs.api}" />
+	</target>
+	<!-- /INIT -->
+
+	<!-- JAVADOC -->
+	<target name="javadoc" depends="init">
+		<javadoc destdir="docs/api" author="false" version="false" use="true" windowtitle="${profilechecker.docs.api}">
+			<fileset dir="src" defaultexcludes="yes">
+				<include name="**"/>
+			</fileset>
+		</javadoc>
+	</target>
+	<!-- /JAVADOC -->
+	
+	<!-- COMPILE -->
+	<target name="compile" depends="init">
+		<javac classpath="${profilechecker.classpath}" srcdir="${profilechecker.src}" destdir="${profilechecker.classes}" debug="on" optimize="on">
+			<include name="**" />
+		</javac>
+	</target>
+	<!-- /COMPILE -->
+
+	<!-- COMPILE-TESTS -->
+	<target name="compile-tests" depends="compile">
+		<javac classpath="${profilechecker.classpath}" srcdir="${profilechecker.src-test}" destdir="${profilechecker.classes-test}" debug="on" optimize="on">
+			<include name="**" />
+		</javac>
+	</target>
+	<!-- /COMPILE-TESTS -->
+
+	<!-- COBERTURA-INSTR -->
+	<target name="cobertura-instr" depends="compile-tests">
+		<delete file="cobertura.ser" />
+
+		<cobertura-instrument todir="${profilechecker.classes-cobertura}">
+			<fileset dir="${profilechecker.classes}">
+				<include name="**/*.class" />
+			</fileset>
+		</cobertura-instrument>
+	</target>
+	<!-- /COBERTURA-INSTR -->
+
+	<!-- JAR -->
+	<target name="jar" depends="compile">
+		<jar destfile="${profilechecker.jar}">
+			<manifest>
+				<attribute name="Built-By" value="${profilechecker.name}" />
+				<attribute name="Main-Class" value="${profilechecker.mainclass}" />
+				<attribute name="Implementation-Version" value="${profilechecker.version}" />
+			</manifest>
+			<fileset dir="${profilechecker.classes}">
+				<include name="**/*.class" />
+			</fileset>
+			<fileset dir="${profilechecker.src}">
+				<include name="**/*.java" />
+			</fileset>
+		</jar>
+	</target>
+	<!-- /JAR -->
+
+	<!-- TEST -->
+	<target name="test" depends="cobertura-instr">
+		<junit fork="yes" printsummary="yes" haltonfailure="no" haltonerror="no">
+
+			<sysproperty key="net.sourceforge.cobertura.datafile" file="${basedir}/cobertura.ser" />
+
+			<classpath location="${profilechecker.classes-cobertura}" />
+			<classpath path="${profilechecker.classpath}" />
+			<classpath refid="cobertura.classpath" />
+
+			<formatter type="xml" />
+			<batchtest fork="yes" todir="${profilechecker.report.test}">
+				<fileset dir="${profilechecker.src-test}">
+					<include name="**/*Test.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+		<junitreport todir="${profilechecker.report.test}">
+			<fileset dir="${profilechecker.report.test}">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${profilechecker.report.test}" />
+		</junitreport>
+	</target>
+	<!-- /TESTAR -->
+
+	<!-- COBERTURA -->
+	<target name="cobertura" depends="test">
+		<cobertura-report format="html" destdir="${profilechecker.report.cobertura}">
+			<fileset dir="${profilechecker.src}">
+				<include name="**/*.java" />
+			</fileset>
+		</cobertura-report>
+	</target>
+	<!-- /COBERTURA -->
+
+	<!-- RELEASE -->
+	<target name="release" depends="cobertura, javadoc, jar">
+		<zip destfile="${profilechecker.release}">
+			<zipfileset dir="${profilechecker.docs}" prefix="docs"/>
+			<zipfileset file="${profilechecker.jar}" />
+		</zip>
+		<checksum file="${profilechecker.release}" />
+	</target>
+	<!-- /RELEASE -->
+	
+</project>
