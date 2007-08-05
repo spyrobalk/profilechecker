@@ -1,0 +1,30 @@
+# Parsing XMI Files
+
+# A file that does not exist
+expecterror "File not found: resources-test\profile-non-existent-file.xmi" parse file="resources-test\profile-non-existent-file.xmi"
+reset
+
+# A file with raw data
+# TODO
+reset
+
+# A file without profiles
+parse file="resources-test/profile_empty.xmi"
+expect 0 getNumberOfProfiles
+reset
+
+# A file with one profile but without stereotypes
+parse file="resources-test/profile_no_stereotypes.xmi"
+expect 1 getNumberOfProfiles
+expect "null" getProfileProperty profile="_12_5_1_12e803d1_1186346711722_680856_686" property="name"
+expect "_12_5_1_12e803d1_1186346711722_680856_686" getProfileProperty profile="_12_5_1_12e803d1_1186346711722_680856_686" property="id"
+expect "publicV" getProfileProperty profile="_12_5_1_12e803d1_1186346711722_680856_686" property="visibility"
+expect 0 getNumberOfStereotypes profile="_12_5_1_12e803d1_1186346711722_680856_686"
+
+# A file with one profile and one stereotype
+parse file="resources-test/profile_simple_stereotype_definition.xmi"
+expect 1 getNumberOfProfiles
+expect "public" getProfileProperty profile="_12_5_1_12e803d1_1186331641532_79382_142" property="name"
+expect "_12_5_1_12e803d1_1186331641532_79382_142" getProfileProperty profile="_12_5_1_12e803d1_1186331641532_79382_142" property="id"
+expect "publicV" getProfileProperty profile="_12_5_1_12e803d1_1186331641532_79382_142" property="visibility"
+expect 1 getNumberOfStereotypes profile="_12_5_1_12e803d1_1186331641532_79382_142"
