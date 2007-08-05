@@ -23,9 +23,6 @@ public class OwnedMember implements Serializable {
 	}
 
 	public void setName(String name) {
-		if (name == null) {
-			throw new NullPointerException("Name property must not be null");
-		}
 		this.name = name;
 	}
 

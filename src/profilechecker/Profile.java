@@ -24,8 +24,8 @@ public class Profile extends OwnedMember {
 		this.stereotypes = stereotypes;
 	}
 
-	public void addStereotype(String name, Stereotype stereotype) {
-		this.stereotypes.put(name, stereotype);
+	public void addStereotype(String id, Stereotype stereotype) {
+		this.stereotypes.put(id, stereotype);
 	}
 
 }
