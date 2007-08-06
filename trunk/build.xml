@@ -21,9 +21,8 @@
 		<delete dir="${profilechecker.classes-test}" />
 		<delete dir="${profilechecker.report}" />
 		<delete dir="${profilechecker.docs.api}" />
+		<delete dir="${profilechecker.release}" />
 		<delete file="${profilechecker.jar}" />
-		<delete file="${profilechecker.release}" />
-		<delete file="${profilechecker.release}.MD5" />
 		<delete file="cobertura.ser" />
 	</target>
 	<!-- /CLEAN -->
@@ -37,6 +36,7 @@
 		<mkdir dir="${profilechecker.report.cobertura}" />
 		<mkdir dir="${profilechecker.report.test}" />
 		<mkdir dir="${profilechecker.docs.api}" />
+		<mkdir dir="${profilechecker.release}" />
 	</target>
 	<!-- /INIT -->
 
@@ -85,6 +85,7 @@
 				<attribute name="Built-By" value="${profilechecker.name}" />
 				<attribute name="Main-Class" value="${profilechecker.mainclass}" />
 				<attribute name="Implementation-Version" value="${profilechecker.version}" />
+				<attribute name="Class-Path" value="profilechecker.jar ${commons-cli.jar}" />
 			</manifest>
 			<fileset dir="${profilechecker.classes}">
 				<include name="**/*.class" />
@@ -134,8 +135,9 @@
 
 	<!-- RELEASE -->
 	<target name="release" depends="cobertura, javadoc, jar">
-		<zip destfile="${profilechecker.release}">
+		<zip destfile="${profilechecker.releasezip}">
 			<zipfileset dir="${profilechecker.docs}" prefix="docs"/>
+			<zipfileset file="${commons-cli.jar}" prefix="lib"/>
 			<zipfileset file="${profilechecker.jar}" />
 		</zip>
 		<checksum file="${profilechecker.release}" />
