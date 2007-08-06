@@ -29,6 +29,8 @@ public class XMIParser extends DefaultHandler {
 	private int ownedMemberCount = 0;
 	private int ownedMemberStereotypeCount = -1;
 	private int ownedMemberProfileCount = -1;
+	
+	private boolean isParsingType = false;
 
 	private int xmiExtensionDeep = -1;
 	private File file;
@@ -58,7 +60,7 @@ public class XMIParser extends DefaultHandler {
 			xmiExtensionDeep++;
 			return;
 		}
-		if (qName.equalsIgnoreCase("ownedMember")) {
+		if ("ownedMember".equalsIgnoreCase(qName)) {
 			ownedMemberCount++;
 			if ("uml:Profile".equals(attributes.getValue("xmi:type"))) {
 				parsingProfile = new Profile(attributes.getValue("name"),
@@ -76,8 +78,15 @@ public class XMIParser extends DefaultHandler {
 			}
 
 		}
-		if (qName.equalsIgnoreCase("ownedAttribute")) {
-			// TODO Implement this...
+
+		// An referenceExtension from stereotype TODO It is ok?
+		if ("ownedAttribute".equalsIgnoreCase(qName) && ownedMemberStereotypeCount == ownedMemberCount) { 
+				isParsingType = true;
+		}
+		
+		if (isParsingType && "referenceExtension".equalsIgnoreCase(qName)) {
+			parsingStereotype.addType(attributes.getValue("referentPath"));
+			isParsingType = false;
 		}
 
 	}
@@ -111,10 +120,6 @@ public class XMIParser extends DefaultHandler {
 				parsingStereotype = null;
 			}
 			ownedMemberCount--;
-		}
-
-		if (qName.equalsIgnoreCase("ownedAttribute")) {
-			// TODO Implement this...
 		}
 
 	}

@@ -1,5 +1,9 @@
 package profilechecker;
 
+import javax.swing.JFrame;
+
+import profilechecker.parser.XMIParserGUI;
+
 /**
  * ProfileChecker main class.
  * 
@@ -14,7 +18,9 @@ public class Main {
 	 *            Arguments of the application.
 	 */
 	public static void main(String[] args) {
-		System.out.println("Main-Class");
+		XMIParserGUI xmiParserGUI = new XMIParserGUI();
+	    xmiParserGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    xmiParserGUI.setVisible(true);
 	}
 
 }
