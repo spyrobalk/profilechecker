@@ -42,4 +42,12 @@ public class XMIParserFacade {
 		return BeanUtils.getProperty(profiles.get(profile).getStereotypes().get(stereotype), property);
 	}
 	
+	public boolean isStereotypeType(String profile, String stereotype, String type) {
+		return profiles.get(profile).getStereotypes().get(stereotype).getTypes().contains(type);
+	}
+
+	public int getStereotypeTypeSize(String profile, String stereotype) {
+		return profiles.get(profile).getStereotypes().get(stereotype).getTypes().size();
+	}
+	
 }
