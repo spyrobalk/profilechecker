@@ -82,7 +82,7 @@ public class XMIParser extends DefaultHandler {
 			SAXException, IOException {
 
 		if (!file.exists()) {
-			throw new IOException("File not found: " + file.getName());
+			throw new IOException("File not found: " + file.getPath());
 		}
 
 		this.file = file;
