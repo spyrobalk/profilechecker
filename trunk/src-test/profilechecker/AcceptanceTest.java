@@ -1,19 +1,24 @@
 package profilechecker;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import junit.framework.TestCase;
 import profilechecker.parser.XMIParserFacade;
-import util.ParsingException;
 import util.VariablesImpl;
 import easyaccept.EasyAccept;
-import easyaccept.QuitSignalException;
 
+/**
+ * Run the acceptance tests made by the client. Each method should be
+ * associated with a EasyAccept script that represents an US.
+ * 
+ * @author Matheus
+ */
 public class AcceptanceTest extends TestCase {
 
-	public void testParser() throws FileNotFoundException, QuitSignalException,
-			IOException, ParsingException {
+	/**
+	 * Tests the XMIParser.
+	 * 
+	 * @throws Exception If something fails.
+	 */
+	public void testParser() throws Exception {
 		boolean failed = false;
 		EasyAccept tester = new EasyAccept();
 		if (!tester.runAcceptanceTest(new XMIParserFacade(),

@@ -25,8 +25,13 @@ import profilechecker.parser.XMIParserUI;
  */
 public class Main {
 
+	/** XMIParserGUI option. */
 	private static final String PARSER_GUI_OPTION = "parsergui";
+	
+	/** XMIParserUI option. */
 	private static final String PARSER_UI_OPTION = "parserui";
+	
+	/** Help option. */
 	private static final String HELP_OPTION = "help";
 
 	/**
@@ -46,10 +51,8 @@ public class Main {
 		options.addOption(parserUIOption);
 		options.addOption(help);
 
-	    // create the parser
 	    CommandLineParser parser = new GnuParser();
 	    try {
-	        // parse the command line arguments
 	        CommandLine line = parser.parse( options, args );
 	        if (line.hasOption(PARSER_UI_OPTION)) {
 	        	XMIParserUI xmiParserUI = new XMIParserUI();
@@ -78,7 +81,6 @@ public class Main {
 	        }
 	    }
 	    catch( ParseException exp ) {
-	        // oops, something went wrong
 	        System.err.println( "Parsing failed.  Reason: " + exp.getMessage() );
 	    }
 		
