@@ -26,12 +26,77 @@ import profilechecker.Stereotype;
 
 public class XMIParserGUI extends JFrame {
 
+	static final class ActionListenerImplementation implements ActionListener {
+		
+		private JEditorPane resultPane;
+		private JFrame parent;
+
+		public ActionListenerImplementation(JEditorPane resultPane, JFrame parent) {
+			this.parent = parent;
+			this.resultPane = resultPane;
+		}
+		
+		public void actionPerformed(ActionEvent e) {
+			JFileChooser fc = new JFileChooser();
+			int returnVal = fc.showOpenDialog(parent);
+		    if (returnVal == JFileChooser.APPROVE_OPTION) {
+		        File file = fc.getSelectedFile();
+		        parseFile(file);
+		    } else {
+		    	// TODO CANCELLED
+		    }
+		}
+
+		void parseFile(File file) {
+			try {
+				XMIParser parser = new XMIParser(file);
+				Map<String, Profile> profiles = parser.parse();
+				StringBuilder sb = new StringBuilder();
+				for (String profileName : profiles.keySet()) {
+					Profile profile = profiles.get(profileName);
+					sb.append("<html><body>");
+					sb.append("Profile<ul>");
+					sb.append("<li><b>name</b> " + profile.getName());
+					sb.append("<li><b>id</b> " + profile.getId());
+					sb.append("<li><b>visibility</b> " + profile.getVisibility());
+					sb.append("<p>");
+					Map<String, Stereotype> stereotypes = profiles.get(profileName).getStereotypes();
+					for (String stereotypeName : stereotypes.keySet()) {
+						Stereotype stereotype = stereotypes.get(stereotypeName);
+						sb.append("<li>Stereotype<ul>");
+						sb.append("<li><b>name</b> " + stereotype.getName());
+						sb.append("<li><b>id</b> " + stereotype.getId());
+						sb.append("<li><b>visibility</b> " + stereotype.getVisibility());
+						for (String type : stereotype.getTypes()) {
+							sb.append("<li><b>type</b> " + type);
+						}
+						sb.append("</ul>");
+					} // End of 'stereotypes for-each'
+					sb.append("</ul>");
+					sb.append("<hr />");
+				} // End of 'profiles for-each'
+				sb.append("</body></html>");
+				resultPane.setText(sb.toString());
+			} catch (ParserConfigurationException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (SAXException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	}
+
 	private JPanel jContentPane = null;
 	private JPanel jPanel = null;
 	private JPanel jPanel1 = null;
 	private JButton jButton = null;
 	private JScrollPane jScrollPane = null;
 	private JEditorPane jEditorPane = null;
+	
 	public XMIParserGUI() {
 		super();
 		initialize();
@@ -100,58 +165,7 @@ public class XMIParserGUI extends JFrame {
 			jButton = new JButton();
 			jButton.setBounds(new Rectangle(17, 10, 428, 21));
 			jButton.setText("Open File...");
-			jButton.addActionListener(new ActionListener() {
-
-				public void actionPerformed(ActionEvent e) {
-					JFileChooser fc = new JFileChooser();
-					int returnVal = fc.showOpenDialog(getJFrame());
-			        if (returnVal == JFileChooser.APPROVE_OPTION) {
-			            File file = fc.getSelectedFile();
-			            try {
-							XMIParser parser = new XMIParser(file);
-							Map<String, Profile> profiles = parser.parse();
-							StringBuilder sb = new StringBuilder();
-							for (String profileName : profiles.keySet()) {
-								Profile profile = profiles.get(profileName);
-								sb.append("<html><body>");
-								sb.append("Profile<ul>");
-								sb.append("<li><b>name</b> " + profile.getName());
-								sb.append("<li><b>id</b> " + profile.getId());
-								sb.append("<li><b>visibility</b> " + profile.getVisibility());
-								sb.append("<p>");
-								Map<String, Stereotype> stereotypes = profiles.get(profileName).getStereotypes();
-								for (String stereotypeName : stereotypes.keySet()) {
-									Stereotype stereotype = stereotypes.get(stereotypeName);
-									sb.append("<li>Stereotype<ul>");
-									sb.append("<li><b>name</b> " + stereotype.getName());
-									sb.append("<li><b>id</b> " + stereotype.getId());
-									sb.append("<li><b>visibility</b> " + stereotype.getVisibility());
-									for (String type : stereotype.getTypes()) {
-										sb.append("<li><b>type</b> " + type);
-									}
-									sb.append("</ul>");
-								}
-								sb.append("</ul>");
-								sb.append("<hr />");
-							}
-							sb.append("</body></html>");
-							getJEditorPane().setText(sb.toString());
-						} catch (ParserConfigurationException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (SAXException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-			        } else {
-			        	// TODO CANCELLED
-			        }
-				}
-				
-			});
+			jButton.addActionListener(new ActionListenerImplementation(getJEditorPane(), this));
 		}
 		return jButton;
 	}
