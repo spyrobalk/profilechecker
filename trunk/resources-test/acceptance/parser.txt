@@ -1,11 +1,11 @@
 # Parsing XMI Files
 
 # A file that does not exist
-expecterror "File not found: resources-test\profile-non-existent-file.xmi" parse file="resources-test\profile-non-existent-file.xmi"
+expecterror "File not found: resources-test/profile-non-existent-file.xmi" parse file="resources-test/profile-non-existent-file.xmi"
 reset
 
 # A file with raw data
-# TODO
+expecterror "Content is not allowed in prolog." parse file="resources-test/an_invalid_xml.xml"
 reset
 
 # A file without profiles
