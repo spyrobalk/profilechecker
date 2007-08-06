@@ -11,10 +11,25 @@ import org.xml.sax.SAXException;
 import profilechecker.Profile;
 import profilechecker.Stereotype;
 
+/**
+ * UI of the XMIParser. And should be used as a debug tool from command line.
+ * 
+ * @author Matheus
+ */
 public class XMIParserUI {
 
+	/** Line separator to be used by the UI. */
 	final static String LINE_SEPARATOR = System.getProperty("line.separator");
 
+	/**
+	 * Parse a XMI file.
+	 * 
+	 * @param file File to be parsed.
+	 * @return A String with profile information to be printed.
+	 * @throws ParserConfigurationException If the ParseFactory fails.
+	 * @throws SAXException If the parse fails.
+	 * @throws IOException It its not possible to read the file.
+	 */
 	public String parse(File file) throws ParserConfigurationException, SAXException, IOException {
 		XMIParser parser = new XMIParser(file);
 		Map<String, Profile> profiles = parser.parse();

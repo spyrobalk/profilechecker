@@ -1,9 +1,7 @@
 package profilechecker.parser;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridBagLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,18 +22,54 @@ import org.xml.sax.SAXException;
 import profilechecker.Profile;
 import profilechecker.Stereotype;
 
+/**
+ * GUI to use the XMIParser. This is only a prototype and is needed to test and
+ * verify any XMI parser using a graphical interface.
+ * 
+ * @author Matheus
+ */
+/**
+ * @author matheusgr
+ *
+ */
 public class XMIParserGUI extends JFrame {
 
+	/** Default serial version UID */
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Listener to be invoked when the open file button receives an action.
+	 * 
+	 * It will open a JFileChooser dialog and then invoke the XMIParser.
+	 * 
+	 * @author Matheus
+	 */
+	/**
+	 * @author matheusgr
+	 *
+	 */
 	static final class ActionListenerImplementation implements ActionListener {
 		
+		/** JEditorPane to receive the text. */
 		private JEditorPane resultPane;
+		
+		/** JFrame parent of the JFileChooser. */
 		private JFrame parent;
 
+		/**
+		 * ActionListener implementation.
+		 * 
+		 * @param resultPane Pane to receive the parser result.
+		 * @param parent Parent of the JFileChooser.
+		 */
 		public ActionListenerImplementation(JEditorPane resultPane, JFrame parent) {
 			this.parent = parent;
 			this.resultPane = resultPane;
 		}
 		
+		/* (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		public void actionPerformed(ActionEvent e) {
 			JFileChooser fc = new JFileChooser();
 			int returnVal = fc.showOpenDialog(parent);
@@ -47,6 +81,11 @@ public class XMIParserGUI extends JFrame {
 		    }
 		}
 
+		/**
+		 * Parse the XMI file and print the result at the JEditorPane.
+		 * 
+		 * @param file File to be parsed.
+		 */
 		void parseFile(File file) {
 			try {
 				XMIParser parser = new XMIParser(file);
@@ -90,113 +129,108 @@ public class XMIParserGUI extends JFrame {
 		}
 	}
 
-	private JPanel jContentPane = null;
-	private JPanel jPanel = null;
-	private JPanel jPanel1 = null;
-	private JButton jButton = null;
-	private JScrollPane jScrollPane = null;
-	private JEditorPane jEditorPane = null;
+	/** Main content pane. */
+	private JPanel mainContentPane = null;
 	
+	/** Main pane of the GUI. */
+	private JPanel mainPanel = null;
+	
+	/** Button that open the JFileChooser dialog. */
+	private JButton openFileButton = null;
+	
+	/** JScrollPane to hold JEditorPane. */
+	private JScrollPane editorScrollPane = null;
+	
+	/** JEditorPane to show the parse result. */
+	private JEditorPane editorPane = null;
+	
+	/**
+	 * Initialize the main JFrame of the XMIParserGUI.
+	 */
 	public XMIParserGUI() {
 		super();
 		initialize();
 	}
 	
+	/**
+	 * Initialize this JFrame.
+	 */
 	private void initialize() {
 		setSize(new Dimension(467, 261));
-		setContentPane(getJContentPane());
+		setContentPane(getMainContentPane());
 	}
 
-	private Component getJFrame() {
-		return this;
-	}
-	
 	/**
-	 * This method initializes jContentPane	
+	 * This method initializes mainContentPane	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */
-	private JPanel getJContentPane() {
-		if (jContentPane == null) {
-			jContentPane = new JPanel();
-			jContentPane.setLayout(new BorderLayout());
-			jContentPane.add(getJPanel(), BorderLayout.CENTER);
+	private JPanel getMainContentPane() {
+		if (mainContentPane == null) {
+			mainContentPane = new JPanel();
+			mainContentPane.setLayout(new BorderLayout());
+			mainContentPane.add(getMainPanel(), BorderLayout.CENTER);
 		}
-		return jContentPane;
+		return mainContentPane;
 	}
 
 	/**
-	 * This method initializes jPanel	
+	 * This method initializes mainPanel	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */
-	private JPanel getJPanel() {
-		if (jPanel == null) {
-			jPanel = new JPanel();
-			jPanel.setLayout(null);
-			jPanel.add(getJPanel1(), null);
-			jPanel.add(getJButton(), null);
-			jPanel.add(getJScrollPane(), null);
+	private JPanel getMainPanel() {
+		if (mainPanel == null) {
+			mainPanel = new JPanel();
+			mainPanel.setLayout(null);
+			mainPanel.add(getOpenFileButton(), null);
+			mainPanel.add(getEditorScrollPane(), null);
 		}
-		return jPanel;
+		return mainPanel;
 	}
 
 	/**
-	 * This method initializes jPanel1	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */
-	private JPanel getJPanel1() {
-		if (jPanel1 == null) {
-			jPanel1 = new JPanel();
-			jPanel1.setLayout(new GridBagLayout());
-			jPanel1.setBounds(new Rectangle(0, 0, 0, 0));
-		}
-		return jPanel1;
-	}
-
-	/**
-	 * This method initializes jButton	
+	 * This method initializes openFileButton	
 	 * 	
 	 * @return javax.swing.JButton	
 	 */
-	private JButton getJButton() {
-		if (jButton == null) {
-			jButton = new JButton();
-			jButton.setBounds(new Rectangle(17, 10, 428, 21));
-			jButton.setText("Open File...");
-			jButton.addActionListener(new ActionListenerImplementation(getJEditorPane(), this));
+	private JButton getOpenFileButton() {
+		if (openFileButton == null) {
+			openFileButton = new JButton();
+			openFileButton.setBounds(new Rectangle(17, 10, 428, 21));
+			openFileButton.setText("Open File...");
+			openFileButton.addActionListener(new ActionListenerImplementation(getEditorPane(), this));
 		}
-		return jButton;
+		return openFileButton;
 	}
 
 	/**
-	 * This method initializes jScrollPane	
+	 * This method initializes editorScrollPane	
 	 * 	
 	 * @return javax.swing.JScrollPane	
 	 */
-	private JScrollPane getJScrollPane() {
-		if (jScrollPane == null) {
-			jScrollPane = new JScrollPane();
-			jScrollPane.setBounds(new Rectangle(15, 42, 429, 180));
-			jScrollPane.setViewportView(getJEditorPane());
+	private JScrollPane getEditorScrollPane() {
+		if (editorScrollPane == null) {
+			editorScrollPane = new JScrollPane();
+			editorScrollPane.setBounds(new Rectangle(15, 42, 429, 180));
+			editorScrollPane.setViewportView(getEditorPane());
 		}
-		return jScrollPane;
+		return editorScrollPane;
 	}
 
 	/**
-	 * This method initializes jEditorPane	
+	 * This method initializes editorPane	
 	 * 	
 	 * @return javax.swing.JEditorPane	
 	 */
-	private JEditorPane getJEditorPane() {
-		if (jEditorPane == null) {
-			jEditorPane = new JEditorPane();
-			jEditorPane.setContentType("text/html");
-			jEditorPane.setAutoscrolls(true);
-			jEditorPane.setEditable(false);
+	private JEditorPane getEditorPane() {
+		if (editorPane == null) {
+			editorPane = new JEditorPane();
+			editorPane.setContentType("text/html");
+			editorPane.setAutoscrolls(true);
+			editorPane.setEditable(false);
 		}
-		return jEditorPane;
+		return editorPane;
 	}
 
 }

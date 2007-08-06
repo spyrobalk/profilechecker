@@ -8,8 +8,17 @@ import javax.swing.JFrame;
 import junit.framework.TestCase;
 import profilechecker.parser.XMIParserGUI.ActionListenerImplementation;
 
+/**
+ * Test to XMIParserGUI. This test is used to guarantee that the
+ * interface keeps the same across different versions.
+ * 
+ * @Author Matheus
+ */
 public class XMIParserGUITest extends TestCase {
 	
+	/**
+	 * Tests the open file action response.
+	 */
 	public void testAction() {
 		JEditorPane jep = new JEditorPane();
 		JFrame jframe = new JFrame();
@@ -19,8 +28,11 @@ public class XMIParserGUITest extends TestCase {
 		assertEquals(expectedResult, jep.getText());
 	}
 	
+	/**
+	 * Tests if its possible to create a GUI without errors.
+	 */
 	public void testCreation() {
-		XMIParserGUI xmiParserGUI = new XMIParserGUI();
+		new XMIParserGUI();
 	}
 	
 }
