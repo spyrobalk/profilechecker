@@ -30,13 +30,13 @@ import profilechecker.Stereotype;
  */
 /**
  * @author matheusgr
- *
+ * 
  */
 public class XMIParserGUI extends JFrame {
 
 	/** Default serial version UID */
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * Listener to be invoked when the open file button receives an action.
 	 * 
@@ -46,45 +46,51 @@ public class XMIParserGUI extends JFrame {
 	 */
 	/**
 	 * @author matheusgr
-	 *
+	 * 
 	 */
 	static final class ActionListenerImplementation implements ActionListener {
-		
+
 		/** JEditorPane to receive the text. */
 		private JEditorPane resultPane;
-		
+
 		/** JFrame parent of the JFileChooser. */
 		private JFrame parent;
 
 		/**
 		 * ActionListener implementation.
 		 * 
-		 * @param resultPane Pane to receive the parser result.
-		 * @param parent Parent of the JFileChooser.
+		 * @param resultPane
+		 *            Pane to receive the parser result.
+		 * @param parent
+		 *            Parent of the JFileChooser.
 		 */
-		public ActionListenerImplementation(JEditorPane resultPane, JFrame parent) {
+		public ActionListenerImplementation(JEditorPane resultPane,
+				JFrame parent) {
 			this.parent = parent;
 			this.resultPane = resultPane;
 		}
-		
-		/* (non-Javadoc)
+
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 		 */
 		public void actionPerformed(ActionEvent e) {
 			JFileChooser fc = new JFileChooser();
 			int returnVal = fc.showOpenDialog(parent);
-		    if (returnVal == JFileChooser.APPROVE_OPTION) {
-		        File file = fc.getSelectedFile();
-		        parseFile(file);
-		    } else {
-		    	// TODO CANCELLED
-		    }
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				File file = fc.getSelectedFile();
+				parseFile(file);
+			} else {
+				// TODO CANCELLED
+			}
 		}
 
 		/**
 		 * Parse the XMI file and print the result at the JEditorPane.
 		 * 
-		 * @param file File to be parsed.
+		 * @param file
+		 *            File to be parsed.
 		 */
 		void parseFile(File file) {
 			try {
@@ -97,15 +103,18 @@ public class XMIParserGUI extends JFrame {
 					sb.append("Profile<ul>");
 					sb.append("<li><b>name</b> " + profile.getName());
 					sb.append("<li><b>id</b> " + profile.getId());
-					sb.append("<li><b>visibility</b> " + profile.getVisibility());
+					sb.append("<li><b>visibility</b> "
+							+ profile.getVisibility());
 					sb.append("<p>");
-					Map<String, Stereotype> stereotypes = profiles.get(profileName).getStereotypes();
+					Map<String, Stereotype> stereotypes = profiles.get(
+							profileName).getStereotypes();
 					for (String stereotypeName : stereotypes.keySet()) {
 						Stereotype stereotype = stereotypes.get(stereotypeName);
 						sb.append("<li>Stereotype<ul>");
 						sb.append("<li><b>name</b> " + stereotype.getName());
 						sb.append("<li><b>id</b> " + stereotype.getId());
-						sb.append("<li><b>visibility</b> " + stereotype.getVisibility());
+						sb.append("<li><b>visibility</b> "
+								+ stereotype.getVisibility());
 						for (String type : stereotype.getTypes()) {
 							sb.append("<li><b>type</b> " + type);
 						}
@@ -131,19 +140,19 @@ public class XMIParserGUI extends JFrame {
 
 	/** Main content pane. */
 	private JPanel mainContentPane = null;
-	
+
 	/** Main pane of the GUI. */
 	private JPanel mainPanel = null;
-	
+
 	/** Button that open the JFileChooser dialog. */
 	private JButton openFileButton = null;
-	
+
 	/** JScrollPane to hold JEditorPane. */
 	private JScrollPane editorScrollPane = null;
-	
+
 	/** JEditorPane to show the parse result. */
 	private JEditorPane editorPane = null;
-	
+
 	/**
 	 * Initialize the main JFrame of the XMIParserGUI.
 	 */
@@ -151,7 +160,7 @@ public class XMIParserGUI extends JFrame {
 		super();
 		initialize();
 	}
-	
+
 	/**
 	 * Initialize this JFrame.
 	 */
@@ -161,9 +170,9 @@ public class XMIParserGUI extends JFrame {
 	}
 
 	/**
-	 * This method initializes mainContentPane	
-	 * 	
-	 * @return javax.swing.JPanel	
+	 * This method initializes mainContentPane
+	 * 
+	 * @return javax.swing.JPanel
 	 */
 	private JPanel getMainContentPane() {
 		if (mainContentPane == null) {
@@ -175,9 +184,9 @@ public class XMIParserGUI extends JFrame {
 	}
 
 	/**
-	 * This method initializes mainPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
+	 * This method initializes mainPanel
+	 * 
+	 * @return javax.swing.JPanel
 	 */
 	private JPanel getMainPanel() {
 		if (mainPanel == null) {
@@ -190,24 +199,25 @@ public class XMIParserGUI extends JFrame {
 	}
 
 	/**
-	 * This method initializes openFileButton	
-	 * 	
-	 * @return javax.swing.JButton	
+	 * This method initializes openFileButton
+	 * 
+	 * @return javax.swing.JButton
 	 */
 	private JButton getOpenFileButton() {
 		if (openFileButton == null) {
 			openFileButton = new JButton();
 			openFileButton.setBounds(new Rectangle(17, 10, 428, 21));
 			openFileButton.setText("Open File...");
-			openFileButton.addActionListener(new ActionListenerImplementation(getEditorPane(), this));
+			openFileButton.addActionListener(new ActionListenerImplementation(
+					getEditorPane(), this));
 		}
 		return openFileButton;
 	}
 
 	/**
-	 * This method initializes editorScrollPane	
-	 * 	
-	 * @return javax.swing.JScrollPane	
+	 * This method initializes editorScrollPane
+	 * 
+	 * @return javax.swing.JScrollPane
 	 */
 	private JScrollPane getEditorScrollPane() {
 		if (editorScrollPane == null) {
@@ -219,9 +229,9 @@ public class XMIParserGUI extends JFrame {
 	}
 
 	/**
-	 * This method initializes editorPane	
-	 * 	
-	 * @return javax.swing.JEditorPane	
+	 * This method initializes editorPane
+	 * 
+	 * @return javax.swing.JEditorPane
 	 */
 	private JEditorPane getEditorPane() {
 		if (editorPane == null) {

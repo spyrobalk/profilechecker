@@ -24,13 +24,18 @@ public class XMIParserUI {
 	/**
 	 * Parse a XMI file.
 	 * 
-	 * @param file File to be parsed.
+	 * @param file
+	 *            File to be parsed.
 	 * @return A String with profile information to be printed.
-	 * @throws ParserConfigurationException If the ParseFactory fails.
-	 * @throws SAXException If the parse fails.
-	 * @throws IOException It its not possible to read the file.
+	 * @throws ParserConfigurationException
+	 *             If the ParseFactory fails.
+	 * @throws SAXException
+	 *             If the parse fails.
+	 * @throws IOException
+	 *             It its not possible to read the file.
 	 */
-	public String parse(File file) throws ParserConfigurationException, SAXException, IOException {
+	public String parse(File file) throws ParserConfigurationException,
+			SAXException, IOException {
 		XMIParser parser = new XMIParser(file);
 		Map<String, Profile> profiles = parser.parse();
 		StringBuilder sb = new StringBuilder();

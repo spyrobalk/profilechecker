@@ -17,7 +17,7 @@ public abstract class OwnedMember implements Serializable {
 
 	/** ID of this member. Cannot be null, and should be unique among the XMI. */
 	private String id;
-	
+
 	/** Visibility of this member. */
 	private VisibilityType visibility;
 
@@ -31,9 +31,12 @@ public abstract class OwnedMember implements Serializable {
 	/**
 	 * Created a basic OwnedMember.
 	 * 
-	 * @param name Name of this OwnedMember.
-	 * @param id ID of this OwnedMember.
-	 * @param visibility Visibility of this OwnedMember.
+	 * @param name
+	 *            Name of this OwnedMember.
+	 * @param id
+	 *            ID of this OwnedMember.
+	 * @param visibility
+	 *            Visibility of this OwnedMember.
 	 */
 	public OwnedMember(String name, String id, VisibilityType visibility) {
 		setName(name);
@@ -42,7 +45,8 @@ public abstract class OwnedMember implements Serializable {
 	}
 
 	/**
-	 * Gets the OwnedMember name. 
+	 * Gets the OwnedMember name.
+	 * 
 	 * @return The OwnedMember name.
 	 */
 	public String getName() {
@@ -51,7 +55,9 @@ public abstract class OwnedMember implements Serializable {
 
 	/**
 	 * Sets the OwnedMember name.
-	 * @param name The OwnedMember name.
+	 * 
+	 * @param name
+	 *            The OwnedMember name.
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -59,6 +65,7 @@ public abstract class OwnedMember implements Serializable {
 
 	/**
 	 * Gets the OwnedMember ID.
+	 * 
 	 * @return The OwnedMember ID.
 	 */
 	public String getId() {
@@ -67,7 +74,9 @@ public abstract class OwnedMember implements Serializable {
 
 	/**
 	 * Sets the OwnedMember ID. It cannot be null.
-	 * @param id The OwnedMember ID.
+	 * 
+	 * @param id
+	 *            The OwnedMember ID.
 	 */
 	public void setId(String id) {
 		if (id == null) {
@@ -78,6 +87,7 @@ public abstract class OwnedMember implements Serializable {
 
 	/**
 	 * Gets the OwnedMember visibility.
+	 * 
 	 * @return The OwnedMember visibility.
 	 */
 	public VisibilityType getVisibility() {
@@ -86,12 +96,13 @@ public abstract class OwnedMember implements Serializable {
 
 	/**
 	 * Sets the OwnedMember visibility.
-	 * @param visibility The OwnedMember visibility.
+	 * 
+	 * @param visibility
+	 *            The OwnedMember visibility.
 	 */
 	public void setVisibility(VisibilityType visibility) {
 		if (visibility == null) {
-			throw new NullPointerException(
-					"Visibility property cannot be null");
+			throw new NullPointerException("Visibility property cannot be null");
 		}
 		this.visibility = visibility;
 	}
