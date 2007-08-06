@@ -15,5 +15,5 @@ public class MainTest extends TestCase {
 	public void testMain() {
 		// Main.main(null);
 	}
-	
+
 }
