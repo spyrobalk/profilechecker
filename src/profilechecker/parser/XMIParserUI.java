@@ -8,7 +8,9 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import profilechecker.Package;
 import profilechecker.Profile;
+import profilechecker.Class;
 import profilechecker.Stereotype;
 
 /**
@@ -37,7 +39,8 @@ public class XMIParserUI {
 	public String parse(File file) throws ParserConfigurationException,
 			SAXException, IOException {
 		XMIParser parser = new XMIParser(file);
-		Map<String, Profile> profiles = parser.parse();
+		parser.parse();
+		Map<String, Profile> profiles = parser.getProfiles(); 
 		StringBuilder sb = new StringBuilder();
 		for (String profileName : profiles.keySet()) {
 			Profile profile = profiles.get(profileName);
@@ -68,6 +71,43 @@ public class XMIParserUI {
 			} // End of 'stereotypes for-each'
 			sb.append(LINE_SEPARATOR);
 		} // End of 'profiles for-each'
+		
+		Map<String, Package> packages = parser.getPackages();
+		for(String packageId: packages.keySet()){
+			Package currentPackage = packages.get(packageId);
+			sb.append("Package").append(LINE_SEPARATOR);
+			sb.append("   name       : " + currentPackage.getName()).append(
+					LINE_SEPARATOR);
+			sb.append("   id         : " + currentPackage.getId()).append(
+					LINE_SEPARATOR);
+			sb.append("   visibility : " + currentPackage.getVisibility())
+					.append(LINE_SEPARATOR);
+			Map<String,Profile> packageProfiles = currentPackage.getProfiles();
+			for (String profileId : packageProfiles.keySet()) {
+				sb.append("   Profile").append(LINE_SEPARATOR);
+				sb.append("      name       : " + packageProfiles.get(profileId).getName()).append(
+						LINE_SEPARATOR);
+			}
+			Map<String,Class> packageClasses = currentPackage.getClasses();
+			for (String classId : packageClasses.keySet()) {
+				sb.append("   Class").append(LINE_SEPARATOR);
+				sb.append("      id         : " + packageClasses.get(classId).getId()).append(
+						LINE_SEPARATOR);
+				sb.append("      name       : " + packageClasses.get(classId).getName()).append(
+						LINE_SEPARATOR);
+				sb.append("      visibility : " + packageClasses.get(classId).getVisibility()).append(
+						LINE_SEPARATOR);
+				Map<String, Stereotype> stereotypes = packageClasses.get(classId).getStereotypes();
+				for (String stereotypeName : stereotypes.keySet()) {
+					Stereotype stereotype = stereotypes.get(stereotypeName);
+					sb.append("         Stereotype").append(LINE_SEPARATOR);
+					sb.append("            name       : " + stereotype.getName()).append(
+							LINE_SEPARATOR);
+				}
+			}
+			
+			sb.append(LINE_SEPARATOR);
+		}
 		sb.append(LINE_SEPARATOR);
 		return sb.toString();
 	}

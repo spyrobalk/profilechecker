@@ -13,7 +13,7 @@ public class MainTest extends TestCase {
 	 * Calls the main at the main class.
 	 */
 	public void testMain() {
-		// Main.main(null);
+		//Main.main(null);
 	}
 
 }

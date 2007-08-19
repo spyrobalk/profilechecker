@@ -95,7 +95,8 @@ public class XMIParserGUI extends JFrame {
 		void parseFile(File file) {
 			try {
 				XMIParser parser = new XMIParser(file);
-				Map<String, Profile> profiles = parser.parse();
+				parser.parse();
+				Map<String, Profile> profiles = parser.getProfiles(); 
 				StringBuilder sb = new StringBuilder();
 				for (String profileName : profiles.keySet()) {
 					Profile profile = profiles.get(profileName);

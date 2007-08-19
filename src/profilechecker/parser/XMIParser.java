@@ -15,6 +15,8 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import profilechecker.Profile;
+import profilechecker.Package;
+import profilechecker.Class;
 import profilechecker.Stereotype;
 import profilechecker.VisibilityType;
 
@@ -32,6 +34,9 @@ public class XMIParser extends DefaultHandler {
 
 	/** Map to hold the profiles of this XMI. The key is the profile ID. */
 	private Map<String, Profile> profiles;
+	
+	/** Map to hold the packages of this XMI. The key is the package ID. */
+	private Map<String, Package> packages;
 
 	/** SAXParser to be used. */
 	private SAXParser sparser;
@@ -41,6 +46,12 @@ public class XMIParser extends DefaultHandler {
 
 	/** Current parsing stereotype. */
 	private Stereotype parsingStereotype;
+	
+	/** Current parsing package. */
+	private Package parsingPackage;
+	
+	/** Current parsing class. */
+	private Class parsingClass;
 
 	/**
 	 * Counts the level of OwnedMember so we can know when a stereotype or a
@@ -54,11 +65,23 @@ public class XMIParser extends DefaultHandler {
 	/** OwnedMember level of current parsing profile. */
 	private int ownedMemberProfileCount = -1;
 
+	/** OwnedMember level of current parsing package */
+	private int ownedMemberPackageCount = -1;
+	
+	/** OwnedMember level of current parsing package */
+	private int ownedMemberClassCount = -1;
+	
 	/**
-	 * Boolean to control if we are parsing a associated type of the current
+	 * Boolean to control if we are parsing an associated type of the current
 	 * parsing stereotype.
 	 */
 	private boolean isParsingType = false;
+	
+	/**
+	 * Boolean to control if we are parsing classes or profile association 
+	 * to a package. 
+	 */
+	private boolean isParsingPackage = false;
 
 	/** Deep of xmi:extension. Ignore anyone outside the profile package. */
 	private int xmiExtensionDeep = -1;
@@ -90,6 +113,7 @@ public class XMIParser extends DefaultHandler {
 		SAXParserFactory spf = SAXParserFactory.newInstance();
 		sparser = spf.newSAXParser();
 		this.profiles = new HashMap<String, Profile>();
+		this.packages = new HashMap<String, Package>();
 	}
 
 	/**
@@ -101,9 +125,16 @@ public class XMIParser extends DefaultHandler {
 	 * @throws IOException
 	 *             If there is an IOException while readint the file.
 	 */
-	public Map<String, Profile> parse() throws SAXException, IOException {
+	public void parse() throws SAXException, IOException {
 		sparser.parse(file, this);
+	}
+	
+	public Map<String, Profile> getProfiles(){
 		return this.profiles;
+	}
+	
+	public Map<String, Package> getPackages(){
+		return this.packages;
 	}
 
 	@Override
@@ -130,8 +161,73 @@ public class XMIParser extends DefaultHandler {
 						attributes.getValue("xmi:id"), VisibilityType
 								.toValue(attributes.getValue("visibility")));
 				ownedMemberStereotypeCount = ownedMemberCount;
+			} else if ("uml:Package".equals(attributes.getValue("xmi:type"))) {
+				
+				//TODO check this magic condition
+				if(attributes.getValue("href") == null){
+					
+					parsingPackage = new Package(attributes.getValue("name"),
+							attributes.getValue("xmi:id"), VisibilityType.
+							toValue(attributes.getValue("visibility")));
+				
+					ownedMemberPackageCount = ownedMemberCount;
+				}
+			} else if ("uml:Class".equals(attributes.getValue("xmi:type"))) {
+				
+				
+				//(ownedMemberPackageCount == ownedMemberCount) why not
+				parsingClass = new Class(attributes.getValue("name"),
+						attributes.getValue("xmi:id"), VisibilityType.
+						toValue(attributes.getValue("visibility")));
+				ownedMemberClassCount = ownedMemberCount;
 			}
 
+		}
+		
+		
+		for (String profileId : profiles.keySet()) {
+			Profile profile = profiles.get(profileId);
+			String profileName = profile.getName();
+			
+			Map<String, Stereotype> stereotypes = profiles.get(profileId).getStereotypes();
+			for (String stereotypeId : stereotypes.keySet()) {
+				Stereotype stereotype = stereotypes.get(stereotypeId);
+				String stereotypeName = stereotype.getName();
+				
+				if((profileName+":"+stereotypeName).equalsIgnoreCase(qName)){
+					String baseClassId = attributes.getValue("base_Class");
+					String basePackageId = attributes.getValue("base_Package");
+					for(String packageId: packages.keySet()){
+						Package currentPackage = packages.get(packageId);
+						
+						if(basePackageId != null){
+							 if(basePackageId.equals(packageId)){
+								 //TODO am I adding to much
+								 currentPackage.addProfile(profileId, profile);
+							 }
+						}
+						
+						if(baseClassId != null){
+							Map<String,Class> packageClassesId = currentPackage.getClasses();
+							for (String classId : packageClassesId.keySet()) {
+								if(baseClassId.equals(classId)){
+									Class baseClass = packageClassesId.get(classId);
+									baseClass.addStereotypes(stereotypeId, stereotype);
+								}
+							}
+						}
+					}
+				}
+			}
+				
+		}
+		
+		if("packageImport".equalsIgnoreCase(qName)){
+			if (ownedMemberPackageCount == ownedMemberCount && "uml:ProfileApplication".equals(attributes.getValue("xmi:type"))){
+				// TODO what if the key doesnt exist
+				String profileId = attributes.getValue("importedProfile");
+				parsingPackage.addProfile(profileId,profiles.get(profileId));
+			}
 		}
 
 		// An referenceExtension from stereotype TODO It is ok?
@@ -139,6 +235,7 @@ public class XMIParser extends DefaultHandler {
 				&& ownedMemberStereotypeCount == ownedMemberCount) {
 			isParsingType = true;
 		}
+		
 
 		if (isParsingType && "referenceExtension".equalsIgnoreCase(qName)) {
 			parsingStereotype.addType(attributes.getValue("referentPath"));
@@ -176,6 +273,21 @@ public class XMIParser extends DefaultHandler {
 						parsingStereotype);
 				ownedMemberStereotypeCount = -1;
 				parsingStereotype = null;
+			} else if (ownedMemberPackageCount == ownedMemberCount ){ // TODO cant I merge this to ifs into one 
+				packages.put(parsingPackage.getId(), parsingPackage);
+				ownedMemberPackageCount = -1;
+				parsingPackage = null;
+			}else if (ownedMemberClassCount == ownedMemberCount){
+				if(parsingPackage != null ){
+					parsingPackage.addClass(parsingClass.getId(), parsingClass);
+				} else {
+					// TODO what to do with a class without a package
+					// this situation even exists or not
+				}
+				
+				ownedMemberClassCount = -1;
+					parsingClass = null;
+				
 			}
 			ownedMemberCount--;
 		}
