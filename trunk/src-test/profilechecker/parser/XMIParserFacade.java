@@ -34,7 +34,8 @@ public class XMIParserFacade {
 	 */
 	public void parse(String file) throws Exception {
 		XMIParser parser = new XMIParser(new File(file));
-		profiles = parser.parse();
+		parser.parse();
+		profiles = parser.getProfiles();
 	}
 
 	/**
