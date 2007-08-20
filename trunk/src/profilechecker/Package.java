@@ -25,7 +25,7 @@ public class Package extends OwnedMember{
 	/**
 	 * Map of classes that are in this Package.
 	 */
-	private Map<String,Class> classes;
+	private Map<String,Member> members;
 	
 	public Package(){
 		
@@ -34,15 +34,15 @@ public class Package extends OwnedMember{
 	public Package (String name, String id, VisibilityType visibility) {
 		super(name, id, visibility);
 		setProfiles(new HashMap<String, Profile>());
-		setClasses(new HashMap<String, Class>());
+		setMembers(new HashMap<String, Member>());
 	}
 
 	public void setProfiles(HashMap<String, Profile> name) {
 		profiles = name;
 	}
 	
-	public void setClasses(HashMap<String, Class> name) {
-		classes = name;
+	public void setMembers(HashMap<String, Member> name) {
+		members = name;
 	}
 	
 	public void addProfile(String id, Profile p){ 
@@ -53,12 +53,12 @@ public class Package extends OwnedMember{
 		return this.profiles;
 	}
 	
-	public Map<String,Class> getClasses(){
-		return this.classes;
+	public Map<String,Member> getMembers(){
+		return this.members;
 	}
 	
-	public void addClass(String id, Class c){
-		classes.put(id, c);
+	public void addClass(String id, Member member){
+		members.put(id, member);
 	}
 
 }

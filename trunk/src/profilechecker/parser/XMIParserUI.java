@@ -3,15 +3,17 @@ package profilechecker.parser;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import profilechecker.Member;
 import profilechecker.Package;
 import profilechecker.Profile;
-import profilechecker.Class;
 import profilechecker.Stereotype;
+import profilechecker.StereotypeApplication;
 
 /**
  * UI of the XMIParser. And should be used as a debug tool from command line.
@@ -88,22 +90,25 @@ public class XMIParserUI {
 				sb.append("      name       : " + packageProfiles.get(profileId).getName()).append(
 						LINE_SEPARATOR);
 			}
-			Map<String,Class> packageClasses = currentPackage.getClasses();
-			for (String classId : packageClasses.keySet()) {
+			Map<String,Member> packageMembers = currentPackage.getMembers();
+			for (String classId : packageMembers.keySet()) {
 				sb.append("   Class").append(LINE_SEPARATOR);
-				sb.append("      id         : " + packageClasses.get(classId).getId()).append(
+				sb.append("      id         : " + packageMembers.get(classId).getId()).append(
 						LINE_SEPARATOR);
-				sb.append("      name       : " + packageClasses.get(classId).getName()).append(
+				sb.append("      name       : " + packageMembers.get(classId).getName()).append(
 						LINE_SEPARATOR);
-				sb.append("      visibility : " + packageClasses.get(classId).getVisibility()).append(
+				sb.append("      visibility : " + packageMembers.get(classId).getVisibility()).append(
 						LINE_SEPARATOR);
-				Map<String, Stereotype> stereotypes = packageClasses.get(classId).getStereotypes();
-				for (String stereotypeName : stereotypes.keySet()) {
-					Stereotype stereotype = stereotypes.get(stereotypeName);
-					sb.append("         Stereotype").append(LINE_SEPARATOR);
-					sb.append("            name       : " + stereotype.getName()).append(
-							LINE_SEPARATOR);
-				}
+				
+				Set<StereotypeApplication> applications = parser.getApplications();
+				// TODO get this information from StereotypeApplication
+//				Map<String, Stereotype> stereotypes = packageMembers.get(classId).getStereotypes();
+//				for (String stereotypeName : stereotypes.keySet()) {
+//					Stereotype stereotype = stereotypes.get(stereotypeName);
+//					sb.append("         Stereotype").append(LINE_SEPARATOR);
+//					sb.append("            name       : " + stereotype.getName()).append(
+//							LINE_SEPARATOR);
+//				}
 			}
 			
 			sb.append(LINE_SEPARATOR);
