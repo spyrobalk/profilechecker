@@ -2,6 +2,8 @@
 
 # A file with one profile, one stereotype and one application
 parse file="resources-test/profile_simple_stereotype_application.xmi"
+
+# Profiles at XMI file
 expect 1 getNumberOfProfiles
 expect "public" getProfileProperty profile="_12_5_1_12e803d1_1186331641532_79382_142" property="name"
 expect "_12_5_1_12e803d1_1186331641532_79382_142" getProfileProperty profile="_12_5_1_12e803d1_1186331641532_79382_142" property="id"
@@ -11,6 +13,8 @@ expect "SimpleStereotype" getStereotypeProperty profile="_12_5_1_12e803d1_118633
 expect 1 getStereotypeTypeSize profile="_12_5_1_12e803d1_1186331641532_79382_142" stereotype="_12_5_1_12e803d1_1186332374248_452459_298"
 expect true isStereotypeType profile="_12_5_1_12e803d1_1186331641532_79382_142" stereotype="_12_5_1_12e803d1_1186332374248_452459_298" type="UML Standard Profile::UML2.0 Metamodel::Classes::Kernel::Class"
 expect false isStereotypeType profile="_12_5_1_12e803d1_1186331641532_79382_142" stereotype="_12_5_1_12e803d1_1186332374248_452459_298" type="UML Standard Profile::UML2.0 Metamodel::Classes::Kernel::Association"
+
+# Packages at XMI file
 expect 1 getNumberOfPackages
 expect "publicV" getPackageProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" property="visibility"
 expect "_12_5_1_12e803d1_1186334150600_380035_326" getPackageProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" property="id"
@@ -18,16 +22,26 @@ expect 1 getNumberOfMembers packageid="_12_5_1_12e803d1_1186334150600_380035_326
 expect "publicV" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334183564_255299_337" property="visibility"
 expect "_12_5_1_12e803d1_1186334183564_255299_337" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334183564_255299_337" property="id"
 expect "uml:Class" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334183564_255299_337" property="type"
+
+# Stereotype Applications at XMI file
 expect 2 getNumberOfApplications
 expect "_12_5_1_12e803d1_1186334238759_115325_376" getApplicationProperty index=0 property="id"
 expect "Class" getApplicationProperty index=0 property="base"
 expect "_12_5_1_12e803d1_1186334183564_255299_337" getApplicationProperty index=0 property="baseId"
 expect "public" getApplicationProperty index=0 property="profile"
 expect "SimpleStereotype" getApplicationProperty index=0 property="stereotype"
+expect "_12_5_1_12e803d1_1186331484737_421737_110" getApplicationProperty index=1 property="id"
+expect "Diagram" getApplicationProperty index=1 property="base"
+expect "_12_5_1_12e803d1_1186331484722_100131_98" getApplicationProperty index=1 property="baseId"
+expect "MagicDraw_Profile" getApplicationProperty index=1 property="profile"
+expect "DiagramInfo" getApplicationProperty index=1 property="stereotype"
+
 reset
 
 # A file with one profile and one stereotype with multiple types and applications
 parse file="resources-test/profile_multi_stereotype_application.xmi"
+
+# Profiles at XMI file
 expect 1 getNumberOfProfiles
 expect "public" getProfileProperty profile="_12_5_1_12e803d1_1186331641532_79382_142" property="name"
 expect "_12_5_1_12e803d1_1186331641532_79382_142" getProfileProperty profile="_12_5_1_12e803d1_1186331641532_79382_142" property="id"
@@ -37,4 +51,39 @@ expect "SimpleStereotype" getStereotypeProperty profile="_12_5_1_12e803d1_118633
 expect 2 getStereotypeTypeSize profile="_12_5_1_12e803d1_1186331641532_79382_142" stereotype="_12_5_1_12e803d1_1186332374248_452459_298"
 expect true isStereotypeType profile="_12_5_1_12e803d1_1186331641532_79382_142" stereotype="_12_5_1_12e803d1_1186332374248_452459_298" type="UML Standard Profile::UML2.0 Metamodel::Classes::Kernel::Class"
 expect true isStereotypeType profile="_12_5_1_12e803d1_1186331641532_79382_142" stereotype="_12_5_1_12e803d1_1186332374248_452459_298" type="UML Standard Profile::UML2.0 Metamodel::Classes::Kernel::Association"
+
+# Packages at XMI file
+expect 1 getNumberOfPackages
+expect "publicV" getPackageProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" property="visibility"
+expect "_12_5_1_12e803d1_1186334150600_380035_326" getPackageProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" property="id"
+expect "SimplePackage" getPackageProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" property="name"
+expect 3 getNumberOfMembers packageid="_12_5_1_12e803d1_1186334150600_380035_326"
+expect "publicV" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334183564_255299_337" property="visibility"
+expect "_12_5_1_12e803d1_1186334183564_255299_337" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334183564_255299_337" property="id"
+expect "uml:Class" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334183564_255299_337" property="type"
+expect "publicV" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334556216_367886_589" property="visibility"
+expect "_12_5_1_12e803d1_1186334556216_367886_589" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334556216_367886_589" property="id"
+expect "uml:Class" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334556216_367886_589" property="type"
+expect "publicV" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334564572_785405_614" property="visibility"
+expect "_12_5_1_12e803d1_1186334564572_785405_614" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334564572_785405_614" property="id"
+expect "uml:Association" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334564572_785405_614" property="type"
+
+# Stereotype Applications at XMI file
+expect 3 getNumberOfApplications
+expect "_12_5_1_12e803d1_1186334613304_571805_664" getApplicationProperty index=0 property="id"
+expect "Association" getApplicationProperty index=0 property="base"
+expect "_12_5_1_12e803d1_1186334564572_785405_614" getApplicationProperty index=0 property="baseId"
+expect "public" getApplicationProperty index=0 property="profile"
+expect "SimpleStereotype" getApplicationProperty index=0 property="stereotype"
+expect "_12_5_1_12e803d1_1186334238759_115325_376" getApplicationProperty index=1 property="id"
+expect "Class" getApplicationProperty index=1 property="base"
+expect "_12_5_1_12e803d1_1186334183564_255299_337" getApplicationProperty index=1 property="baseId"
+expect "public" getApplicationProperty index=1 property="profile"
+expect "SimpleStereotype" getApplicationProperty index=1 property="stereotype"
+expect "_12_5_1_12e803d1_1186331484737_421737_110" getApplicationProperty index=2 property="id"
+expect "Diagram" getApplicationProperty index=2 property="base"
+expect "_12_5_1_12e803d1_1186331484722_100131_98" getApplicationProperty index=2 property="baseId"
+expect "MagicDraw_Profile" getApplicationProperty index=2 property="profile"
+expect "DiagramInfo" getApplicationProperty index=2 property="stereotype"
+
 reset
