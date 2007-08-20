@@ -38,6 +38,7 @@ public class StereotypeApplicationValidation {
 			String base = stereotypeApp.getBase();
 			String baseId = stereotypeApp.getBaseId();
 
+			// Check for profile, if failed, go to the next application
 			if (!profiles.containsKey(profile)) {
 				result.add(new ValidationException("Profile not found: "
 						+ profile));
@@ -47,17 +48,22 @@ public class StereotypeApplicationValidation {
 			Map<String, Stereotype> stereotypes = profiles.get(profile)
 					.getStereotypes();
 
+			// Check for stereotype, if failed, go to the next application
 			if (!stereotypes.containsKey(stereotype)) {
 				result.add(new ValidationException("Stereotype not found: "
 						+ stereotype));
+				continue;
 			}
 
 			Stereotype stereotypeImpl = stereotypes.get(stereotype);
 
+			// Check for type, if failed, go to the next application
 			if (!stereotypeImpl.getTypes().contains(base)) {
 				result.add(new ValidationException("Type not valid: " + base));
+				continue;
 			}
 
+			// Check for the application, if failed, go to the next application
 			for (Package package1 : packages.values()) {
 				Map<String, Member> members = package1.getMembers();
 				if (members.containsKey(baseId)) {
