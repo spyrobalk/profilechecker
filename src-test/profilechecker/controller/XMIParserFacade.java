@@ -139,28 +139,65 @@ public class XMIParserFacade {
 				.getTypes().size();
 	}
 
+	/**
+	 * Gets the number of parsed packages.
+	 *  
+	 * @return The number of parsed packages.
+	 */
 	public int getNumberOfPackages() {
 		return packages.size();
 	}
 	
+	/**
+	 * Gets a package property.
+	 * @param packageid Package ID.
+	 * @param property Package property to be read.
+	 * @return Property value.
+	 * @throws Exception If something fails.
+	 */
 	public String getPackageProperty(String packageid, String property) throws Exception {
 		return BeanUtils.getProperty(packages.get(packageid), property);
 	}
 
+	/**
+	 * Gets the number of parsed members.
+	 * @param packageid ID of the package of those members.
+	 * @return Number of members of a package.
+	 */
 	public int getNumberOfMembers(String packageid) {
 		return packages.get(packageid).getMembers().keySet().size();
 	}
 	
+	/**
+	 * Gets a property from a member of a package.
+	 * @param packageid Package ID of this member.
+	 * @param member ID of this member.
+	 * @param property Property to be read.
+	 * @return Property value.
+	 * @throws Exception If something fails.
+	 */
 	public String getMemberProperty(String packageid, String member,
 			String property) throws Exception {
 		return BeanUtils.getProperty(packages.get(packageid).getMembers()
 				.get(member), property);
 	}
 	
+	/**
+	 * Gets the number of parsed stereotype applications.
+	 * @return The number of stereotype applications.
+	 */
 	public int getNumberOfApplications() {
 		return applications.size();
 	}
 	
+	/**
+	 * Gets a stereotype application property.
+	 * 
+	 * @param index Index of the stereotype application (index is defined by the parsing order).
+	 * @param property Property to be read.
+	 * @return Property value.
+	 * @throws Exception If something fails.
+	 */
 	public String getApplicationProperty(int index, String property) throws Exception {
 		int i = -1;
 		for (StereotypeApplication application : applications) {
