@@ -7,6 +7,9 @@ package profilechecker.model;
  */
 public class Member extends OwnedMember{
 	
+	/** Default serial version UID. */
+	private static final long serialVersionUID = 1L;
+
 	/** The id of the member. */
 	private String id;
 	
@@ -17,7 +20,7 @@ public class Member extends OwnedMember{
 	 * Empty constructor of this JavaBean.
 	 */
 	public Member(){
-		
+		// Empty constructor for the JavaBean.
 	}
 	
 	/**
@@ -26,7 +29,7 @@ public class Member extends OwnedMember{
 	 * @param name the name of the member
 	 * @param id the id of the member
 	 * @param visibility the visibility of the member
-	 * @param xmiType the type of the member
+	 * @param type the type of the member
 	 */
 	public Member(String name, String id, VisibilityType visibility, String type){
 		super(name,id,visibility);

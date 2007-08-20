@@ -29,7 +29,7 @@ public class Package extends OwnedMember{
 	 * Empty constructor of this JavaBean.
 	 */
 	public Package(){
-		
+		// Empty constructor for the JavaBean
 	}
 	
 	/**
@@ -84,18 +84,19 @@ public class Package extends OwnedMember{
 	/**
 	 * Returns the map with a string as key and members as values that have the
 	 * members of this package. 
-	 * @return the map with a string as key and members as values that have the
-	 * members of this package
+	 * @return Map with a string as key and members as values that have the
+	 * members of this package.
 	 */
 	public Map<String,Member> getMembers(){
 		return this.members;
 	}
 	
 	/**
-	 * Adds a new member to the package
-	 * @param member the new member to be added
+	 * Adds a new member to the package.
+	 * @param id ID of the added member.
+	 * @param member The new member to be added.
 	 */
-	public void addMember(String id,Member m){
-		members.put(id, m);
+	public void addMember(String id, Member member){
+		members.put(id, member);
 	}
 }

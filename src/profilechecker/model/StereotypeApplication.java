@@ -1,6 +1,5 @@
 package profilechecker.model;
 
-import java.util.Map;
 
 /**
  * Represents stereotype application to a member.
@@ -28,7 +27,7 @@ public class StereotypeApplication {
 	 * Empty constructor of this JavaBean.
 	 */
 	public StereotypeApplication(){
-		
+		// Empty constructor for this JavaBean
 	}
 	
 	/**
