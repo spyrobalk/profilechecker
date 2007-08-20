@@ -1,4 +1,4 @@
-package profilechecker.controller;
+package profilechecker.view;
 
 import java.io.File;
 
@@ -6,8 +6,8 @@ import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 
 import junit.framework.TestCase;
-import profilechecker.controller.XMIParserGUI;
-import profilechecker.controller.XMIParserGUI.ActionListenerImplementation;
+import profilechecker.view.XMIParserGUI;
+import profilechecker.view.XMIParserGUI.ActionListenerImplementation;
 
 /**
  * Test to XMIParserGUI. This test is used to guarantee that the interface keeps
