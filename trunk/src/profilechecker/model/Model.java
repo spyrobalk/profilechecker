@@ -1,5 +1,6 @@
 package profilechecker.model;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
 
@@ -9,8 +10,11 @@ import java.util.Set;
  * @author moises
  *
  */
-public class Model {
+public class Model implements Serializable {
 	
+	/** Default serial version UID. */
+	private static final long serialVersionUID = 1L;
+
 	/** Map with all the profiles of this model. The key is the profile name */
 	private Map<String, Profile> profiles;
 	
@@ -19,6 +23,13 @@ public class Model {
 	
 	/** Set with all the stereotype applications of this model. */
 	private Set<StereotypeApplication> applications;
+	
+	/**
+	 * Empty constructor for this JavaBean.
+	 */
+	public Model() {
+		// Empty constructor for this JavaBean
+	}
 	
 	/**
 	 * Creates a very simples model with the collections received. 
@@ -32,4 +43,31 @@ public class Model {
 		this.packages = packages;
 		this.applications = applications;
 	}
+
+	public Map<String, Profile> getProfiles() {
+		return profiles;
+	}
+
+	public void setProfiles(Map<String, Profile> profiles) {
+		this.profiles = profiles;
+	}
+
+	public Map<String, Package> getPackages() {
+		return packages;
+	}
+
+	public void setPackages(Map<String, Package> packages) {
+		this.packages = packages;
+	}
+
+	public Set<StereotypeApplication> getApplications() {
+		return applications;
+	}
+
+	public void setApplications(Set<StereotypeApplication> applications) {
+		this.applications = applications;
+	}
+	
+	
+	
 }

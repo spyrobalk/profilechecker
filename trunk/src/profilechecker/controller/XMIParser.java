@@ -36,9 +36,6 @@ import profilechecker.model.VisibilityType;
  */
 public class XMIParser extends DefaultHandler {
 
-	/** String that represents the tag that initializes a xmi file */
-	private static final String XMI_XMI = "xmi:XMI";
-
 	/** Map to hold the profiles of this XMI. The key is the profile ID. */
 	private Map<String, Profile> profiles;
 	
@@ -137,7 +134,6 @@ public class XMIParser extends DefaultHandler {
 	/**
 	 * Parse the file.
 	 * 
-	 * @return Map with parsed profiles.
 	 * @throws SAXException
 	 *             If it fails to parse the file.
 	 * @throws IOException
