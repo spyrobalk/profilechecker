@@ -41,9 +41,9 @@ public class XMIParserUITest extends TestCase {
 				+ XMIParserUI.LINE_SEPARATOR
 				+ "      visibility : publicV"
 				+ XMIParserUI.LINE_SEPARATOR
-				+ "      type       : UML Standard Profile::UML2.0 Metamodel::Classes::Kernel::Class"
+				+ "      type       : Class"
 				+ XMIParserUI.LINE_SEPARATOR
-				+ "      type       : UML Standard Profile::UML2.0 Metamodel::Classes::Kernel::Association"
+				+ "      type       : Association"
 				+ XMIParserUI.LINE_SEPARATOR + XMIParserUI.LINE_SEPARATOR
 				+ XMIParserUI.LINE_SEPARATOR + XMIParserUI.LINE_SEPARATOR;
 		assertEquals(expectedOutput, xmiParserUI.parse(new File(
