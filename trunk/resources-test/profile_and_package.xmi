@@ -4,35 +4,32 @@
 .Save Rich XMI -->
 
 <xmi:XMI xmi:version='2.1' xmlns:uml='http://schema.omg.org/spec/UML/2.0' xmlns:xmi='http://schema.omg.org/spec/XMI/2.1' xmlns:Validation_Profile='http://www.magicdraw.com/schemas/Validation_Profile.xmi' xmlns:DSL_Customization='http://www.magicdraw.com/schemas/DSL_Customization.xmi' xmlns:MagicDraw_Profile='http://www.magicdraw.com/schemas/MagicDraw_Profile.xmi' xmlns:UML_Standard_Profile='http://www.magicdraw.com/schemas/UML_Standard_Profile.xmi' xmlns:TesteProfile='http://www.magicdraw.com/schemas/TesteProfile.xmi'>
-
-<uml:Model xmi:id='eee_1045467100313_135436_1' name='Data' visibility='public'>
-	<ownedMember xmi:type='uml:Profile' xmi:id='_12_5_1_12e803d1_1185146167886_761175_232' name='TesteProfile'	visibility='public'>
-		<ownedMember xmi:type='uml:Stereotype' xmi:id='_12_5_1_12e803d1_1185146356349_738612_325'		name='TesteStereotype' 	visibility='public'>
-		<ownedAttribute xmi:type='uml:Property' xmi:id='_12_5_1_12e803d1_1185146500943_900010_418' name='base_Class' visibility='private' association='_12_5_1_12e803d1_1185146500943_100556_417'>
-			<type xmi:type='uml:Class' href='http://schema.omg.org/spec/UML/2.0/uml.xml#Class'>
-			<xmi:Extension extender='MagicDraw UML 12.5' extenderID='MagicDraw UML 12.5'>
-				<referenceExtension referentPath='UML Standard Profile::UML2.0 Metamodel::Classes::Kernel::Class' referentType='Class'/>
-			</xmi:Extension>
-			</type>
-		</ownedAttribute>
-
+	<uml:Model xmi:id='eee_1045467100313_135436_1' name='Data' visibility='public'>
+		<ownedMember xmi:type='uml:Profile' xmi:id='_12_5_1_12e803d1_1185146167886_761175_232' name='TesteProfile'	visibility='public'>
+			<ownedMember xmi:type='uml:Stereotype' xmi:id='_12_5_1_12e803d1_1185146356349_738612_325'		name='TesteStereotype' 	visibility='public'>
+				<ownedAttribute xmi:type='uml:Property' xmi:id='_12_5_1_12e803d1_1185146500943_900010_418' name='base_Class' visibility='private' association='_12_5_1_12e803d1_1185146500943_100556_417'>
+					<type xmi:type='uml:Class' href='http://schema.omg.org/spec/UML/2.0/uml.xml#Class'>
+						<xmi:Extension extender='MagicDraw UML 12.5' extenderID='MagicDraw UML 12.5'>
+							<referenceExtension referentPath='UML Standard Profile::UML2.0 Metamodel::Classes::Kernel::Class' referentType='Class'/>
+						</xmi:Extension>
+					</type>
+				</ownedAttribute>
+			</ownedMember>
+			<ownedMember xmi:type='uml:Extension' xmi:id='_12_5_1_12e803d1_1185146500943_100556_417' visibility='public'>
+				<memberEnd xmi:idref='_12_5_1_12e803d1_1185146500943_900010_418'/>
+				<memberEnd xmi:idref='_12_5_1_12e803d1_1185146500943_527964_419'/>
+				<ownedEnd xmi:type='uml:ExtensionEnd' xmi:id='_12_5_1_12e803d1_1185146500943_527964_419' name='extension_TesteStereotype' visibility='private' aggregation='composite' type='_12_5_1_12e803d1_1185146356349_738612_325' association='_12_5_1_12e803d1_1185146500943_100556_417'>
+					<upperValue xmi:type='uml:LiteralUnlimitedNatural' xmi:id='_12_5_1_12e803d1_1185146500944_42645_421' visibility='public' value='1'/>
+					<lowerValue xmi:type='uml:LiteralInteger' xmi:id='_12_5_1_12e803d1_1185146500943_124398_420' visibility='public'/>
+				</ownedEnd>
+			</ownedMember>
 		</ownedMember>
-		<ownedMember xmi:type='uml:Extension' xmi:id='_12_5_1_12e803d1_1185146500943_100556_417' visibility='public'>
-			<memberEnd xmi:idref='_12_5_1_12e803d1_1185146500943_900010_418'/>
-			<memberEnd xmi:idref='_12_5_1_12e803d1_1185146500943_527964_419'/>
-			<ownedEnd xmi:type='uml:ExtensionEnd' xmi:id='_12_5_1_12e803d1_1185146500943_527964_419' name='extension_TesteStereotype' visibility='private' aggregation='composite' type='_12_5_1_12e803d1_1185146356349_738612_325' association='_12_5_1_12e803d1_1185146500943_100556_417'>
-				<upperValue xmi:type='uml:LiteralUnlimitedNatural' xmi:id='_12_5_1_12e803d1_1185146500944_42645_421' visibility='public' value='1'/>
-				<lowerValue xmi:type='uml:LiteralInteger' xmi:id='_12_5_1_12e803d1_1185146500943_124398_420' visibility='public'/>
-			</ownedEnd>
-		</ownedMember>
-	</ownedMember>
 
-	<ownedMember xmi:type='uml:Package' xmi:id='_12_5_1_12e803d1_1185146560514_240773_520' name='TestePacote' visibility='public'>
-		<packageImport xmi:type='uml:ProfileApplication' xmi:id='_12_5_1_12e803d1_1185146564176_211633_531' visibility='public' importedPackage='_12_5_1_12e803d1_1185146167886_761175_232' importedProfile='_12_5_1_12e803d1_1185146167886_761175_232'/>
-		<ownedMember xmi:type='uml:Class' xmi:id='_12_5_1_12e803d1_1185146568325_708968_547' name='Classe1' visibility='public'/>
-		<ownedMember xmi:type='uml:Class' xmi:id='_12_5_1_12e803d1_1185146761643_148816_618' name='Classe2' visibility='public'/>
-	</ownedMember>
-	
+		<ownedMember xmi:type='uml:Package' xmi:id='_12_5_1_12e803d1_1185146560514_240773_520' name='TestePacote' visibility='public'>
+			<packageImport xmi:type='uml:ProfileApplication' xmi:id='_12_5_1_12e803d1_1185146564176_211633_531' visibility='public' importedPackage='_12_5_1_12e803d1_1185146167886_761175_232' importedProfile='_12_5_1_12e803d1_1185146167886_761175_232'/>
+			<ownedMember xmi:type='uml:Class' xmi:id='_12_5_1_12e803d1_1185146568325_708968_547' name='Classe1' visibility='public'/>
+			<ownedMember xmi:type='uml:Class' xmi:id='_12_5_1_12e803d1_1185146761643_148816_618' name='Classe2' visibility='public'/>
+		</ownedMember>
+	</uml:Model>
 	<TesteProfile:TesteStereotype xmi:id='_12_5_1_12e803d1_1185146581395_917930_569' base_Class='_12_5_1_12e803d1_1185146568325_708968_547'/>
-</uml:Model>
 </xmi:XMI>
