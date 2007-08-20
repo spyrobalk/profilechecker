@@ -15,8 +15,8 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.xml.sax.SAXException;
 
-import profilechecker.parser.XMIParserGUI;
-import profilechecker.parser.XMIParserUI;
+import profilechecker.controller.XMIParserGUI;
+import profilechecker.controller.XMIParserUI;
 
 /**
  * ProfileChecker main class.

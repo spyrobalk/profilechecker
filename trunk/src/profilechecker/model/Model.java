@@ -1,4 +1,4 @@
-package profilechecker;
+package profilechecker.model;
 
 import java.util.Map;
 import java.util.Set;

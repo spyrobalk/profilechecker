@@ -1,4 +1,4 @@
-package profilechecker;
+package profilechecker.model;
 
 import java.util.LinkedHashSet;
 import java.util.Set;

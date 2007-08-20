@@ -1,7 +1,7 @@
 package profilechecker;
 
 import junit.framework.TestCase;
-import profilechecker.parser.XMIParserFacade;
+import profilechecker.controller.XMIParserFacade;
 import util.VariablesImpl;
 import easyaccept.EasyAccept;
 

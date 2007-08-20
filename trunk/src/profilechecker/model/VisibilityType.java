@@ -1,4 +1,4 @@
-package profilechecker;
+package profilechecker.model;
 
 import java.io.Serializable;
 
