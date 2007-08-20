@@ -4,11 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.xml.sax.SAXException;
 
-import profilechecker.controller.XMIParser;
+import profilechecker.controller.ProfileCheckerController;
 import profilechecker.model.Member;
 import profilechecker.model.Model;
 import profilechecker.model.Package;
@@ -24,24 +22,37 @@ public class XMIParserUI {
 
 	/** Line separator to be used by the UI. */
 	final static String LINE_SEPARATOR = System.getProperty("line.separator");
+	
+	/** Application model. */
+	private Model model;
+	
+	/** Application controller. */
+	private ProfileCheckerController controller;
 
+	/**
+	 * Default XMIParserUI constructor.
+	 * @param controller Application controller.
+	 * @param model Application model.
+	 */
+	public XMIParserUI(ProfileCheckerController controller, Model model) {
+		this.controller = controller;
+		this.model = model;
+	}
+	
 	/**
 	 * Parse a XMI file.
 	 * 
 	 * @param file
 	 *            File to be parsed.
 	 * @return A String with profile information to be printed.
-	 * @throws ParserConfigurationException
-	 *             If the ParseFactory fails.
 	 * @throws SAXException
 	 *             If the parse fails.
 	 * @throws IOException
 	 *             It its not possible to read the file.
 	 */
-	public String parse(File file) throws ParserConfigurationException,
+	public String parse(File file) throws
 			SAXException, IOException {
-		XMIParser parser = new XMIParser();
-		Model model = parser.parse(file);
+		controller.parser(model, file);
 		Map<String, Profile> profiles = model.getProfiles(); 
 		StringBuilder sb = new StringBuilder();
 		for (String profileName : profiles.keySet()) {

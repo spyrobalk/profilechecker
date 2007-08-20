@@ -11,6 +11,7 @@ import profilechecker.model.Package;
 import profilechecker.model.Profile;
 import profilechecker.model.Stereotype;
 import profilechecker.model.StereotypeApplication;
+import profilechecker.model.ValidationException;
 import profilechecker.model.VisibilityType;
 
 import junit.framework.TestCase;

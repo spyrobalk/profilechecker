@@ -1,4 +1,4 @@
-package profilechecker.controller;
+package profilechecker.model;
 
 /**
  * <code>ValidationException</code> is used to identify a stereotype

@@ -15,11 +15,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import profilechecker.controller.XMIParser;
+import profilechecker.controller.ProfileCheckerController;
 import profilechecker.model.Model;
 import profilechecker.model.Profile;
 import profilechecker.model.Stereotype;
@@ -46,10 +45,6 @@ public class XMIParserGUI extends JFrame {
 	 * 
 	 * @author Matheus
 	 */
-	/**
-	 * @author matheusgr
-	 * 
-	 */
 	static final class ActionListenerImplementation implements ActionListener {
 
 		/** JEditorPane to receive the text. */
@@ -58,6 +53,12 @@ public class XMIParserGUI extends JFrame {
 		/** JFrame parent of the JFileChooser. */
 		private JFrame parent;
 
+		/** Application controller. */
+		private ProfileCheckerController controller;
+
+		/** Application model. */
+		private Model model;
+
 		/**
 		 * ActionListener implementation.
 		 * 
@@ -65,11 +66,15 @@ public class XMIParserGUI extends JFrame {
 		 *            Pane to receive the parser result.
 		 * @param parent
 		 *            Parent of the JFileChooser.
+		 * @param controller Application controller.
+		 * @param model Application model.
 		 */
 		public ActionListenerImplementation(JEditorPane resultPane,
-				JFrame parent) {
+				JFrame parent, ProfileCheckerController controller, Model model) {
 			this.parent = parent;
 			this.resultPane = resultPane;
+			this.controller = controller;
+			this.model = model;
 		}
 
 		/*
@@ -96,8 +101,7 @@ public class XMIParserGUI extends JFrame {
 		 */
 		void parseFile(File file) {
 			try {
-				XMIParser parser = new XMIParser();
-				Model model = parser.parse(file);
+				controller.parser(model, file);
 				Map<String, Profile> profiles = model.getProfiles(); 
 				StringBuilder sb = new StringBuilder();
 				for (String profileName : profiles.keySet()) {
@@ -128,9 +132,6 @@ public class XMIParserGUI extends JFrame {
 				} // End of 'profiles for-each'
 				sb.append("</body></html>");
 				resultPane.setText(sb.toString());
-			} catch (ParserConfigurationException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
 			} catch (SAXException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -156,12 +157,22 @@ public class XMIParserGUI extends JFrame {
 	/** JEditorPane to show the parse result. */
 	private JEditorPane editorPane = null;
 
+	/** Application controller. */
+	private ProfileCheckerController controller;
+
+	/** Application model. */
+	private Model model;
+
 	/**
 	 * Initialize the main JFrame of the XMIParserGUI.
+	 * @param controller Application controller.
+	 * @param model Application model.
 	 */
-	public XMIParserGUI() {
+	public XMIParserGUI(ProfileCheckerController controller, Model model) {
 		super();
 		initialize();
+		this.controller = controller;
+		this.model = model;
 	}
 
 	/**
@@ -212,7 +223,7 @@ public class XMIParserGUI extends JFrame {
 			openFileButton.setBounds(new Rectangle(17, 10, 428, 21));
 			openFileButton.setText("Open File...");
 			openFileButton.addActionListener(new ActionListenerImplementation(
-					getEditorPane(), this));
+					getEditorPane(), this, controller, model));
 		}
 		return openFileButton;
 	}

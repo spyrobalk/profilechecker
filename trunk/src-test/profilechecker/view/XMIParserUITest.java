@@ -2,9 +2,9 @@ package profilechecker.view;
 
 import java.io.File;
 
-import profilechecker.view.XMIParserUI;
-
 import junit.framework.TestCase;
+import profilechecker.controller.ProfileCheckerController;
+import profilechecker.model.Model;
 
 /**
  * Test to XMIParserUI. This test is used to guarantee that the interface keeps
@@ -21,7 +21,9 @@ public class XMIParserUITest extends TestCase {
 	 *             If something fails.
 	 */
 	public void testParseFile() throws Exception {
-		XMIParserUI xmiParserUI = new XMIParserUI();
+		ProfileCheckerController controller = new ProfileCheckerController();
+		Model model = new Model();
+		XMIParserUI xmiParserUI = new XMIParserUI(controller, model);
 		String expectedOutput = "Profile"
 				+ XMIParserUI.LINE_SEPARATOR
 				+ "   name       : public"

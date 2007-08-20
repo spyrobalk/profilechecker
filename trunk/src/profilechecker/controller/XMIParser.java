@@ -35,7 +35,7 @@ import profilechecker.model.VisibilityType;
  * 
  * @author Matheus
  */
-public class XMIParser extends DefaultHandler {
+class XMIParser extends DefaultHandler {
 
 	/** Map to hold the profiles of this XMI. The key is the profile ID. */
 	private Map<String, Profile> profiles;
@@ -108,10 +108,11 @@ public class XMIParser extends DefaultHandler {
 	 * @throws SAXException
 	 *             If the parser fails.
 	 */
-	public XMIParser() throws ParserConfigurationException,
+	XMIParser() throws ParserConfigurationException,
 			SAXException {
 		SAXParserFactory spf = SAXParserFactory.newInstance();
 		sparser = spf.newSAXParser();
+		reset();
 	}
 
 	/**
@@ -126,7 +127,7 @@ public class XMIParser extends DefaultHandler {
 	 * @throws IOException
 	 *             If there is an IOException while reading the file.
 	 */
-	public Model parse(File file) throws SAXException, IOException {
+	Model parse(File file) throws SAXException, IOException {
 		
 		if (!file.exists()) {
 			throw new IOException("File not found: " + file.getPath());
