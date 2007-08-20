@@ -3,7 +3,10 @@ package profilechecker.parser;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -14,10 +17,11 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import profilechecker.Profile;
+import profilechecker.Member;
 import profilechecker.Package;
-import profilechecker.Class;
+import profilechecker.Profile;
 import profilechecker.Stereotype;
+import profilechecker.StereotypeApplication;
 import profilechecker.VisibilityType;
 
 /**
@@ -37,6 +41,9 @@ public class XMIParser extends DefaultHandler {
 	
 	/** Map to hold the packages of this XMI. The key is the package ID. */
 	private Map<String, Package> packages;
+	
+	/** Set to hold the stereotype applications of this XMI. */
+	private Set<StereotypeApplication> applications;
 
 	/** SAXParser to be used. */
 	private SAXParser sparser;
@@ -51,7 +58,7 @@ public class XMIParser extends DefaultHandler {
 	private Package parsingPackage;
 	
 	/** Current parsing class. */
-	private Class parsingClass;
+	private Member parsingMember;
 
 	/**
 	 * Counts the level of OwnedMember so we can know when a stereotype or a
@@ -69,7 +76,7 @@ public class XMIParser extends DefaultHandler {
 	private int ownedMemberPackageCount = -1;
 	
 	/** OwnedMember level of current parsing package */
-	private int ownedMemberClassCount = -1;
+	private int ownedMemberMemberCount = -1;
 	
 	/**
 	 * Boolean to control if we are parsing an associated type of the current
@@ -82,12 +89,19 @@ public class XMIParser extends DefaultHandler {
 	 * to a package. 
 	 */
 	private boolean isParsingPackage = false;
+	
+	/**
+	 * Boolean to control if we are parsing an UML model.
+	 */
+	private boolean isParsingUmlModel;
 
 	/** Deep of xmi:extension. Ignore anyone outside the profile package. */
 	private int xmiExtensionDeep = -1;
 
 	/** File to be parsed. */
 	private File file;
+
+	
 
 	/**
 	 * Creates a XMI Parser.
@@ -114,6 +128,7 @@ public class XMIParser extends DefaultHandler {
 		sparser = spf.newSAXParser();
 		this.profiles = new HashMap<String, Profile>();
 		this.packages = new HashMap<String, Package>();
+		this.applications = new HashSet<StereotypeApplication>();
 	}
 
 	/**
@@ -135,6 +150,10 @@ public class XMIParser extends DefaultHandler {
 	
 	public Map<String, Package> getPackages(){
 		return this.packages;
+	}
+	
+	public Set<StereotypeApplication> getApplications(){
+		return this.applications;
 	}
 
 	@Override
@@ -172,68 +191,57 @@ public class XMIParser extends DefaultHandler {
 				
 					ownedMemberPackageCount = ownedMemberCount;
 				}
-			} else if ("uml:Class".equals(attributes.getValue("xmi:type"))) {
+			} else if (isParsingPackage) { // TODO is that it?
 				
 				
-				//(ownedMemberPackageCount == ownedMemberCount) why not
-				parsingClass = new Class(attributes.getValue("name"),
+				parsingMember = new Member(attributes.getValue("name"),
 						attributes.getValue("xmi:id"), VisibilityType.
-						toValue(attributes.getValue("visibility")));
-				ownedMemberClassCount = ownedMemberCount;
+						toValue(attributes.getValue("visibility")),
+						attributes.getValue("xmi:type"));
+				ownedMemberMemberCount = ownedMemberCount;
 			}
 
 		}
 		
-		
-		for (String profileId : profiles.keySet()) {
-			Profile profile = profiles.get(profileId);
-			String profileName = profile.getName();
+		if(isParsingUmlModel && ownedMemberCount == 0){
+			StringTokenizer tokens = new StringTokenizer(qName,":");
 			
-			Map<String, Stereotype> stereotypes = profiles.get(profileId).getStereotypes();
-			for (String stereotypeId : stereotypes.keySet()) {
-				Stereotype stereotype = stereotypes.get(stereotypeId);
-				String stereotypeName = stereotype.getName();
-				
-				if((profileName+":"+stereotypeName).equalsIgnoreCase(qName)){
-					String baseClassId = attributes.getValue("base_Class");
-					String basePackageId = attributes.getValue("base_Package");
-					for(String packageId: packages.keySet()){
-						Package currentPackage = packages.get(packageId);
-						
-						if(basePackageId != null){
-							 if(basePackageId.equals(packageId)){
-								 //TODO am I adding to much
-								 currentPackage.addProfile(profileId, profile);
-							 }
-						}
-						
-						if(baseClassId != null){
-							Map<String,Class> packageClassesId = currentPackage.getClasses();
-							for (String classId : packageClassesId.keySet()) {
-								if(baseClassId.equals(classId)){
-									Class baseClass = packageClassesId.get(classId);
-									baseClass.addStereotypes(stereotypeId, stereotype);
-								}
-							}
-						}
-					}
+			String profileName = tokens.nextToken();
+			String stereotypeName = tokens.nextToken();
+			String baseName = "";
+			for (int i = 0; i < attributes.getLength(); i++) {
+				String attributeName = attributes.getQName(i);
+			
+				if(attributeName.startsWith("base_")){
+					baseName = attributeName.substring(5);
 				}
 			}
-				
+			
+			StereotypeApplication stereotypeApp = new StereotypeApplication(attributes.getValue("xmi:id"),
+					baseName,attributes.getValue("base_"+baseName),stereotypeName,profileName);
+			applications.add(stereotypeApp);
 		}
 		
-		if("packageImport".equalsIgnoreCase(qName)){
-			if (ownedMemberPackageCount == ownedMemberCount && "uml:ProfileApplication".equals(attributes.getValue("xmi:type"))){
+		if(isParsingPackage && "packageImport".equalsIgnoreCase(qName)){
+			if ("uml:ProfileApplication".equals(attributes.getValue("xmi:type"))){
 				// TODO what if the key doesnt exist
 				String profileId = attributes.getValue("importedProfile");
 				parsingPackage.addProfile(profileId,profiles.get(profileId));
 			}
+		}
+		
+		if(ownedMemberPackageCount == ownedMemberCount){// TODO just this condition?
+			isParsingPackage = true;
 		}
 
 		// An referenceExtension from stereotype TODO It is ok?
 		if ("ownedAttribute".equalsIgnoreCase(qName)
 				&& ownedMemberStereotypeCount == ownedMemberCount) {
 			isParsingType = true;
+		}
+		
+		if("uml:Model".equalsIgnoreCase(qName)){
+			isParsingUmlModel = true;
 		}
 		
 
@@ -263,6 +271,11 @@ public class XMIParser extends DefaultHandler {
 			xmiExtensionDeep--;
 			return; // Ignoring
 		}
+		
+		if("uml:Model".equalsIgnoreCase(qName)){
+			isParsingUmlModel = false;
+		}
+
 		if (qName.equalsIgnoreCase("ownedMember")) {
 			if (ownedMemberProfileCount == ownedMemberCount) {
 				profiles.put(parsingProfile.getId(), parsingProfile);
@@ -277,16 +290,17 @@ public class XMIParser extends DefaultHandler {
 				packages.put(parsingPackage.getId(), parsingPackage);
 				ownedMemberPackageCount = -1;
 				parsingPackage = null;
-			}else if (ownedMemberClassCount == ownedMemberCount){
+				isParsingPackage = false;
+			}else if (ownedMemberMemberCount == ownedMemberCount){
 				if(parsingPackage != null ){
-					parsingPackage.addClass(parsingClass.getId(), parsingClass);
+					parsingPackage.addClass(parsingMember.getId(), parsingMember);
 				} else {
 					// TODO what to do with a class without a package
 					// this situation even exists or not
 				}
 				
-				ownedMemberClassCount = -1;
-					parsingClass = null;
+				ownedMemberMemberCount = -1;
+				parsingMember = null;
 				
 			}
 			ownedMemberCount--;
