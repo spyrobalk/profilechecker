@@ -208,7 +208,7 @@ public class XMIParser extends DefaultHandler {
 
 		}
 		
-		if((xmiDeep == 1) && ownedMemberCount == 0){
+		if (xmiDeep == 2) {
 			StringTokenizer tokens = new StringTokenizer(qName,":");
 			String profileName = tokens.nextToken();
 			String stereotypeName = tokens.nextToken();
