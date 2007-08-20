@@ -36,6 +36,7 @@ import profilechecker.VisibilityType;
  */
 public class XMIParser extends DefaultHandler {
 
+	/** String that represents the tag that initializes a xmi file */
 	private static final String XMI_XMI = "xmi:XMI";
 
 	/** Map to hold the profiles of this XMI. The key is the profile ID. */
@@ -146,14 +147,26 @@ public class XMIParser extends DefaultHandler {
 		sparser.parse(file, this);
 	}
 	
+	/**
+	 * Returns a map with this parser's profiles. The key is the profile id.
+	 * @return a map with this parser's profiles. The key is the profile id
+	 */
 	public Map<String, Profile> getProfiles(){
 		return this.profiles;
 	}
 	
+	/**
+	 * Returns a map with this parser's packages. The key is the package id.
+	 * @return a map with this parser's packages. The key is the package id
+	 */
 	public Map<String, Package> getPackages(){
 		return this.packages;
 	}
 	
+	/**
+	 * Returns a set with all of the stereotype applications for this parser. 
+	 * @return a set with all of the stereotype applications for this parser
+	 */
 	public Set<StereotypeApplication> getApplications(){
 		return this.applications;
 	}
@@ -210,6 +223,7 @@ public class XMIParser extends DefaultHandler {
 		
 		if (xmiDeep == 2) {
 			StringTokenizer tokens = new StringTokenizer(qName,":");
+			
 			String profileName = tokens.nextToken();
 			String stereotypeName = tokens.nextToken();
 			String baseName = "";
@@ -227,7 +241,6 @@ public class XMIParser extends DefaultHandler {
 						baseName,attributes.getValue("base_"+baseName),stereotypeName,profileName);
 				applications.add(stereotypeApp);		
 			}
-			
 		}
 		
 		if(isParsingPackage && "packageImport".equalsIgnoreCase(qName)){
@@ -247,6 +260,8 @@ public class XMIParser extends DefaultHandler {
 				&& ownedMemberStereotypeCount == ownedMemberCount) {
 			isParsingType = true;
 		}
+		
+
 
 		if (isParsingType && "referenceExtension".equalsIgnoreCase(qName)) {
 			parsingStereotype.addType(attributes.getValue("referentPath"));
@@ -277,7 +292,7 @@ public class XMIParser extends DefaultHandler {
 			xmiExtensionDeep--;
 			return; // Ignoring
 		}
-
+		
 		if (qName.equalsIgnoreCase("ownedMember")) {
 			if (ownedMemberProfileCount == ownedMemberCount) {
 				profiles.put(parsingProfile.getId(), parsingProfile);
@@ -295,7 +310,7 @@ public class XMIParser extends DefaultHandler {
 				isParsingPackage = false;
 			}else if (ownedMemberMemberCount == ownedMemberCount){
 				if(parsingPackage != null ){
-					parsingPackage.addClass(parsingMember.getId(), parsingMember);
+					parsingPackage.addMember(parsingMember.getId(), parsingMember);
 				} else {
 					// TODO what to do with a class without a package
 					// this situation even exists or not
