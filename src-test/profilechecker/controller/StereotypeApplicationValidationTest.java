@@ -143,7 +143,7 @@ public class StereotypeApplicationValidationTest extends TestCase {
 		Set<ValidationException> validate = sav.validate(model);
 		assertEquals(1, validate.size());
 		for (ValidationException ve : validate) {
-			assertEquals("Class type cannot be different from application.", ve
+			assertEquals("Specified type Class cannot be different from application Something_Complete_Different", ve
 					.getMessage());
 		}
 	}

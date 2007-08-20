@@ -24,7 +24,7 @@
 				<referenceExtension referentPath='UML Standard Profile' referentType='Package'/>
 			</xmi:Extension>
 		</ownedMember>
-		<ownedMember xmi:type='uml:Profile' xmi:id='_12_5_1_12e803d1_1186346711722_680856_686' visibility='public'/>
+		<ownedMember xmi:type='uml:Profile' xmi:id='_12_5_1_12e803d1_1186346711722_680856_686' name='test' visibility='public'/>
 	</uml:Model>
 	<xmi:Extension extender='MagicDraw UML 12.5'>
 		<mdOwnedDiagrams>
