@@ -90,4 +90,12 @@ public class Package extends OwnedMember{
 	public Map<String,Member> getMembers(){
 		return this.members;
 	}
+	
+	/**
+	 * Adds a new member to the package
+	 * @param member the new member to be added
+	 */
+	public void addMember(String id,Member m){
+		members.put(id, m);
+	}
 }
