@@ -29,4 +29,20 @@ public class AcceptanceTest extends TestCase {
 		assertFalse(failed);
 	}
 
+	/**
+	 * Tests the XMIParser with stereotype applications.
+	 * 
+	 * @throws Exception
+	 *             If something fails.
+	 */
+	public void testParser2() throws Exception {
+		boolean failed = false;
+		EasyAccept tester = new EasyAccept();
+		if (!tester.runAcceptanceTest(new XMIParserFacade(),
+				"resources-test/acceptance/parser2.txt", new VariablesImpl())) {
+			failed = true;
+		}
+		assertFalse(failed);
+	}
+	
 }

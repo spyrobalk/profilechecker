@@ -2,10 +2,13 @@ package profilechecker.parser;
 
 import java.io.File;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
 
+import profilechecker.Package;
 import profilechecker.Profile;
+import profilechecker.StereotypeApplication;
 
 /**
  * EasyAccept facade to use the XMIParser.
@@ -16,6 +19,8 @@ public class XMIParserFacade {
 
 	/** Map of parsed profiles. */
 	private Map<String, Profile> profiles;
+	private Map<String, Package> packages;
+	private Set<StereotypeApplication> applications;
 
 	/**
 	 * Creates the facade.
@@ -36,6 +41,8 @@ public class XMIParserFacade {
 		XMIParser parser = new XMIParser(new File(file));
 		parser.parse();
 		profiles = parser.getProfiles();
+		packages = parser.getPackages();
+		applications = parser.getApplications();
 	}
 
 	/**
@@ -69,7 +76,7 @@ public class XMIParserFacade {
 			throws Exception {
 		return BeanUtils.getProperty(profiles.get(profile), property);
 	}
-
+	
 	/**
 	 * Gets the number of stereotypes of a profile.
 	 * 
@@ -131,4 +138,37 @@ public class XMIParserFacade {
 				.getTypes().size();
 	}
 
+	public int getNumberOfPackages() {
+		return packages.size();
+	}
+	
+	public String getPackageProperty(String packageid, String property) throws Exception {
+		return BeanUtils.getProperty(packages.get(packageid), property);
+	}
+
+	public int getNumberOfMembers(String packageid) {
+		return packages.get(packageid).getMembers().keySet().size();
+	}
+	
+	public String getMemberProperty(String packageid, String member,
+			String property) throws Exception {
+		return BeanUtils.getProperty(packages.get(packageid).getMembers()
+				.get(member), property);
+	}
+	
+	public int getNumberOfApplications() {
+		return applications.size();
+	}
+	
+	public String getApplicationProperty(int index, String property) throws Exception {
+		int i = -1;
+		for (StereotypeApplication application : applications) {
+			i++;
+			if (index == i) {
+				return BeanUtils.getProperty(application, property);
+			}
+		}
+		return null;
+	}
+	
 }

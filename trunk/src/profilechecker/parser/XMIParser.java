@@ -3,7 +3,7 @@ package profilechecker.parser;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -35,6 +35,8 @@ import profilechecker.VisibilityType;
  * @author Matheus
  */
 public class XMIParser extends DefaultHandler {
+
+	private static final String XMI_XMI = "xmi:XMI";
 
 	/** Map to hold the profiles of this XMI. The key is the profile ID. */
 	private Map<String, Profile> profiles;
@@ -91,9 +93,9 @@ public class XMIParser extends DefaultHandler {
 	private boolean isParsingPackage = false;
 	
 	/**
-	 * Boolean to control if we are parsing an UML model.
+	 * Integer to control how deep we are at the XMI.
 	 */
-	private boolean isParsingUmlModel;
+	private int xmiDeep = 0;
 
 	/** Deep of xmi:extension. Ignore anyone outside the profile package. */
 	private int xmiExtensionDeep = -1;
@@ -128,7 +130,7 @@ public class XMIParser extends DefaultHandler {
 		sparser = spf.newSAXParser();
 		this.profiles = new HashMap<String, Profile>();
 		this.packages = new HashMap<String, Package>();
-		this.applications = new HashSet<StereotypeApplication>();
+		this.applications = new LinkedHashSet<StereotypeApplication>();
 	}
 
 	/**
@@ -159,6 +161,9 @@ public class XMIParser extends DefaultHandler {
 	@Override
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
+		
+		xmiDeep++;
+		
 		if (xmiExtensionDeep != -1
 				|| (ownedMemberProfileCount == -1 && "xmi:Extension"
 						.equalsIgnoreCase(qName))) {
@@ -203,9 +208,8 @@ public class XMIParser extends DefaultHandler {
 
 		}
 		
-		if(isParsingUmlModel && ownedMemberCount == 0){
+		if((xmiDeep == 1) && ownedMemberCount == 0){
 			StringTokenizer tokens = new StringTokenizer(qName,":");
-			
 			String profileName = tokens.nextToken();
 			String stereotypeName = tokens.nextToken();
 			String baseName = "";
@@ -215,11 +219,15 @@ public class XMIParser extends DefaultHandler {
 				if(attributeName.startsWith("base_")){
 					baseName = attributeName.substring(5);
 				}
+				// TODO VERIFY IF THERE IS ONLY ONE BASE_*
 			}
 			
-			StereotypeApplication stereotypeApp = new StereotypeApplication(attributes.getValue("xmi:id"),
-					baseName,attributes.getValue("base_"+baseName),stereotypeName,profileName);
-			applications.add(stereotypeApp);
+			if (! "".equals(baseName)) {
+				StereotypeApplication stereotypeApp = new StereotypeApplication(attributes.getValue("xmi:id"),
+						baseName,attributes.getValue("base_"+baseName),stereotypeName,profileName);
+				applications.add(stereotypeApp);		
+			}
+			
 		}
 		
 		if(isParsingPackage && "packageImport".equalsIgnoreCase(qName)){
@@ -239,11 +247,6 @@ public class XMIParser extends DefaultHandler {
 				&& ownedMemberStereotypeCount == ownedMemberCount) {
 			isParsingType = true;
 		}
-		
-		if("uml:Model".equalsIgnoreCase(qName)){
-			isParsingUmlModel = true;
-		}
-		
 
 		if (isParsingType && "referenceExtension".equalsIgnoreCase(qName)) {
 			parsingStereotype.addType(attributes.getValue("referentPath"));
@@ -265,15 +268,14 @@ public class XMIParser extends DefaultHandler {
 	@Override
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
+		
+		xmiDeep--;
+		
 		if (xmiExtensionDeep != -1
 				|| (ownedMemberProfileCount == -1 && "xmi:Extension"
 						.equalsIgnoreCase(qName))) {
 			xmiExtensionDeep--;
 			return; // Ignoring
-		}
-		
-		if("uml:Model".equalsIgnoreCase(qName)){
-			isParsingUmlModel = false;
 		}
 
 		if (qName.equalsIgnoreCase("ownedMember")) {
