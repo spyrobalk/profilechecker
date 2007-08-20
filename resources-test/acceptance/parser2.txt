@@ -1,0 +1,40 @@
+# Parsing XMI Files
+
+# A file with one profile, one stereotype and one application
+parse file="resources-test/profile_simple_stereotype_application.xmi"
+expect 1 getNumberOfProfiles
+expect "public" getProfileProperty profile="_12_5_1_12e803d1_1186331641532_79382_142" property="name"
+expect "_12_5_1_12e803d1_1186331641532_79382_142" getProfileProperty profile="_12_5_1_12e803d1_1186331641532_79382_142" property="id"
+expect "publicV" getProfileProperty profile="_12_5_1_12e803d1_1186331641532_79382_142" property="visibility"
+expect 1 getNumberOfStereotypes profile="_12_5_1_12e803d1_1186331641532_79382_142"
+expect "SimpleStereotype" getStereotypeProperty profile="_12_5_1_12e803d1_1186331641532_79382_142" stereotype="_12_5_1_12e803d1_1186332374248_452459_298" property="name"
+expect 1 getStereotypeTypeSize profile="_12_5_1_12e803d1_1186331641532_79382_142" stereotype="_12_5_1_12e803d1_1186332374248_452459_298"
+expect true isStereotypeType profile="_12_5_1_12e803d1_1186331641532_79382_142" stereotype="_12_5_1_12e803d1_1186332374248_452459_298" type="UML Standard Profile::UML2.0 Metamodel::Classes::Kernel::Class"
+expect false isStereotypeType profile="_12_5_1_12e803d1_1186331641532_79382_142" stereotype="_12_5_1_12e803d1_1186332374248_452459_298" type="UML Standard Profile::UML2.0 Metamodel::Classes::Kernel::Association"
+expect 1 getNumberOfPackages
+expect "publicV" getPackageProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" property="visibility"
+expect "_12_5_1_12e803d1_1186334150600_380035_326" getPackageProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" property="id"
+expect 1 getNumberOfMembers packageid="_12_5_1_12e803d1_1186334150600_380035_326"
+expect "publicV" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334183564_255299_337" property="visibility"
+expect "_12_5_1_12e803d1_1186334183564_255299_337" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334183564_255299_337" property="id"
+expect "uml:Class" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334183564_255299_337" property="type"
+expect 1 getNumberOfApplications
+expect "_12_5_1_12e803d1_1186334238759_115325_376" getApplicationProperty index=0 property="id"
+expect "Class" getApplicationProperty index=0 property="base"
+expect "_12_5_1_12e803d1_1186334183564_255299_337" getApplicationProperty index=0 property="baseId"
+expect "public" getApplicationProperty index=0 property="profile"
+expect "SimpleStereotype" getApplicationProperty index=0 property="stereotype"
+reset
+
+# A file with one profile and one stereotype with multiple types and applications
+parse file="resources-test/profile_multi_stereotype_application.xmi"
+expect 1 getNumberOfProfiles
+expect "public" getProfileProperty profile="_12_5_1_12e803d1_1186331641532_79382_142" property="name"
+expect "_12_5_1_12e803d1_1186331641532_79382_142" getProfileProperty profile="_12_5_1_12e803d1_1186331641532_79382_142" property="id"
+expect "publicV" getProfileProperty profile="_12_5_1_12e803d1_1186331641532_79382_142" property="visibility"
+expect 1 getNumberOfStereotypes profile="_12_5_1_12e803d1_1186331641532_79382_142"
+expect "SimpleStereotype" getStereotypeProperty profile="_12_5_1_12e803d1_1186331641532_79382_142" stereotype="_12_5_1_12e803d1_1186332374248_452459_298" property="name"
+expect 2 getStereotypeTypeSize profile="_12_5_1_12e803d1_1186331641532_79382_142" stereotype="_12_5_1_12e803d1_1186332374248_452459_298"
+expect true isStereotypeType profile="_12_5_1_12e803d1_1186331641532_79382_142" stereotype="_12_5_1_12e803d1_1186332374248_452459_298" type="UML Standard Profile::UML2.0 Metamodel::Classes::Kernel::Class"
+expect true isStereotypeType profile="_12_5_1_12e803d1_1186331641532_79382_142" stereotype="_12_5_1_12e803d1_1186332374248_452459_298" type="UML Standard Profile::UML2.0 Metamodel::Classes::Kernel::Association"
+reset
