@@ -24,8 +24,6 @@
 				<referenceExtension referentPath='UML Standard Profile' referentType='Package'/>
 			</xmi:Extension>
 		</ownedMember>
-		<ownedMember xmi:type='uml:Profile' xmi:id='_12_5_1_12e803d1_1186331506411_500396_119' name='protected' visibility='protected'/>
-		<ownedMember xmi:type='uml:Profile' xmi:id='_12_5_1_12e803d1_1186331633613_214072_130' name='private' visibility='private'/>
 		<ownedMember xmi:type='uml:Profile' xmi:id='_12_5_1_12e803d1_1186331641532_79382_142' name='public' visibility='public'>
 			<ownedMember xmi:type='uml:Stereotype' xmi:id='_12_5_1_12e803d1_1186332374248_452459_298' name='SimpleStereotype' visibility='public'>
 				<ownedAttribute xmi:type='uml:Property' xmi:id='_12_5_1_12e803d1_1186332378092_478735_301' name='base_Class' visibility='private' association='_12_5_1_12e803d1_1186332378092_114764_300'>
@@ -45,7 +43,6 @@
 				</ownedEnd>
 			</ownedMember>
 		</ownedMember>
-		<ownedMember xmi:type='uml:Profile' xmi:id='_12_5_1_12e803d1_1186331650262_401895_153' name='package' visibility='package'/>
 		<ownedMember xmi:type='uml:Package' xmi:id='_12_5_1_12e803d1_1186334150600_380035_326' visibility='public'>
 			<packageImport xmi:type='uml:ProfileApplication' xmi:id='_12_5_1_12e803d1_1186334190390_453396_360' visibility='public' importedPackage='_12_5_1_12e803d1_1186331641532_79382_142' importedProfile='_12_5_1_12e803d1_1186331641532_79382_142'/>
 			<ownedMember xmi:type='uml:Class' xmi:id='_12_5_1_12e803d1_1186334183564_255299_337' name='SimpleClass' visibility='public'/>
