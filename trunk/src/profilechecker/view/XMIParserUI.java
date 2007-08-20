@@ -11,6 +11,7 @@ import org.xml.sax.SAXException;
 
 import profilechecker.controller.XMIParser;
 import profilechecker.model.Member;
+import profilechecker.model.Model;
 import profilechecker.model.Package;
 import profilechecker.model.Profile;
 import profilechecker.model.Stereotype;
@@ -41,9 +42,9 @@ public class XMIParserUI {
 	 */
 	public String parse(File file) throws ParserConfigurationException,
 			SAXException, IOException {
-		XMIParser parser = new XMIParser(file);
-		parser.parse();
-		Map<String, Profile> profiles = parser.getProfiles(); 
+		XMIParser parser = new XMIParser();
+		Model model = parser.parse(file);
+		Map<String, Profile> profiles = model.getProfiles(); 
 		StringBuilder sb = new StringBuilder();
 		for (String profileName : profiles.keySet()) {
 			Profile profile = profiles.get(profileName);
@@ -75,7 +76,7 @@ public class XMIParserUI {
 			sb.append(LINE_SEPARATOR);
 		} // End of 'profiles for-each'
 		
-		Map<String, Package> packages = parser.getPackages();
+		Map<String, Package> packages = model.getPackages();
 		for(String packageId: packages.keySet()){
 			Package currentPackage = packages.get(packageId);
 			sb.append("Package").append(LINE_SEPARATOR);
@@ -101,7 +102,7 @@ public class XMIParserUI {
 				sb.append("      visibility : " + packageMembers.get(classId).getVisibility()).append(
 						LINE_SEPARATOR);
 				
-				Set<StereotypeApplication> applications = parser.getApplications();
+				Set<StereotypeApplication> applications = model.getApplications();
 				// TODO get this information from StereotypeApplication
 //				Map<String, Stereotype> stereotypes = packageMembers.get(classId).getStereotypes();
 //				for (String stereotypeName : stereotypes.keySet()) {

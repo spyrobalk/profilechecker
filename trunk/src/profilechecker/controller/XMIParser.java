@@ -18,6 +18,7 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import profilechecker.model.Member;
+import profilechecker.model.Model;
 import profilechecker.model.Package;
 import profilechecker.model.Profile;
 import profilechecker.model.Stereotype;
@@ -64,109 +65,96 @@ public class XMIParser extends DefaultHandler {
 	 * Counts the level of OwnedMember so we can know when a stereotype or a
 	 * profile ends.
 	 */
-	private int ownedMemberCount = 0;
+	private int ownedMemberCount;
 
 	/** OwnedMember level of current parsing stereotype. */
-	private int ownedMemberStereotypeCount = -1;
+	private int ownedMemberStereotypeCount;
 
 	/** OwnedMember level of current parsing profile. */
-	private int ownedMemberProfileCount = -1;
+	private int ownedMemberProfileCount;
 
 	/** OwnedMember level of current parsing package */
-	private int ownedMemberPackageCount = -1;
+	private int ownedMemberPackageCount;
 	
 	/** OwnedMember level of current parsing package */
-	private int ownedMemberMemberCount = -1;
+	private int ownedMemberMemberCount;
 	
 	/**
 	 * Boolean to control if we are parsing an associated type of the current
 	 * parsing stereotype.
 	 */
-	private boolean isParsingType = false;
+	private boolean isParsingType;
 	
 	/**
 	 * Boolean to control if we are parsing classes or profile association 
 	 * to a package. 
 	 */
-	private boolean isParsingPackage = false;
+	private boolean isParsingPackage;
 	
 	/**
 	 * Integer to control how deep we are at the XMI.
 	 */
-	private int xmiDeep = 0;
+	private int xmiDeep;
 
 	/** Deep of xmi:extension. Ignore anyone outside the profile package. */
-	private int xmiExtensionDeep = -1;
+	private int xmiExtensionDeep;
 
-	/** File to be parsed. */
-	private File file;
-
-	
 
 	/**
 	 * Creates a XMI Parser.
 	 * 
-	 * @param file
-	 *            XMI file to be parsed.
 	 * @throws ParserConfigurationException
 	 *             If its not possible to create a parser.
 	 * @throws SAXException
 	 *             If the parser fails.
-	 * @throws IOException
-	 *             If its not possible to read the file.
 	 */
-	public XMIParser(File file) throws ParserConfigurationException,
-			SAXException, IOException {
-
-		if (!file.exists()) {
-			throw new IOException("File not found: " + file.getPath());
-		}
-
-		this.file = file;
-
+	public XMIParser() throws ParserConfigurationException,
+			SAXException {
 		SAXParserFactory spf = SAXParserFactory.newInstance();
 		sparser = spf.newSAXParser();
-		this.profiles = new HashMap<String, Profile>();
-		this.packages = new HashMap<String, Package>();
-		this.applications = new LinkedHashSet<StereotypeApplication>();
 	}
 
 	/**
 	 * Parse the file.
 	 * 
+	 * @param file File to be parsed.
+	 * 
+	 * @return Model with read profiles, packages and stereotype applications. 
+	 * 
 	 * @throws SAXException
 	 *             If it fails to parse the file.
 	 * @throws IOException
-	 *             If there is an IOException while readint the file.
+	 *             If there is an IOException while reading the file.
 	 */
-	public void parse() throws SAXException, IOException {
-		sparser.parse(file, this);
-	}
-	
-	/**
-	 * Returns a map with this parser's profiles. The key is the profile id.
-	 * @return a map with this parser's profiles. The key is the profile id
-	 */
-	public Map<String, Profile> getProfiles(){
-		return this.profiles;
-	}
-	
-	/**
-	 * Returns a map with this parser's packages. The key is the package id.
-	 * @return a map with this parser's packages. The key is the package id
-	 */
-	public Map<String, Package> getPackages(){
-		return this.packages;
-	}
-	
-	/**
-	 * Returns a set with all of the stereotype applications for this parser. 
-	 * @return a set with all of the stereotype applications for this parser
-	 */
-	public Set<StereotypeApplication> getApplications(){
-		return this.applications;
+	public Model parse(File file) throws SAXException, IOException {
+		
+		if (!file.exists()) {
+			throw new IOException("File not found: " + file.getPath());
+		}
+
+		this.reset();
+		this.sparser.parse(file, this);
+		return new Model(profiles, packages, applications);
 	}
 
+	/**
+	 * Reset all fields to allow a new parse.
+	 */
+	private void reset() {
+		this.ownedMemberCount = 0;
+		this.ownedMemberStereotypeCount = -1;
+		this.ownedMemberProfileCount = -1;
+		this.ownedMemberPackageCount = -1;
+		this.ownedMemberMemberCount = -1;
+		this.isParsingType = false;
+		this.isParsingPackage = false;
+		this.xmiDeep = 0;
+		this.xmiExtensionDeep = -1;
+		this.profiles = new HashMap<String, Profile>();
+		this.packages = new HashMap<String, Package>();
+		this.applications = new LinkedHashSet<StereotypeApplication>();
+	}
+	
 	@Override
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {

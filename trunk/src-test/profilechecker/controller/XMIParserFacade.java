@@ -6,7 +6,7 @@ import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
 
-import profilechecker.controller.XMIParser;
+import profilechecker.model.Model;
 import profilechecker.model.Package;
 import profilechecker.model.Profile;
 import profilechecker.model.StereotypeApplication;
@@ -39,11 +39,11 @@ public class XMIParserFacade {
 	 *             If something fails.
 	 */
 	public void parse(String file) throws Exception {
-		XMIParser parser = new XMIParser(new File(file));
-		parser.parse();
-		profiles = parser.getProfiles();
-		packages = parser.getPackages();
-		applications = parser.getApplications();
+		XMIParser parser = new XMIParser();
+		Model model = parser.parse(new File(file));
+		profiles = model.getProfiles();
+		packages = model.getPackages();
+		applications = model.getApplications();
 	}
 
 	/**

@@ -20,6 +20,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import profilechecker.controller.XMIParser;
+import profilechecker.model.Model;
 import profilechecker.model.Profile;
 import profilechecker.model.Stereotype;
 
@@ -95,9 +96,9 @@ public class XMIParserGUI extends JFrame {
 		 */
 		void parseFile(File file) {
 			try {
-				XMIParser parser = new XMIParser(file);
-				parser.parse();
-				Map<String, Profile> profiles = parser.getProfiles(); 
+				XMIParser parser = new XMIParser();
+				Model model = parser.parse(file);
+				Map<String, Profile> profiles = model.getProfiles(); 
 				StringBuilder sb = new StringBuilder();
 				for (String profileName : profiles.keySet()) {
 					Profile profile = profiles.get(profileName);
