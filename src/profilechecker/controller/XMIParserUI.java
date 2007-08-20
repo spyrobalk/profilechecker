@@ -1,4 +1,4 @@
-package profilechecker.parser;
+package profilechecker.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,11 +9,11 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import profilechecker.Member;
-import profilechecker.Package;
-import profilechecker.Profile;
-import profilechecker.Stereotype;
-import profilechecker.StereotypeApplication;
+import profilechecker.model.Member;
+import profilechecker.model.Package;
+import profilechecker.model.Profile;
+import profilechecker.model.Stereotype;
+import profilechecker.model.StereotypeApplication;
 
 /**
  * UI of the XMIParser. And should be used as a debug tool from command line.

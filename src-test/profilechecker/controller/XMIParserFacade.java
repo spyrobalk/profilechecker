@@ -1,4 +1,4 @@
-package profilechecker.parser;
+package profilechecker.controller;
 
 import java.io.File;
 import java.util.Map;
@@ -6,9 +6,10 @@ import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
 
-import profilechecker.Package;
-import profilechecker.Profile;
-import profilechecker.StereotypeApplication;
+import profilechecker.controller.XMIParser;
+import profilechecker.model.Package;
+import profilechecker.model.Profile;
+import profilechecker.model.StereotypeApplication;
 
 /**
  * EasyAccept facade to use the XMIParser.

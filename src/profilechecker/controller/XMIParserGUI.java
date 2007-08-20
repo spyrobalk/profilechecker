@@ -1,4 +1,4 @@
-package profilechecker.parser;
+package profilechecker.controller;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -19,8 +19,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import profilechecker.Profile;
-import profilechecker.Stereotype;
+import profilechecker.model.Profile;
+import profilechecker.model.Stereotype;
 
 /**
  * GUI to use the XMIParser. This is only a prototype and is needed to test and

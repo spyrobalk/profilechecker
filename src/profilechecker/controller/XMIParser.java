@@ -1,4 +1,4 @@
-package profilechecker.parser;
+package profilechecker.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,12 +17,12 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import profilechecker.Member;
-import profilechecker.Package;
-import profilechecker.Profile;
-import profilechecker.Stereotype;
-import profilechecker.StereotypeApplication;
-import profilechecker.VisibilityType;
+import profilechecker.model.Member;
+import profilechecker.model.Package;
+import profilechecker.model.Profile;
+import profilechecker.model.Stereotype;
+import profilechecker.model.StereotypeApplication;
+import profilechecker.model.VisibilityType;
 
 /**
  * Parser of MagicDraw XMI files. It will parse a XMI file and create the

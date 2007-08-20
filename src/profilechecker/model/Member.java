@@ -1,4 +1,4 @@
-package profilechecker;
+package profilechecker.model;
 
 /**
  * Represents a member of a package.
