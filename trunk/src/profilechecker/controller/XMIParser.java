@@ -195,12 +195,12 @@ class XMIParser extends DefaultHandler {
 					ownedMemberPackageCount = ownedMemberCount;
 				}
 			} else if (isParsingPackage) { // TODO is that it?
-				
-				
+				String type = attributes.getValue("xmi:type");
+				String[] names = type.split(":");
 				parsingMember = new Member(attributes.getValue("name"),
 						attributes.getValue("xmi:id"), VisibilityType.
 						toValue(attributes.getValue("visibility")),
-						attributes.getValue("xmi:type"));
+						names[names.length-1]);
 				ownedMemberMemberCount = ownedMemberCount;
 			}
 
@@ -249,7 +249,8 @@ class XMIParser extends DefaultHandler {
 
 
 		if (isParsingType && "referenceExtension".equalsIgnoreCase(qName)) {
-			parsingStereotype.addType(attributes.getValue("referentPath"));
+			String[] names = attributes.getValue("referentPath").split("::");
+			parsingStereotype.addType(names[names.length-1]);
 			isParsingType = false;
 		}
 
@@ -280,11 +281,11 @@ class XMIParser extends DefaultHandler {
 		
 		if (qName.equalsIgnoreCase("ownedMember")) {
 			if (ownedMemberProfileCount == ownedMemberCount) {
-				profiles.put(parsingProfile.getId(), parsingProfile);
+				profiles.put(parsingProfile.getName(), parsingProfile);
 				ownedMemberProfileCount = -1;
 				parsingProfile = null;
 			} else if (ownedMemberStereotypeCount == ownedMemberCount) {
-				parsingProfile.addStereotype(parsingStereotype.getId(),
+				parsingProfile.addStereotype(parsingStereotype.getName(),
 						parsingStereotype);
 				ownedMemberStereotypeCount = -1;
 				parsingStereotype = null;

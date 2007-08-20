@@ -82,7 +82,7 @@ class StereotypeApplicationValidation {
 					if (!member.getType().equals(base)) {
 						result
 								.add(new ValidationException(
-										"Class type cannot be different from application."));
+										"Specified type " + base + " cannot be different from application " + member.getType()));
 						break;
 					}
 				}

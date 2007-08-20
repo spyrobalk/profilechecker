@@ -5,14 +5,14 @@ parse file="resources-test/profile_simple_stereotype_application.xmi"
 
 # Profiles at XMI file
 expect 1 getNumberOfProfiles
-expect "public" getProfileProperty profile="_12_5_1_12e803d1_1186331641532_79382_142" property="name"
-expect "_12_5_1_12e803d1_1186331641532_79382_142" getProfileProperty profile="_12_5_1_12e803d1_1186331641532_79382_142" property="id"
-expect "publicV" getProfileProperty profile="_12_5_1_12e803d1_1186331641532_79382_142" property="visibility"
-expect 1 getNumberOfStereotypes profile="_12_5_1_12e803d1_1186331641532_79382_142"
-expect "SimpleStereotype" getStereotypeProperty profile="_12_5_1_12e803d1_1186331641532_79382_142" stereotype="_12_5_1_12e803d1_1186332374248_452459_298" property="name"
-expect 1 getStereotypeTypeSize profile="_12_5_1_12e803d1_1186331641532_79382_142" stereotype="_12_5_1_12e803d1_1186332374248_452459_298"
-expect true isStereotypeType profile="_12_5_1_12e803d1_1186331641532_79382_142" stereotype="_12_5_1_12e803d1_1186332374248_452459_298" type="UML Standard Profile::UML2.0 Metamodel::Classes::Kernel::Class"
-expect false isStereotypeType profile="_12_5_1_12e803d1_1186331641532_79382_142" stereotype="_12_5_1_12e803d1_1186332374248_452459_298" type="UML Standard Profile::UML2.0 Metamodel::Classes::Kernel::Association"
+expect "public" getProfileProperty profile="public" property="name"
+expect "_12_5_1_12e803d1_1186331641532_79382_142" getProfileProperty profile="public" property="id"
+expect "publicV" getProfileProperty profile="public" property="visibility"
+expect 1 getNumberOfStereotypes profile="public"
+expect "SimpleStereotype" getStereotypeProperty profile="public" stereotype="SimpleStereotype" property="name"
+expect 1 getStereotypeTypeSize profile="public" stereotype="SimpleStereotype"
+expect true isStereotypeType profile="public" stereotype="SimpleStereotype" type="Class"
+expect false isStereotypeType profile="public" stereotype="SimpleStereotype" type="Association"
 
 # Packages at XMI file
 expect 1 getNumberOfPackages
@@ -21,7 +21,7 @@ expect "_12_5_1_12e803d1_1186334150600_380035_326" getPackageProperty packageid=
 expect 1 getNumberOfMembers packageid="_12_5_1_12e803d1_1186334150600_380035_326"
 expect "publicV" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334183564_255299_337" property="visibility"
 expect "_12_5_1_12e803d1_1186334183564_255299_337" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334183564_255299_337" property="id"
-expect "uml:Class" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334183564_255299_337" property="type"
+expect "Class" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334183564_255299_337" property="type"
 
 # Stereotype Applications at XMI file
 expect 2 getNumberOfApplications
@@ -43,14 +43,14 @@ parse file="resources-test/profile_multi_stereotype_application.xmi"
 
 # Profiles at XMI file
 expect 1 getNumberOfProfiles
-expect "public" getProfileProperty profile="_12_5_1_12e803d1_1186331641532_79382_142" property="name"
-expect "_12_5_1_12e803d1_1186331641532_79382_142" getProfileProperty profile="_12_5_1_12e803d1_1186331641532_79382_142" property="id"
-expect "publicV" getProfileProperty profile="_12_5_1_12e803d1_1186331641532_79382_142" property="visibility"
-expect 1 getNumberOfStereotypes profile="_12_5_1_12e803d1_1186331641532_79382_142"
-expect "SimpleStereotype" getStereotypeProperty profile="_12_5_1_12e803d1_1186331641532_79382_142" stereotype="_12_5_1_12e803d1_1186332374248_452459_298" property="name"
-expect 2 getStereotypeTypeSize profile="_12_5_1_12e803d1_1186331641532_79382_142" stereotype="_12_5_1_12e803d1_1186332374248_452459_298"
-expect true isStereotypeType profile="_12_5_1_12e803d1_1186331641532_79382_142" stereotype="_12_5_1_12e803d1_1186332374248_452459_298" type="UML Standard Profile::UML2.0 Metamodel::Classes::Kernel::Class"
-expect true isStereotypeType profile="_12_5_1_12e803d1_1186331641532_79382_142" stereotype="_12_5_1_12e803d1_1186332374248_452459_298" type="UML Standard Profile::UML2.0 Metamodel::Classes::Kernel::Association"
+expect "public" getProfileProperty profile="public" property="name"
+expect "_12_5_1_12e803d1_1186331641532_79382_142" getProfileProperty profile="public" property="id"
+expect "publicV" getProfileProperty profile="public" property="visibility"
+expect 1 getNumberOfStereotypes profile="public"
+expect "SimpleStereotype" getStereotypeProperty profile="public" stereotype="SimpleStereotype" property="name"
+expect 2 getStereotypeTypeSize profile="public" stereotype="SimpleStereotype"
+expect true isStereotypeType profile="public" stereotype="SimpleStereotype" type="Class"
+expect true isStereotypeType profile="public" stereotype="SimpleStereotype" type="Association"
 
 # Packages at XMI file
 expect 1 getNumberOfPackages
@@ -60,13 +60,13 @@ expect "SimplePackage" getPackageProperty packageid="_12_5_1_12e803d1_1186334150
 expect 3 getNumberOfMembers packageid="_12_5_1_12e803d1_1186334150600_380035_326"
 expect "publicV" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334183564_255299_337" property="visibility"
 expect "_12_5_1_12e803d1_1186334183564_255299_337" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334183564_255299_337" property="id"
-expect "uml:Class" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334183564_255299_337" property="type"
+expect "Class" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334183564_255299_337" property="type"
 expect "publicV" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334556216_367886_589" property="visibility"
 expect "_12_5_1_12e803d1_1186334556216_367886_589" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334556216_367886_589" property="id"
-expect "uml:Class" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334556216_367886_589" property="type"
+expect "Class" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334556216_367886_589" property="type"
 expect "publicV" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334564572_785405_614" property="visibility"
 expect "_12_5_1_12e803d1_1186334564572_785405_614" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334564572_785405_614" property="id"
-expect "uml:Association" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334564572_785405_614" property="type"
+expect "Association" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334564572_785405_614" property="type"
 
 # Stereotype Applications at XMI file
 expect 3 getNumberOfApplications
