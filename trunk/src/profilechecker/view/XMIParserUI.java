@@ -3,7 +3,6 @@ package profilechecker.view;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -15,7 +14,6 @@ import profilechecker.model.Model;
 import profilechecker.model.Package;
 import profilechecker.model.Profile;
 import profilechecker.model.Stereotype;
-import profilechecker.model.StereotypeApplication;
 
 /**
  * UI of the XMIParser. And should be used as a debug tool from command line.
@@ -101,9 +99,10 @@ public class XMIParserUI {
 						LINE_SEPARATOR);
 				sb.append("      visibility : " + packageMembers.get(classId).getVisibility()).append(
 						LINE_SEPARATOR);
-				
-				Set<StereotypeApplication> applications = model.getApplications();
+
 				// TODO get this information from StereotypeApplication
+				
+//				Set<StereotypeApplication> applications = model.getApplications();
 //				Map<String, Stereotype> stereotypes = packageMembers.get(classId).getStereotypes();
 //				for (String stereotypeName : stereotypes.keySet()) {
 //					Stereotype stereotype = stereotypes.get(stereotypeName);

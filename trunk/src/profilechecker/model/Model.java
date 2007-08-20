@@ -44,26 +44,50 @@ public class Model implements Serializable {
 		this.applications = applications;
 	}
 
+	/**
+	 * Get profiles of this model.
+	 * @return Profiles of this model.
+	 */
 	public Map<String, Profile> getProfiles() {
 		return profiles;
 	}
 
+	/**
+	 * Set profiles of this model.
+	 * @param profiles Profiles of this model.
+	 */
 	public void setProfiles(Map<String, Profile> profiles) {
 		this.profiles = profiles;
 	}
 
+	/**
+	 * Get packages of this model
+	 * @return Packages of this model.
+	 */
 	public Map<String, Package> getPackages() {
 		return packages;
 	}
 
+	/**
+	 * Set packages of this model.
+	 * @param packages Packages of this model.
+	 */
 	public void setPackages(Map<String, Package> packages) {
 		this.packages = packages;
 	}
 
+	/**
+	 * Get stereotype applications of this model.
+	 * @return Stereotype applications of this model.
+	 */
 	public Set<StereotypeApplication> getApplications() {
 		return applications;
 	}
 
+	/**
+	 * Set stereotype applications of this model.
+	 * @param applications Stereotype applications of this model.
+	 */
 	public void setApplications(Set<StereotypeApplication> applications) {
 		this.applications = applications;
 	}
