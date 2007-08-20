@@ -15,6 +15,8 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.xml.sax.SAXException;
 
+import profilechecker.controller.ProfileCheckerController;
+import profilechecker.model.Model;
 import profilechecker.view.XMIParserGUI;
 import profilechecker.view.XMIParserUI;
 
@@ -54,17 +56,31 @@ public class Main {
 		options.addOption(help);
 
 		CommandLineParser parser = new GnuParser();
+		
+		ProfileCheckerController controller;
+		
+		try {
+			controller = new ProfileCheckerController();
+		} catch (ParserConfigurationException e1) {
+			System.err.println("Failed to create parser.");
+			e1.printStackTrace();
+			return;
+		} catch (SAXException e1) {
+			System.err.println("Failed to create parser.");
+			e1.printStackTrace();
+			return;
+		}
+		
+		Model model = new Model();
+		
 		try {
 			CommandLine line = parser.parse(options, args);
 			if (line.hasOption(PARSER_UI_OPTION)) {
-				XMIParserUI xmiParserUI = new XMIParserUI();
+				XMIParserUI xmiParserUI = new XMIParserUI(controller, model);
 				File file = null;
 				try {
 					file = new File(line.getOptionValue(PARSER_UI_OPTION));
 					System.out.println(xmiParserUI.parse(file));
-				} catch (ParserConfigurationException e) {
-					System.err.println("Failed to parse file: " + file);
-					e.printStackTrace();
 				} catch (SAXException e) {
 					System.err.println("Failed to parse file: " + file);
 					e.printStackTrace();
@@ -73,7 +89,7 @@ public class Main {
 					e.printStackTrace();
 				}
 			} else if (line.hasOption(PARSER_GUI_OPTION)) {
-				XMIParserGUI xmiParserGUI = new XMIParserGUI();
+				XMIParserGUI xmiParserGUI = new XMIParserGUI(controller, model);
 				xmiParserGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				xmiParserGUI.setVisible(true);
 			} else {

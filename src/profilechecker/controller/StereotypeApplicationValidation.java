@@ -10,13 +10,14 @@ import profilechecker.model.Package;
 import profilechecker.model.Profile;
 import profilechecker.model.Stereotype;
 import profilechecker.model.StereotypeApplication;
+import profilechecker.model.ValidationException;
 
 /**
  * This will validate if a model and its stereotype applications are valid.
  * 
  * @author Matheus
  */
-public class StereotypeApplicationValidation {
+class StereotypeApplicationValidation {
 
 	/**
 	 * Main method to validate a stereotype application.
@@ -25,7 +26,7 @@ public class StereotypeApplicationValidation {
 	 *            Model to be validated.
 	 * @return Set of exceptions with validation fails.
 	 */
-	public Set<ValidationException> validate(Model model) {
+	Set<ValidationException> validate(Model model) {
 
 		Set<ValidationException> result = new LinkedHashSet<ValidationException>();
 
@@ -38,6 +39,11 @@ public class StereotypeApplicationValidation {
 			String base = stereotypeApp.getBase();
 			String baseId = stereotypeApp.getBaseId();
 
+			// TODO A MagicDraw_Profile, ignore.
+			if ("MagicDraw_Profile".equals(profile)) {
+				continue;
+			}
+			
 			// Check for profile, if failed, go to the next application
 			if (!profiles.containsKey(profile)) {
 				result.add(new ValidationException("Profile not found: "

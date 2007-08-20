@@ -1,0 +1,14 @@
+# Parsing XMI Files
+
+# A file with one profile, one stereotype and one application
+parse file="resources-test/profile_simple_stereotype_application.xmi"
+validate
+expect 0 getNumberOfValidationExceptions
+reset
+
+# A file with one profile and one stereotype with multiple types and applications
+parse file="resources-test/profile_simple_stereotype_application_with_invalid_profile.xmi"
+validate
+expect 1 getNumberOfValidationExceptions
+expect "Profile not found: invalidProfile" getValidationExceptionMessage index=0
+reset

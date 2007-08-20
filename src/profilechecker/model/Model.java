@@ -1,6 +1,7 @@
 package profilechecker.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,11 +25,26 @@ public class Model implements Serializable {
 	/** Set with all the stereotype applications of this model. */
 	private Set<StereotypeApplication> applications;
 	
+	/** Set with all validation exceptions in this model. */
+	private Set<ValidationException> validationExceptions;
+	
 	/**
 	 * Empty constructor for this JavaBean.
 	 */
 	public Model() {
 		// Empty constructor for this JavaBean
+	}
+
+	/**
+	 * Create a model without validation exceptions.
+	 * 
+	 * @param profiles map with all the profiles for this model
+	 * @param packages map with all the packages for this model
+	 * @param applications set with the stereotype applications for this model
+	 */
+	public Model (Map<String, Profile> profiles,Map<String, Package> packages,
+			Set<StereotypeApplication> applications) {
+		this(profiles, packages, applications, new HashSet<ValidationException>());
 	}
 	
 	/**
@@ -36,12 +52,14 @@ public class Model implements Serializable {
 	 * @param profiles map with all the profiles for this model
 	 * @param packages map with all the packages for this model
 	 * @param applications set with the stereotype applications for this model
+	 * @param validationExceptions Validation exceptions at this model.
 	 */
 	public Model (Map<String, Profile> profiles,Map<String, Package> packages,
-					Set<StereotypeApplication> applications){
+					Set<StereotypeApplication> applications, Set<ValidationException> validationExceptions){
 		this.profiles = profiles;
 		this.packages = packages;
 		this.applications = applications;
+		this.validationExceptions = validationExceptions;
 	}
 
 	/**
@@ -92,6 +110,20 @@ public class Model implements Serializable {
 		this.applications = applications;
 	}
 	
-	
+	/**
+	 * Get the validation exceptions of this model.
+	 * @return Validation exceptions of this model.
+	 */
+	public Set<ValidationException> getValidationExceptions() {
+		return validationExceptions;
+	}
+
+	/**
+	 * Set the validation exceptions of this model.
+	 * @param validationExceptions Validation exceptions of this model.
+	 */
+	public void setValidationExceptions(Set<ValidationException> validationExceptions) {
+		this.validationExceptions = validationExceptions;
+	}
 	
 }
