@@ -1,8 +1,8 @@
-package profilechecker.controller;
+package profilechecker.view;
 
 import java.io.File;
 
-import profilechecker.controller.XMIParserUI;
+import profilechecker.view.XMIParserUI;
 
 import junit.framework.TestCase;
 

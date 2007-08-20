@@ -1,4 +1,4 @@
-package profilechecker.controller;
+package profilechecker.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -19,6 +19,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import profilechecker.controller.XMIParser;
 import profilechecker.model.Profile;
 import profilechecker.model.Stereotype;
 

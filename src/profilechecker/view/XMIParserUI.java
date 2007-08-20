@@ -1,4 +1,4 @@
-package profilechecker.controller;
+package profilechecker.view;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +9,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import profilechecker.controller.XMIParser;
 import profilechecker.model.Member;
 import profilechecker.model.Package;
 import profilechecker.model.Profile;
