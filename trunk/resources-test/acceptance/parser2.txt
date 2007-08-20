@@ -18,7 +18,7 @@ expect 1 getNumberOfMembers packageid="_12_5_1_12e803d1_1186334150600_380035_326
 expect "publicV" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334183564_255299_337" property="visibility"
 expect "_12_5_1_12e803d1_1186334183564_255299_337" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334183564_255299_337" property="id"
 expect "uml:Class" getMemberProperty packageid="_12_5_1_12e803d1_1186334150600_380035_326" member="_12_5_1_12e803d1_1186334183564_255299_337" property="type"
-expect 1 getNumberOfApplications
+expect 2 getNumberOfApplications
 expect "_12_5_1_12e803d1_1186334238759_115325_376" getApplicationProperty index=0 property="id"
 expect "Class" getApplicationProperty index=0 property="base"
 expect "_12_5_1_12e803d1_1186334183564_255299_337" getApplicationProperty index=0 property="baseId"
