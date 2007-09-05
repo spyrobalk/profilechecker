@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
@@ -46,17 +47,19 @@ public class XMIParserGUI extends JFrame{
      *
      */
     
-    ProfileCheckerController controller;
+    private ProfileCheckerController controller;
     
     /**
      * 
      */
-    Model model;
+    private Model model;
     
     /**
      * 
      */
-    JDesktopPane theDesktop;
+    private JDesktopPane theDesktop;
+    
+    private final String line = System.getProperty("line.separator");
     
     /**
      * @param controller
@@ -85,7 +88,20 @@ public class XMIParserGUI extends JFrame{
         theDesktop = new JDesktopPane();
         getContentPane().add(theDesktop);
        
-        JMenuBar menubar = new JMenuBar();
+        makeMenu();
+       
+        //get default screen size to make the application window
+        setSize( Toolkit.getDefaultToolkit().getScreenSize());
+        setExtendedState(MAXIMIZED_BOTH);
+        setVisible(true);
+       
+    }
+    
+    /**
+     * 
+     */
+    public void makeMenu() {
+    	JMenuBar menubar = new JMenuBar();
         setJMenuBar(menubar);
        
         JMenu fileMenu = new JMenu("File");
@@ -123,12 +139,111 @@ public class XMIParserGUI extends JFrame{
         helpMenu.add (aboutItem);
         AboutListener aboutListener = new AboutListener();
         aboutItem.addActionListener(aboutListener);        
+    }
+    
+    /**
+     * @param model
+     * @param controller
+     * @param fileName
+     * @return
+     */
+    public String parse(Model model,ProfileCheckerController controller,File fileName) {
+
+    	StringBuilder sb = new StringBuilder();
+        try {
+        	controller.parser(model, fileName);
+        	
+            Map<String, Profile> profiles = model.getProfiles();
+            
+            for (String profileName : profiles.keySet()) {
+                Profile profile = profiles.get(profileName);
+                sb.append("<html><body>");
+                sb.append("Profile<ul>");
+                sb.append("<li><b>name</b> " + profile.getName());
+                sb.append("<li><b>id</b> " + profile.getId());
+                sb.append("<li><b>visibility</b> "
+                        + profile.getVisibility());
+                sb.append("<p>");
+                Map<String, Stereotype> stereotypes = profiles.get(
+                        profileName).getStereotypes();
+                
+                for (String stereotypeName : stereotypes.keySet()) {
+                    Stereotype stereotype = stereotypes.get(stereotypeName);
+                    sb.append("<li>Stereotype<ul>");
+                    sb.append("<li><b>name</b> " + stereotype.getName());
+                    sb.append("<li><b>id</b> " + stereotype.getId());
+                    sb.append("<li><b>visibility</b> "
+                            + stereotype.getVisibility());
+                    
+                    for (String type : stereotype.getTypes()) {
+                        sb.append("<li><b>type</b> " + type);
+                    }
+                    
+                    sb.append("</ul>");
+                } // End of 'stereotypes for-each'
+                
+                sb.append("</ul>");
+                //sb.append("<hr />");
+            } // End of 'profiles for-each'
+            
+            sb.append("</body></html>");
+        } catch (SAXException e1) {
+            e1.printStackTrace();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        return sb.toString();
+    }
+    
+    /**
+     * @return
+     */
+    public File openFile() {
+    	JFileChooser fileChooser =  new JFileChooser();
+        
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("XML and XMI files","xmi","xml");
+        fileChooser.setFileFilter(filter);
        
-        //get default screen size to make the application window
-        setSize( Toolkit.getDefaultToolkit().getScreenSize());
-        setExtendedState(MAXIMIZED_BOTH);
-        setVisible(true);
+        int result = fileChooser.showOpenDialog(getContentPane());
        
+        if(result==JFileChooser.CANCEL_OPTION) {
+            return null;
+        }
+        
+        return fileChooser.getSelectedFile();
+    }
+    
+    /**
+     * @return 
+     * 
+     */
+    public boolean open() {
+    	
+       File fileName = openFile();
+       
+       if(fileName == null) {
+    	   return false;
+       }
+       
+       JInternalFrame frame = new JInternalFrame(fileName.getName(),true,true,true,true);
+       frame.setFrameIcon(new ImageIcon("xml.png"));
+       Container container = frame.getContentPane();
+       JEditorPane panel = new JEditorPane();
+        
+       panel.setEditable(false);
+       panel.setContentType("text/html");
+       panel.setAutoscrolls(true);
+       panel.setText (parse(model,controller,fileName));
+       container.add(panel);
+       frame.pack();
+       theDesktop.add(frame);
+       frame.setVisible(true);
+       try {
+           frame.setMaximum(true);
+       } catch (PropertyVetoException e1) {
+           e1.printStackTrace();
+       }
+       return true;
     }
     
     private class OpenListener implements ActionListener {
@@ -140,71 +255,10 @@ public class XMIParserGUI extends JFrame{
 
         public void actionPerformed(ActionEvent e) {
             
-        	JFileChooser fileChooser =  new JFileChooser();
-           
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("XML and XMI files","xmi","xml");
-            fileChooser.setFileFilter(filter);
-           
-            int result = fileChooser.showOpenDialog(getContentPane());
-           
-            if(result==JFileChooser.CANCEL_OPTION) {
-                return;
-            }
-           
-            File fileName = fileChooser.getSelectedFile();
-           
-           
-            JInternalFrame frame = new JInternalFrame(fileName.getName(),true,true,true,true);
-            Container container = frame.getContentPane();
-            JEditorPane panel = new JEditorPane();
-            StringBuilder sb = new StringBuilder();
-            try {
-                controller.parser(model, fileName);
-                Map<String, Profile> profiles = model.getProfiles();
-                for (String profileName : profiles.keySet()) {
-                    Profile profile = profiles.get(profileName);
-                    sb.append("<html><body>");
-                    sb.append("Profile<ul>");
-                    sb.append("<li><b>name</b> " + profile.getName());
-                    sb.append("<li><b>id</b> " + profile.getId());
-                    sb.append("<li><b>visibility</b> "
-                            + profile.getVisibility());
-                    sb.append("<p>");
-                    Map<String, Stereotype> stereotypes = profiles.get(
-                            profileName).getStereotypes();
-                    for (String stereotypeName : stereotypes.keySet()) {
-                        Stereotype stereotype = stereotypes.get(stereotypeName);
-                        sb.append("<li>Stereotype<ul>");
-                        sb.append("<li><b>name</b> " + stereotype.getName());
-                        sb.append("<li><b>id</b> " + stereotype.getId());
-                        sb.append("<li><b>visibility</b> "
-                                + stereotype.getVisibility());
-                        for (String type : stereotype.getTypes()) {
-                            sb.append("<li><b>type</b> " + type);
-                        }
-                        sb.append("</ul>");
-                    } // End of 'stereotypes for-each'
-                    sb.append("</ul>");
-                    //sb.append("<hr />");
-                } // End of 'profiles for-each'
-                sb.append("</body></html>");
-            } catch (SAXException e1) {
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-            panel.setEditable(false);
-            panel.setContentType("text/html");
-            panel.setAutoscrolls(true);
-            panel.setText (sb.toString());
-            container.add(panel);
-            frame.pack();
-            theDesktop.add(frame);
-            frame.setVisible(true);
-            try {
-                frame.setMaximum(true);
-            } catch (PropertyVetoException e1) {
-                e1.printStackTrace();
+        	boolean opened = open();
+            
+            if(!opened) {
+            	return;
             }
         }
     }
@@ -219,17 +273,17 @@ public class XMIParserGUI extends JFrame{
     private class AboutListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            String lineSeparator = System.getProperty("line.separator");
-            StringBuilder sb = new StringBuilder();
-            sb.append("ProfileChecker"+lineSeparator);
-            sb.append("Visit: www.lcc.ufcg.edu.br/moises/les"+lineSeparator);
-            sb.append(lineSeparator);
-            sb.append("Developers:" + lineSeparator);
-            sb.append("Clerton Ribeiro - clerton@dsc.ufcg.edu.br" + lineSeparator);
-            sb.append("Matheus Gaudencio - matheusgr@lcc.ufcg.edu.br" + lineSeparator);
-            sb.append ("Moises Rodrigues - moises@lcc.ufcg.edu.br" + lineSeparator);
-            sb.append(lineSeparator);
-            sb.append("Client:"+lineSeparator);
+            
+        	StringBuilder sb = new StringBuilder();
+            sb.append("ProfileChecker"+line);
+            sb.append("Visit: www.lcc.ufcg.edu.br/moises/les"+line);
+            sb.append(line);
+            sb.append("Developers:" + line);
+            sb.append("Clerton Ribeiro - clerton@dsc.ufcg.edu.br" + line);
+            sb.append("Matheus Gaudencio - matheusgr@lcc.ufcg.edu.br" + line);
+            sb.append ("Moises Rodrigues - moises@lcc.ufcg.edu.br" + line);
+            sb.append(line);
+            sb.append("Client:"+line);
             sb.append("Franklin de Souza Ramalho");
            
             JOptionPane.showMessageDialog(null, sb.toString(),"About ProfileChecker",JOptionPane.PLAIN_MESSAGE);
@@ -238,85 +292,25 @@ public class XMIParserGUI extends JFrame{
     private class ProfileCheckListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			JFileChooser fileChooser =  new JFileChooser();  
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("XML and XMI files","xmi","xml");
-            fileChooser.setFileFilter(filter);
-           
-            int result = fileChooser.showOpenDialog(getContentPane());
-           
-            if(result==JFileChooser.CANCEL_OPTION) {
-                return;
-            }
-           
-            File fileName = fileChooser.getSelectedFile();
-            JInternalFrame frame = new JInternalFrame(fileName.getName(),true,true,true,true);
-            Container container = frame.getContentPane();
-            JEditorPane panel = new JEditorPane();
-            StringBuilder sb = new StringBuilder();
-            try {
-				controller.parser(model, fileName);
-				Map<String, Profile> profiles = model.getProfiles();
-                for (String profileName : profiles.keySet()) {
-                    Profile profile = profiles.get(profileName);
-                    sb.append("<html><body>");
-                    sb.append("Profile<ul>");
-                    sb.append("<li><b>name</b> " + profile.getName());
-                    sb.append("<li><b>id</b> " + profile.getId());
-                    sb.append("<li><b>visibility</b> "
-                            + profile.getVisibility());
-                    sb.append("<p>");
-                    Map<String, Stereotype> stereotypes = profiles.get(
-                            profileName).getStereotypes();
-                    for (String stereotypeName : stereotypes.keySet()) {
-                        Stereotype stereotype = stereotypes.get(stereotypeName);
-                        sb.append("<li>Stereotype<ul>");
-                        sb.append("<li><b>name</b> " + stereotype.getName());
-                        sb.append("<li><b>id</b> " + stereotype.getId());
-                        sb.append("<li><b>visibility</b> "
-                                + stereotype.getVisibility());
-                        for (String type : stereotype.getTypes()) {
-                            sb.append("<li><b>type</b> " + type);
-                        }
-                        sb.append("</ul>");
-                    } // End of 'stereotypes for-each'
-                    sb.append("</ul>");
-                    //sb.append("<hr />");
-                } // End of 'profiles for-each'
-                sb.append("</body></html>");
-			} catch (SAXException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			
+			boolean opened = open();
+			
+			if(!opened) {
+				return;
 			}
-			 panel.setEditable(false);
-	            panel.setContentType("text/html");
-	            panel.setAutoscrolls(true);
-	            panel.setText (sb.toString());
-	            container.add(panel);
-	            frame.pack();
-	            theDesktop.add(frame);
-	            frame.setVisible(true);
-	            try {
-	                frame.setMaximum(true);
-	            } catch (PropertyVetoException e1) {
-	                e1.printStackTrace();
-	            }
 			controller.validate(model);
+			
 			StringBuilder message = new StringBuilder();
-			message.append("File: "+fileName.getName()+System.getProperty("line.separator"));
-			message.append(System.getProperty("line.separator"));
+			message.append(line);
 			Set<ValidationException> validationExceptions = model.getValidationExceptions();
 			if(validationExceptions.size() == 0) {
 				message.append("OK");
 			} else {
 				for(ValidationException ve : validationExceptions) {
-					message.append(ve.getMessage() + System.getProperty("line.separator"));
+					message.append(ve.getMessage() + line);
 				}
 			}
 			JOptionPane.showMessageDialog(null, message.toString(), "ProfileChecker Result",JOptionPane.PLAIN_MESSAGE);
 		}
-    	
     }
 }
