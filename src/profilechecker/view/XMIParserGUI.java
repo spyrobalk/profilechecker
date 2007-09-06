@@ -249,7 +249,7 @@ public class XMIParserGUI extends JFrame{
        container.add(panel);
        frame.pack();
        theDesktop.add(frame);
-       JInternalFrameClosing internalFrameClosing = new JInternalFrameClosing(fileName.getName());
+       InternalFrameAction internalFrameClosing = new InternalFrameAction(fileName.getName());
        frame.addInternalFrameListener(internalFrameClosing);
        frame.setVisible(true);
        try {
@@ -308,6 +308,10 @@ public class XMIParserGUI extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			
 			JInternalFrame selectedFrame = theDesktop.getSelectedFrame();
+			if(selectedFrame == null) {
+				JOptionPane.showMessageDialog(null, "You must open a XMI file to run profile check","Warning",JOptionPane.WARNING_MESSAGE);
+				return;
+			}
 			File selectedFile = openedFiles.get(selectedFrame.getTitle());
 			try {
 				controller.parser(model,selectedFile);
@@ -335,14 +339,14 @@ public class XMIParserGUI extends JFrame{
 		}
     }
     
-    private class JInternalFrameClosing implements InternalFrameListener{
+    private class InternalFrameAction implements InternalFrameListener{
 
     	private String frameName;
     	
     	/**
     	 * @param frameName
     	 */
-    	public JInternalFrameClosing(String frameName) {
+    	public InternalFrameAction(String frameName) {
     		this.frameName = frameName;
     	}
     	
@@ -353,7 +357,6 @@ public class XMIParserGUI extends JFrame{
 
 		public void internalFrameClosed(InternalFrameEvent e) {
 			openedFiles.remove(frameName);
-			
 		}
 
 		public void internalFrameClosing(InternalFrameEvent e) {
@@ -378,7 +381,6 @@ public class XMIParserGUI extends JFrame{
 
 		public void internalFrameOpened(InternalFrameEvent e) {
 			// TODO Auto-generated method stub
-			
 		}
     	
     }
