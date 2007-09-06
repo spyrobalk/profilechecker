@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,6 +24,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.xml.sax.SAXException;
@@ -60,6 +63,11 @@ public class XMIParserGUI extends JFrame{
     private JDesktopPane theDesktop;
     
     private final String line = System.getProperty("line.separator");
+
+    /**
+     * 
+     */
+    Map<String,File> openedFiles;
     
     /**
      * @param controller
@@ -87,6 +95,8 @@ public class XMIParserGUI extends JFrame{
        
         theDesktop = new JDesktopPane();
         getContentPane().add(theDesktop);
+        
+        openedFiles = new HashMap<String, File>();
        
         makeMenu();
        
@@ -225,6 +235,8 @@ public class XMIParserGUI extends JFrame{
     	   return false;
        }
        
+       openedFiles.put(fileName.getName(), fileName);
+       
        JInternalFrame frame = new JInternalFrame(fileName.getName(),true,true,true,true);
        frame.setFrameIcon(new ImageIcon("xml.png"));
        Container container = frame.getContentPane();
@@ -237,6 +249,8 @@ public class XMIParserGUI extends JFrame{
        container.add(panel);
        frame.pack();
        theDesktop.add(frame);
+       JInternalFrameClosing internalFrameClosing = new JInternalFrameClosing(fileName.getName());
+       frame.addInternalFrameListener(internalFrameClosing);
        frame.setVisible(true);
        try {
            frame.setMaximum(true);
@@ -293,14 +307,21 @@ public class XMIParserGUI extends JFrame{
 
 		public void actionPerformed(ActionEvent e) {
 			
-			boolean opened = open();
-			
-			if(!opened) {
-				return;
+			JInternalFrame selectedFrame = theDesktop.getSelectedFrame();
+			File selectedFile = openedFiles.get(selectedFrame.getTitle());
+			try {
+				controller.parser(model,selectedFile);
+			} catch (SAXException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 			controller.validate(model);
 			
 			StringBuilder message = new StringBuilder();
+			message.append("File: " + selectedFile.getName()+line);
 			message.append(line);
 			Set<ValidationException> validationExceptions = model.getValidationExceptions();
 			if(validationExceptions.size() == 0) {
@@ -312,5 +333,53 @@ public class XMIParserGUI extends JFrame{
 			}
 			JOptionPane.showMessageDialog(null, message.toString(), "ProfileChecker Result",JOptionPane.PLAIN_MESSAGE);
 		}
+    }
+    
+    private class JInternalFrameClosing implements InternalFrameListener{
+
+    	private String frameName;
+    	
+    	/**
+    	 * @param frameName
+    	 */
+    	public JInternalFrameClosing(String frameName) {
+    		this.frameName = frameName;
+    	}
+    	
+		public void internalFrameActivated(InternalFrameEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void internalFrameClosed(InternalFrameEvent e) {
+			openedFiles.remove(frameName);
+			
+		}
+
+		public void internalFrameClosing(InternalFrameEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void internalFrameDeactivated(InternalFrameEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void internalFrameDeiconified(InternalFrameEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void internalFrameIconified(InternalFrameEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void internalFrameOpened(InternalFrameEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+    	
     }
 }
