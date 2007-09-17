@@ -22,6 +22,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.InternalFrameEvent;
@@ -241,12 +242,15 @@ public class XMIParserGUI extends JFrame{
        frame.setFrameIcon(new ImageIcon("xml.png"));
        Container container = frame.getContentPane();
        JEditorPane panel = new JEditorPane();
-        
+       
        panel.setEditable(false);
        panel.setContentType("text/html");
        panel.setAutoscrolls(true);
        panel.setText (parse(model,controller,fileName));
-       container.add(panel);
+       
+       //There are xmi with information that doesn't fit on the screen
+       JScrollPane scrollPanel = new JScrollPane(panel);
+       container.add(scrollPanel);
        frame.pack();
        theDesktop.add(frame);
        InternalFrameAction internalFrameClosing = new InternalFrameAction(fileName.getName());
