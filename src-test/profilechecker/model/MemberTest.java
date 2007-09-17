@@ -16,6 +16,7 @@ public class MemberTest extends TestCase {
 	/**
 	 * Initializes two simple members.
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		// <ownedMember xmi:type='uml:Class'
@@ -23,16 +24,17 @@ public class MemberTest extends TestCase {
 		// visibility='public'/>
 		ownedMember1 = new Member("Classe1",
 				"_12_5_1_12e803d1_1185146568325_708968_547", VisibilityType
-						.toValue("public"),"uml:Class");
+						.toValue("public"),"uml:Class", 1);
 		// <ownedMember xmi:type='uml:Class'
 		// xmi:id='_12_5_1_12e803d1_1185146761643_148816_618' name='Classe2'
 		// visibility='public'/>
 		ownedMember2 = new Member("Classe2",
 				"_12_5_1_12e803d1_1185146761643_148816_618", VisibilityType
-						.toValue("public"),"uml:Class");
+						.toValue("public"),"uml:Class", 2);
 
 	}
 
+	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
 		
@@ -55,6 +57,11 @@ public class MemberTest extends TestCase {
 				.toValue("public"),ownedMember1.getVisibility());
 		assertEquals(VisibilityType
 				.toValue("public"),ownedMember2.getVisibility());
+	}
+	
+	public void testGetLine() {
+		assertEquals(1, ownedMember1.getLine());
+		assertEquals(2, ownedMember2.getLine());		
 	}
 	
 	public void testGetType(){

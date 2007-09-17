@@ -49,9 +49,9 @@ public class StereotypeApplicationValidationTest extends TestCase {
 		Map<String, Profile> profiles = new HashMap<String, Profile>();
 		profileName = "profile";
 		stereotypeName = "stereotype";
-		Profile profile = new Profile(profileName, "1", VisibilityType.publicV);
+		Profile profile = new Profile(profileName, "1", VisibilityType.publicV, 0);
 		Stereotype stereotype = new Stereotype(stereotypeName, "1_1",
-				VisibilityType.publicV);
+				VisibilityType.publicV, 0);
 		type = "Class";
 		stereotype.addType(type);
 		profile.addStereotype(stereotypeName, stereotype);
@@ -59,10 +59,10 @@ public class StereotypeApplicationValidationTest extends TestCase {
 
 		Map<String, Package> packages = new HashMap<String, Package>();
 		packageName = "package";
-		Package package1 = new Package(packageName, "2", VisibilityType.publicV);
+		Package package1 = new Package(packageName, "2", VisibilityType.publicV, 0);
 		id = "2_1";
 		package1.addMember(id, new Member("member", id, VisibilityType.publicV,
-				type));
+				type, 0));
 		packages.put(packageName, package1);
 
 		Set<StereotypeApplication> applications = new HashSet<StereotypeApplication>();

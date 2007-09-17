@@ -23,12 +23,13 @@ public class ProfileTest extends TestCase {
 
 	private Map<String, Stereotype> stereotypes;
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
 		stereotype1 = new Stereotype("SimpleStereotype1",
 				"_12_5_1_12e803d1_1186332378092_478735_301", VisibilityType
-						.toValue("public"));
+						.toValue("public"), 1);
 		List<String> stTypes = new ArrayList();
 		types1 = new HashSet<String>();
 		stTypes.add("Classes");
@@ -40,7 +41,7 @@ public class ProfileTest extends TestCase {
 
 		stereotype2 = new Stereotype("SimpleStereotype2",
 				"_12_5_1_12e803d1_1186332374248_452459_298", VisibilityType
-						.toValue("public"));
+						.toValue("public"), 2);
 		stTypes = new ArrayList();
 		types2 = new HashSet<String>();
 		stTypes.add("Classes");
@@ -59,10 +60,11 @@ public class ProfileTest extends TestCase {
 
 		profile = new Profile("TesteProfile",
 				"_12_5_1_12e803d1_1185146167886_761175_232", VisibilityType
-						.toValue("public"));
+						.toValue("public"), 3);
 
 	}
 
+	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
 

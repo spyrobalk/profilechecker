@@ -35,9 +35,11 @@ public class Stereotype extends OwnedMember {
 	 *            ID of the stereotype.
 	 * @param visibility
 	 *            Visibility of the stereotype.
+	 * @param line
+	 *            Line of this stereotype.
 	 */
-	public Stereotype(String name, String id, VisibilityType visibility) {
-		super(name, id, visibility);
+	public Stereotype(String name, String id, VisibilityType visibility, int line) {
+		super(name, id, visibility, line);
 		setTypes(new LinkedHashSet<String>());
 	}
 

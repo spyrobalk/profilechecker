@@ -27,15 +27,16 @@ public class ModelTest extends TestCase {
 	
 	private Set<StereotypeApplication> applications;
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
 		profiles = new HashMap<String, Profile>();
 		profileName = "profile";
 		stereotypeName = "stereotype";
-		Profile profile = new Profile(profileName, "1", VisibilityType.publicV);
+		Profile profile = new Profile(profileName, "1", VisibilityType.publicV, 1);
 		Stereotype stereotype = new Stereotype(stereotypeName, "1_1",
-				VisibilityType.publicV);
+				VisibilityType.publicV, 2);
 		type = "Class";
 		stereotype.addType(type);
 		profile.addStereotype(stereotypeName, stereotype);
@@ -43,10 +44,10 @@ public class ModelTest extends TestCase {
 
 		packages = new HashMap<String, Package>();
 		packageName = "package";
-		Package package1 = new Package(packageName, "2", VisibilityType.publicV);
+		Package package1 = new Package(packageName, "2", VisibilityType.publicV, 3);
 		id = "2_1";
 		package1.addMember(id, new Member("member", id, VisibilityType.publicV,
-				type));
+				type, 4));
 		packages.put(packageName, package1);
 
 		applications = new HashSet<StereotypeApplication>();
@@ -57,6 +58,7 @@ public class ModelTest extends TestCase {
 		this.model1 = new Model(profiles, packages, applications);
 	}
 
+	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}

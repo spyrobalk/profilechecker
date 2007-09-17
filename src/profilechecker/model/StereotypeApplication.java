@@ -6,7 +6,10 @@ package profilechecker.model;
  * @author moises
  *
  */
-public class StereotypeApplication {
+public class StereotypeApplication extends LineMember {
+
+	/** Default serial version ID. */
+	private static final long serialVersionUID = 1L;
 
 	/** The id of the application */
 	private String id;
