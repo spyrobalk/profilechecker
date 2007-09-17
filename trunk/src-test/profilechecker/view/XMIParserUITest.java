@@ -32,6 +32,8 @@ public class XMIParserUITest extends TestCase {
 				+ XMIParserUI.LINE_SEPARATOR
 				+ "   visibility : publicV"
 				+ XMIParserUI.LINE_SEPARATOR
+				+ "   line       : 27"
+				+ XMIParserUI.LINE_SEPARATOR
 				+ XMIParserUI.LINE_SEPARATOR
 				+ "   Stereotype"
 				+ XMIParserUI.LINE_SEPARATOR
@@ -40,6 +42,8 @@ public class XMIParserUITest extends TestCase {
 				+ "      id         : _12_5_1_12e803d1_1186332374248_452459_298"
 				+ XMIParserUI.LINE_SEPARATOR
 				+ "      visibility : publicV"
+				+ XMIParserUI.LINE_SEPARATOR
+				+ "      line       : 28"
 				+ XMIParserUI.LINE_SEPARATOR
 				+ "      type       : Class"
 				+ XMIParserUI.LINE_SEPARATOR
