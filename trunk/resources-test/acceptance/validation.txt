@@ -12,3 +12,40 @@ validate
 expect 1 getNumberOfValidationExceptions
 expect "Profile not found: invalidProfile" getValidationExceptionMessage index=0
 reset
+
+# A file with two profile and two stereotype with multiple types and applications
+parse file="resources-test/profile_double_stereotype_application.xmi"
+validate
+expect 0 getNumberOfValidationExceptions
+reset
+
+# A file with two profile and two stereotype with multiple types and applications
+parse file="resources-test/profile_double_stereotype_quad_application.xmi"
+validate
+expect 0 getNumberOfValidationExceptions
+reset
+
+# A file with three profile and three stereotype with multiple types and applications
+parse file="resources-test/profile_three_stereotype_five_application.xmi"
+validate
+expect 0 getNumberOfValidationExceptions
+reset
+
+# A file with four profile and four stereotype with multiple types and applications
+parse file="resources-test/profile_four_stereotype_seven_application.xmi"
+validate
+expect 0 getNumberOfValidationExceptions
+reset
+
+# A file with four profile and four stereotype with multiple types and applications
+parse file="resources-test/profile_one_stereotype_one_application.xmi"
+validate
+expect 0 getNumberOfValidationExceptions
+reset
+
+# A file with four profile four one stereotype with multiple types and applications
+parse file="resources-test/profile_four_stereotype_seven_application_one_invalid.xmi"
+validate
+expect "Specified type Interface cannot be different from application Class" getValidationExceptionMessage index=0
+expect 1 getNumberOfValidationExceptions
+reset
