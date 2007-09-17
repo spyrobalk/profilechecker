@@ -52,7 +52,7 @@
 	
 	<!-- COMPILE -->
 	<target name="compile" depends="init">
-		<javac classpath="${profilechecker.classpath}" srcdir="${profilechecker.src}" destdir="${profilechecker.classes}" debug="on" optimize="on">
+		<javac classpath="${profilechecker.classpath}" srcdir="${profilechecker.src}" destdir="${profilechecker.classes}" source="1.5" target="1.5" debug="on" optimize="on">
 			<include name="**" />
 		</javac>
 	</target>
