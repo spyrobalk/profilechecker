@@ -9,6 +9,11 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
+/**
+ * Test the Profile model.
+ *
+ * @author matheusgr
+ */
 public class ProfileTest extends TestCase {
 
 	private Set<String> types2;
@@ -30,7 +35,7 @@ public class ProfileTest extends TestCase {
 		stereotype1 = new Stereotype("SimpleStereotype1",
 				"_12_5_1_12e803d1_1186332378092_478735_301", VisibilityType
 						.toValue("public"), 1);
-		List<String> stTypes = new ArrayList();
+		List<String> stTypes = new ArrayList<String>();
 		types1 = new HashSet<String>();
 		stTypes.add("Classes");
 		stTypes.add("Kernel");
@@ -42,7 +47,7 @@ public class ProfileTest extends TestCase {
 		stereotype2 = new Stereotype("SimpleStereotype2",
 				"_12_5_1_12e803d1_1186332374248_452459_298", VisibilityType
 						.toValue("public"), 2);
-		stTypes = new ArrayList();
+		stTypes = new ArrayList<String>();
 		types2 = new HashSet<String>();
 		stTypes.add("Classes");
 		stTypes.add("Class");
@@ -74,21 +79,33 @@ public class ProfileTest extends TestCase {
 		profile = null;
 	}
 
+	/**
+	 * Test getName at the Profile.
+	 */
 	public void testGetName() {
 		assertEquals("TesteProfile", profile.getName());
 
 	}
 
+	/**
+	 * Test getID at the Profile.
+	 */
 	public void testGetId() {
 		assertEquals("_12_5_1_12e803d1_1185146167886_761175_232", profile
 				.getId());
 
 	}
 
+	/**
+	 * Test getVisibility at the Profile.
+	 */
 	public void testGetVisibility() {
 		assertEquals(VisibilityType.toValue("public"), profile.getVisibility());
 	}
 
+	/**
+	 * Test getStereotypes at the Profile.
+	 */
 	public void testGetStereotypes() {
 		profile.setStereotypes(stereotypes);
 		assertEquals(stereotypes,profile.getStereotypes());

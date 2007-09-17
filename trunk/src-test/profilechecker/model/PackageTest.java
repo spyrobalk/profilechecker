@@ -2,6 +2,11 @@ package profilechecker.model;
 
 import junit.framework.TestCase;
 
+/**
+ * Test Package model.
+ *
+ * @author matheusgr
+ */
 public class PackageTest extends TestCase {
 
 	private Package package1;
@@ -33,11 +38,17 @@ public class PackageTest extends TestCase {
 		super.tearDown();
 	}
 
+	/**
+	 * Test getName at Package.
+	 */
 	public void testGetName() {
 		assertEquals("TestePacote", package1.getName());
 		assertEquals("Kernel", package2.getName());
 	}
 
+	/**
+	 * Test getId at Package.
+	 */
 	public void testGetId() {
 		assertEquals("_12_5_1_12e803d1_1185146560514_240773_520", package1
 				.getId());
@@ -45,6 +56,9 @@ public class PackageTest extends TestCase {
 				.getId());
 	}
 
+	/**
+	 * Test getVisibility at Package.
+	 */
 	public void testGetVisibility() {
 		assertEquals(VisibilityType.toValue("public"), package1.getVisibility());
 		assertEquals(VisibilityType.toValue("public"), package2.getVisibility());

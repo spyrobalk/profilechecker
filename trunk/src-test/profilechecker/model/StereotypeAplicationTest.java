@@ -9,6 +9,11 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
+/**
+ * Test StereotypeApplication model.
+ *
+ * @author matheusgr
+ */
 public class StereotypeAplicationTest extends TestCase {
 
 	private StereotypeApplication stereotypeApplication1;
@@ -34,7 +39,7 @@ public class StereotypeAplicationTest extends TestCase {
 		stereotype1 = new Stereotype("SimpleStereotype1",
 				"_12_5_1_12e803d1_1186332378092_478735_301", VisibilityType
 						.toValue("public"), 1);
-		List<String> stTypes = new ArrayList();
+		List<String> stTypes = new ArrayList<String>();
 		types1 = new HashSet<String>();
 		stTypes.add("Classes");
 		stTypes.add("Kernel");
@@ -46,7 +51,7 @@ public class StereotypeAplicationTest extends TestCase {
 		stereotype2 = new Stereotype("SimpleStereotype2",
 				"_12_5_1_12e803d1_1186332374248_452459_298", VisibilityType
 						.toValue("public"), 2);
-		stTypes = new ArrayList();
+		stTypes = new ArrayList<String>();
 		types2 = new HashSet<String>();
 		stTypes.add("Classes");
 		stTypes.add("Class");
@@ -90,6 +95,9 @@ public class StereotypeAplicationTest extends TestCase {
 		super.tearDown();
 	}
 
+	/**
+	 * Test getId at StereotypeApplication.
+	 */
 	public void testGetId() {
 		assertEquals("_12_5_1_12e803d1_1185146581395_917930_569",
 				stereotypeApplication1.getId());
@@ -98,6 +106,9 @@ public class StereotypeAplicationTest extends TestCase {
 
 	}
 
+	/**
+	 * Test getStereotypes at StereotypeApplication.
+	 */
 	public void testGetStereotypes() {
 		assertEquals(stereotype1.getName(), stereotypeApplication1
 				.getStereotype());
@@ -105,17 +116,26 @@ public class StereotypeAplicationTest extends TestCase {
 				.getStereotype());
 	}
 
+	/**
+	 * Test getBase at StereotypeApplication.
+	 */
 	public void testGetBase() {
 		assertEquals("uml:Class", stereotypeApplication1.getBase());
 		assertEquals("uml:Class", stereotypeApplication2.getBase());
 	}
 
+	/**
+	 * Test getBaseId at StereotypeApplication.
+	 */
 	public void testGetBaseId() {
 		assertEquals("_12_5_1_12e803d1_1185146568325_708968_547", stereotypeApplication1.getBaseId());
 		assertEquals("_12_5_1_12e803d1_1185146568325_708968_111", stereotypeApplication2.getBaseId());
 
 	}
 
+	/**
+	 * Test getBaseProfile at StereotypeApplication.
+	 */
 	public void testGetBaseProfile() {
 		assertEquals(profile.getName(), stereotypeApplication1.getProfile());
 		assertEquals(profile.getName(), stereotypeApplication2.getProfile());
