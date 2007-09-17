@@ -48,7 +48,7 @@ class StereotypeApplicationValidation {
 			// Check for profile, if failed, go to the next application
 			if (!profiles.containsKey(profile)) {
 				result.add(new ValidationException("Profile not found: "
-						+ profile, Level.error));
+						+ profile, Level.error, stereotypeApp.getLine()));
 				continue;
 			}
 
@@ -58,7 +58,7 @@ class StereotypeApplicationValidation {
 			// Check for stereotype, if failed, go to the next application
 			if (!stereotypes.containsKey(stereotype)) {
 				result.add(new ValidationException("Stereotype not found: "
-						+ stereotype, Level.error));
+						+ stereotype, Level.error, stereotypeApp.getLine()));
 				continue;
 			}
 
@@ -66,7 +66,7 @@ class StereotypeApplicationValidation {
 
 			// Check for type, if failed, go to the next application
 			if (!stereotypeImpl.getTypes().contains(base)) {
-				result.add(new ValidationException("Type not valid: " + base, Level.error));
+				result.add(new ValidationException("Type not valid: " + base, Level.error, stereotypeApp.getLine()));
 				continue;
 			}
 
@@ -77,13 +77,13 @@ class StereotypeApplicationValidation {
 					Member member = members.get(baseId);
 					if (member.getType() == null) {
 						result.add(new ValidationException(
-								"Member type cannot be null.", Level.error));
+								"Member type cannot be null.", Level.error, member.getLine()));
 						break;
 					}
 					if (!member.getType().equals(base)) {
 						result
 								.add(new ValidationException(
-										"Specified type " + base + " cannot be different from application " + member.getType(), Level.error));
+										"Specified type " + base + " cannot be different from application " + member.getType(), Level.error, member.getLine()));
 						break;
 					}
 				}

@@ -14,6 +14,9 @@ public class ValidationException extends Exception {
 	/** Level of the exception. */
 	private Level level;
 
+	/** Line that created the exception. */
+	private int line;
+
 	/**
 	 * Default constructor.
 	 * 
@@ -21,10 +24,13 @@ public class ValidationException extends Exception {
 	 *            Reason which the validation has failed.
 	 * @param level
 	 *            Level of the exception.
+	 * @param line
+	 * 			  Offending line.
 	 */
-	public ValidationException(String message, Level level) {
+	public ValidationException(String message, Level level, int line) {
 		super(message);
 		this.level = level;
+		this.line = line;
 	}
 	
 	/**
@@ -33,6 +39,14 @@ public class ValidationException extends Exception {
 	 */
 	public Level getLevel() {
 		return this.level;
+	}
+	
+	/**
+	 * Returns the line of this exception.
+	 * @return The line of this exception.
+	 */
+	public int getLine() {
+		return this.line;
 	}
 
 	/**
