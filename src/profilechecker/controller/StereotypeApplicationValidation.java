@@ -11,6 +11,7 @@ import profilechecker.model.Profile;
 import profilechecker.model.Stereotype;
 import profilechecker.model.StereotypeApplication;
 import profilechecker.model.ValidationException;
+import profilechecker.model.ValidationException.Level;
 
 /**
  * This will validate if a model and its stereotype applications are valid.
@@ -47,7 +48,7 @@ class StereotypeApplicationValidation {
 			// Check for profile, if failed, go to the next application
 			if (!profiles.containsKey(profile)) {
 				result.add(new ValidationException("Profile not found: "
-						+ profile));
+						+ profile, Level.error));
 				continue;
 			}
 
@@ -57,7 +58,7 @@ class StereotypeApplicationValidation {
 			// Check for stereotype, if failed, go to the next application
 			if (!stereotypes.containsKey(stereotype)) {
 				result.add(new ValidationException("Stereotype not found: "
-						+ stereotype));
+						+ stereotype, Level.error));
 				continue;
 			}
 
@@ -65,7 +66,7 @@ class StereotypeApplicationValidation {
 
 			// Check for type, if failed, go to the next application
 			if (!stereotypeImpl.getTypes().contains(base)) {
-				result.add(new ValidationException("Type not valid: " + base));
+				result.add(new ValidationException("Type not valid: " + base, Level.error));
 				continue;
 			}
 
@@ -76,13 +77,13 @@ class StereotypeApplicationValidation {
 					Member member = members.get(baseId);
 					if (member.getType() == null) {
 						result.add(new ValidationException(
-								"Member type cannot be null."));
+								"Member type cannot be null.", Level.error));
 						break;
 					}
 					if (!member.getType().equals(base)) {
 						result
 								.add(new ValidationException(
-										"Specified type " + base + " cannot be different from application " + member.getType()));
+										"Specified type " + base + " cannot be different from application " + member.getType(), Level.error));
 						break;
 					}
 				}
