@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         id="sampleBuilder"
+         name="ProfileChecker Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="true">
+         <run
+               class="profilechecker.eclipse.SampleBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="sampleNature"
+         name="ProfileChecker Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="profilechecker.eclipse.SampleNature">
+         </run>
+      </runtime>
+      <builder
+            id="ProfileChecker.sampleBuilder">
+      </builder>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            objectClass="org.eclipse.core.resources.IProject"
+            nameFilter="*"
+            id="ProfileChecker.contribution1">
+         <action
+               label="Validate with ProfileChecker"
+               class="profilechecker.eclipse.ToggleNatureAction"
+               menubarPath="additions"
+               enablesFor="+"
+               id="ProfileChecker.addRemoveNatureAction">
+         </action>
+      </objectContribution>
+   </extension>
+   <extension
+         id="xmlProblem"
+         name="XML Problem"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
+
+</plugin>
