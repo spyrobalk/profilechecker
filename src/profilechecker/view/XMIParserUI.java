@@ -66,6 +66,8 @@ public class XMIParserUI {
 					LINE_SEPARATOR);
 			sb.append("   visibility : " + profile.getVisibility()).append(
 					LINE_SEPARATOR);
+			sb.append("   line       : " + profile.getLine()).append(
+					LINE_SEPARATOR);
 			sb.append(LINE_SEPARATOR);
 			Map<String, Stereotype> stereotypes = profiles.get(profileName)
 					.getStereotypes();
@@ -78,6 +80,8 @@ public class XMIParserUI {
 						LINE_SEPARATOR);
 				sb.append("      visibility : " + stereotype.getVisibility())
 						.append(LINE_SEPARATOR);
+				sb.append("      line       : " + stereotype.getLine()).append(
+						LINE_SEPARATOR);
 				for (String type : stereotype.getTypes()) {
 					sb.append("      type       : " + type).append(
 							LINE_SEPARATOR);
@@ -97,6 +101,8 @@ public class XMIParserUI {
 					LINE_SEPARATOR);
 			sb.append("   visibility : " + currentPackage.getVisibility())
 					.append(LINE_SEPARATOR);
+			sb.append("   line       : " + currentPackage.getLine()).append(
+					LINE_SEPARATOR);
 			Map<String,Profile> packageProfiles = currentPackage.getProfiles();
 			for (String profileId : packageProfiles.keySet()) {
 				sb.append("   Profile").append(LINE_SEPARATOR);
@@ -106,11 +112,14 @@ public class XMIParserUI {
 			Map<String,Member> packageMembers = currentPackage.getMembers();
 			for (String classId : packageMembers.keySet()) {
 				sb.append("   Class").append(LINE_SEPARATOR);
-				sb.append("      id         : " + packageMembers.get(classId).getId()).append(
+				Member member = packageMembers.get(classId);
+				sb.append("      id         : " + member.getId()).append(
 						LINE_SEPARATOR);
-				sb.append("      name       : " + packageMembers.get(classId).getName()).append(
+				sb.append("      name       : " + member.getName()).append(
 						LINE_SEPARATOR);
-				sb.append("      visibility : " + packageMembers.get(classId).getVisibility()).append(
+				sb.append("      visibility : " + member.getVisibility()).append(
+						LINE_SEPARATOR);
+				sb.append("   line       : " + member.getLine()).append(
 						LINE_SEPARATOR);
 
 			}
@@ -127,6 +136,8 @@ public class XMIParserUI {
 				sb.append("      baseId     : " + application.getBaseId()).append(
 						LINE_SEPARATOR);
 				sb.append("      id         : " + application.getId()).append(
+						LINE_SEPARATOR);
+				sb.append("      line       : " + application.getLine()).append(
 						LINE_SEPARATOR);
 			}
 			sb.append(LINE_SEPARATOR);
