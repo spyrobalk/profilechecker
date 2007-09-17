@@ -30,9 +30,10 @@ public class Member extends OwnedMember{
 	 * @param id the id of the member
 	 * @param visibility the visibility of the member
 	 * @param type the type of the member
+	 * @param line Line of this member.
 	 */
-	public Member(String name, String id, VisibilityType visibility, String type){
-		super(name,id,visibility);
+	public Member(String name, String id, VisibilityType visibility, String type, int line){
+		super(name,id,visibility,line);
 		this.id = id;
 		this.type = type;
 	}

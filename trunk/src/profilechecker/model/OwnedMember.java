@@ -7,7 +7,8 @@ import java.io.Serializable;
  * 
  * @author Matheus
  */
-public abstract class OwnedMember implements Serializable {
+public abstract class OwnedMember extends 
+LineMember implements Serializable {
 
 	/** Default serial version UID */
 	private static final long serialVersionUID = 1L;
@@ -37,11 +38,15 @@ public abstract class OwnedMember implements Serializable {
 	 *            ID of this OwnedMember.
 	 * @param visibility
 	 *            Visibility of this OwnedMember.
+	 * @param line
+	 *            Current line of this OwnedMember.
 	 */
-	public OwnedMember(String name, String id, VisibilityType visibility) {
+	public OwnedMember(String name, String id, VisibilityType visibility, int line) {
+		setLine(line);
 		setName(name);
 		setId(id);
 		setVisibility(visibility);
+		setLine(line);
 	}
 
 	/**

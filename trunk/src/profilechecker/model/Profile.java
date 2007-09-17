@@ -35,9 +35,11 @@ public class Profile extends OwnedMember {
 	 *            This profile ID.
 	 * @param visibility
 	 *            This profile visibility.
+	 * @param line
+	 *            Current line of this profile.
 	 */
-	public Profile(String name, String id, VisibilityType visibility) {
-		super(name, id, visibility);
+	public Profile(String name, String id, VisibilityType visibility, int line) {
+		super(name, id, visibility, line);
 		setStereotypes(new HashMap<String, Stereotype>());
 	}
 

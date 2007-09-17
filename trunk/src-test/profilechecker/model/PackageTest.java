@@ -8,6 +8,7 @@ public class PackageTest extends TestCase {
 
 	private Package package2;
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -17,16 +18,17 @@ public class PackageTest extends TestCase {
 
 		package1 = new Package("TestePacote",
 				"_12_5_1_12e803d1_1185146560514_240773_520", VisibilityType
-						.toValue("public"));
+						.toValue("public"), 1);
 		// <ownedMember xmi:type='uml:Package'
 		// xmi:id='_9_0_62a020a_1105705064323_957155_11049' name='Kernel'
 		// visibility='public'>
 
 		package2 = new Package("Kernel",
 				"_9_0_62a020a_1105705064323_957155_11049", VisibilityType
-						.toValue("public"));
+						.toValue("public"), 2);
 	}
 
+	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}

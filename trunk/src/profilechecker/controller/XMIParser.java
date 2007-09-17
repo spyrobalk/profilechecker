@@ -13,6 +13,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.Attributes;
+import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -99,6 +100,14 @@ class XMIParser extends DefaultHandler {
 	/** Deep of xmi:extension. Ignore anyone outside the profile package. */
 	private int xmiExtensionDeep;
 
+	/** Locator to get current line. */
+    private Locator locator;
+
+    @Override
+    public void setDocumentLocator(Locator locator) {
+        this.locator = locator;
+    }
+	
 
 	/**
 	 * Creates a XMI Parser.
@@ -168,12 +177,18 @@ class XMIParser extends DefaultHandler {
 			xmiExtensionDeep++;
 			return;
 		}
+		
+		int line = -1;
+		
 		if ("ownedMember".equalsIgnoreCase(qName)) {
 			ownedMemberCount++;
+			if (locator != null) {
+				line = locator.getLineNumber();
+			}
 			if ("uml:Profile".equals(attributes.getValue("xmi:type"))) {
 				parsingProfile = new Profile(attributes.getValue("name"),
 						attributes.getValue("xmi:id"), VisibilityType
-								.toValue(attributes.getValue("visibility")));
+								.toValue(attributes.getValue("visibility")), line);
 				ownedMemberProfileCount = ownedMemberCount;
 			} else if ("uml:Stereotype".equals(attributes.getValue("xmi:type"))) {
 				if (parsingProfile == null) {
@@ -181,7 +196,7 @@ class XMIParser extends DefaultHandler {
 				}
 				parsingStereotype = new Stereotype(attributes.getValue("name"),
 						attributes.getValue("xmi:id"), VisibilityType
-								.toValue(attributes.getValue("visibility")));
+								.toValue(attributes.getValue("visibility")), line);
 				ownedMemberStereotypeCount = ownedMemberCount;
 			} else if ("uml:Package".equals(attributes.getValue("xmi:type"))) {
 				
@@ -190,7 +205,7 @@ class XMIParser extends DefaultHandler {
 					
 					parsingPackage = new Package(attributes.getValue("name"),
 							attributes.getValue("xmi:id"), VisibilityType.
-							toValue(attributes.getValue("visibility")));
+							toValue(attributes.getValue("visibility")), line);
 				
 					ownedMemberPackageCount = ownedMemberCount;
 				}
@@ -200,7 +215,7 @@ class XMIParser extends DefaultHandler {
 				parsingMember = new Member(attributes.getValue("name"),
 						attributes.getValue("xmi:id"), VisibilityType.
 						toValue(attributes.getValue("visibility")),
-						names[names.length-1]);
+						names[names.length-1], line);
 				ownedMemberMemberCount = ownedMemberCount;
 			}
 

@@ -39,9 +39,10 @@ public class Package extends OwnedMember{
 	 * @param name the name of the package
 	 * @param id the id of the package
 	 * @param visibility the visibility of the package
+	 * @param line line of this package.
 	 */
-	public Package (String name, String id, VisibilityType visibility) {
-		super(name, id, visibility);
+	public Package (String name, String id, VisibilityType visibility, int line) {
+		super(name, id, visibility, line);
 		setProfiles(new HashMap<String, Profile>());
 		setMembers(new HashMap<String, Member>());
 	}
