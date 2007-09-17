@@ -227,20 +227,24 @@ class XMIParser extends DefaultHandler {
 			
 			String profileName = tokens.nextToken();
 			String stereotypeName = tokens.nextToken();
-			String baseName = "";
-			for (int i = 0; i < attributes.getLength(); i++) {
-				String attributeName = attributes.getQName(i);
-			
-				if(attributeName.startsWith("base_")){
-					baseName = attributeName.substring(5);
+
+			// Ignoring MagicDraw profile
+			if (! "MagicDraw_Profile".equals( profileName.trim() ))  {
+				String baseName = "";
+				for (int i = 0; i < attributes.getLength(); i++) {
+					String attributeName = attributes.getQName(i);
+				
+					if(attributeName.startsWith("base_")){
+						baseName = attributeName.substring(5);
+					}
+					// TODO VERIFY IF THERE IS ONLY ONE BASE_*
 				}
-				// TODO VERIFY IF THERE IS ONLY ONE BASE_*
-			}
-			
-			if (! "".equals(baseName)) {
-				StereotypeApplication stereotypeApp = new StereotypeApplication(attributes.getValue("xmi:id"),
-						baseName,attributes.getValue("base_"+baseName),stereotypeName,profileName, line);
-				applications.add(stereotypeApp);		
+				
+				if (! "".equals(baseName)) {
+					StereotypeApplication stereotypeApp = new StereotypeApplication(attributes.getValue("xmi:id"),
+							baseName,attributes.getValue("base_"+baseName),stereotypeName,profileName, line);
+					applications.add(stereotypeApp);		
+				}
 			}
 		}
 		

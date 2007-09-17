@@ -123,26 +123,27 @@ public class XMIParserUI {
 						LINE_SEPARATOR);
 
 			}
-		
-			Set<StereotypeApplication> applications = model.getApplications();
-			for (StereotypeApplication application : applications) {
-				String stereotype = application.getStereotype();
-				String profile = application.getProfile();
-				sb.append("Stereotype Application").append(LINE_SEPARATOR);
-				sb.append("   Stereotype: " + profile + ":" + stereotype);
-				sb.append("   Base").append(LINE_SEPARATOR);
-				sb.append("      base       : " + application.getBase()).append(
-						LINE_SEPARATOR);
-				sb.append("      baseId     : " + application.getBaseId()).append(
-						LINE_SEPARATOR);
-				sb.append("      id         : " + application.getId()).append(
-						LINE_SEPARATOR);
-				sb.append("      line       : " + application.getLine()).append(
-						LINE_SEPARATOR);
-			}
-			sb.append(LINE_SEPARATOR);
 		}
+		
+		Set<StereotypeApplication> applications = model.getApplications();
+		for (StereotypeApplication application : applications) {
+			String stereotype = application.getStereotype();
+			String profile = application.getProfile();
+			sb.append("Stereotype Application").append(LINE_SEPARATOR);
+			sb.append("   Stereotype: " + profile + ":" + stereotype);
+			sb.append("   Base").append(LINE_SEPARATOR);
+			sb.append("      base       : " + application.getBase()).append(
+					LINE_SEPARATOR);
+			sb.append("      baseId     : " + application.getBaseId()).append(
+					LINE_SEPARATOR);
+			sb.append("      id         : " + application.getId()).append(
+					LINE_SEPARATOR);
+			sb.append("      line       : " + application.getLine()).append(
+					LINE_SEPARATOR);
+		}
+		
 		sb.append(LINE_SEPARATOR);
+
 		return sb.toString();
 	}
 }
