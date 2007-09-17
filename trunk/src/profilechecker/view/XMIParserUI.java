@@ -3,6 +3,7 @@ package profilechecker.view;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
 
 import org.xml.sax.SAXException;
 
@@ -12,6 +13,7 @@ import profilechecker.model.Model;
 import profilechecker.model.Package;
 import profilechecker.model.Profile;
 import profilechecker.model.Stereotype;
+import profilechecker.model.StereotypeApplication;
 
 /**
  * UI of the XMIParser. And should be used as a debug tool from command line.
@@ -111,18 +113,22 @@ public class XMIParserUI {
 				sb.append("      visibility : " + packageMembers.get(classId).getVisibility()).append(
 						LINE_SEPARATOR);
 
-				// TODO get this information from StereotypeApplication
-				
-//				Set<StereotypeApplication> applications = model.getApplications();
-//				Map<String, Stereotype> stereotypes = packageMembers.get(classId).getStereotypes();
-//				for (String stereotypeName : stereotypes.keySet()) {
-//					Stereotype stereotype = stereotypes.get(stereotypeName);
-//					sb.append("         Stereotype").append(LINE_SEPARATOR);
-//					sb.append("            name       : " + stereotype.getName()).append(
-//							LINE_SEPARATOR);
-//				}
 			}
-			
+		
+			Set<StereotypeApplication> applications = model.getApplications();
+			for (StereotypeApplication application : applications) {
+				String stereotype = application.getStereotype();
+				String profile = application.getProfile();
+				sb.append("Stereotype Application").append(LINE_SEPARATOR);
+				sb.append("   Stereotype: " + profile + ":" + stereotype);
+				sb.append("   Base").append(LINE_SEPARATOR);
+				sb.append("      base       : " + application.getBase()).append(
+						LINE_SEPARATOR);
+				sb.append("      baseId     : " + application.getBaseId()).append(
+						LINE_SEPARATOR);
+				sb.append("      id         : " + application.getId()).append(
+						LINE_SEPARATOR);
+			}
 			sb.append(LINE_SEPARATOR);
 		}
 		sb.append(LINE_SEPARATOR);
