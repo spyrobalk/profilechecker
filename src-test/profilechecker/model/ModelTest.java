@@ -7,6 +7,11 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
+/**
+ * Test the Model.
+ *
+ * @author matheusgr
+ */
 public class ModelTest extends TestCase {
 
 	private Model model1;
@@ -63,20 +68,32 @@ public class ModelTest extends TestCase {
 		super.tearDown();
 	}
 
+	/**
+	 * Test getProfile at Model.
+	 */
 	public void testGetProfile() {
 		assertEquals(profiles,model1.getProfiles());
 	}
 
+	/**
+	 * Test getPackages at Model.
+	 */
 	public void testGetPackages() {
 		assertEquals(packages,model1.getPackages());
 	}
 
+	/**
+	 * Test getApplications at Model.
+	 */
 	public void testGetApplications() {
 		assertEquals(applications,model1.getApplications());
 	}
 
+	/**
+	 * Test getValidationExceptions at Model.
+	 */
 	public void testGetValidationExceptions() {
-		//Ne exception is expected becouse no exception was inserted in this model
+		//Ne exception is expected because no exception was inserted in this model
 		assertEquals(new HashSet<ValidationException>() , model1.getValidationExceptions());
 	}
 

@@ -7,6 +7,11 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
+/**
+ * Test Stereotype model.
+ *
+ * @author matheusgr
+ */
 public class StereotypeTest extends TestCase {
 
 	private Stereotype stereotype1;
@@ -40,7 +45,7 @@ public class StereotypeTest extends TestCase {
 		stereotype1 = new Stereotype("SimpleStereotype1",
 				"_12_5_1_12e803d1_1186332378092_478735_301", VisibilityType
 						.toValue("public"), 1);
-		List<String> stTypes = new ArrayList();
+		List<String> stTypes = new ArrayList<String>();
 		types1 = new HashSet<String>();
 		stTypes.add("Classes");
 		stTypes.add("Kernel");
@@ -70,7 +75,7 @@ public class StereotypeTest extends TestCase {
 		stereotype2 = new Stereotype("SimpleStereotype2",
 				"_12_5_1_12e803d1_1186332374248_452459_298", VisibilityType
 						.toValue("public"), 2);
-		stTypes = new ArrayList();
+		stTypes = new ArrayList<String>();
 		types2 = new HashSet<String>();
 		stTypes.add("Classes");
 		stTypes.add("Class");
@@ -84,11 +89,17 @@ public class StereotypeTest extends TestCase {
 		super.tearDown();
 	}
 
+	/**
+	 * Test getName at Stereotype.
+	 */
 	public void testGetName() {
 		assertEquals("SimpleStereotype1", stereotype1.getName());
 		assertEquals("SimpleStereotype2", stereotype2.getName());
 	}
 
+	/**
+	 * Test getId at Stereotype.
+	 */
 	public void testGetId() {
 		assertEquals("_12_5_1_12e803d1_1186332378092_478735_301", stereotype1
 				.getId());
@@ -96,6 +107,9 @@ public class StereotypeTest extends TestCase {
 				.getId());
 	}
 
+	/**
+	 * Test getVisibility at Stereotype.
+	 */
 	public void testGetVisibility() {
 		assertEquals(VisibilityType.toValue("public"), stereotype1
 				.getVisibility());
@@ -103,6 +117,9 @@ public class StereotypeTest extends TestCase {
 				.getVisibility());
 	}
 
+	/**
+	 * Test getTypes at Stereotype.
+	 */
 	public void testGetTypes() {
 		assertEquals(types1, stereotype1.getTypes());
 		assertEquals(types2, stereotype2.getTypes());

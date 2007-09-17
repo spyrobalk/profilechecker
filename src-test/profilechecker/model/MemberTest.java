@@ -42,16 +42,25 @@ public class MemberTest extends TestCase {
 		ownedMember2 = null;
 	}
 	
+	/**
+	 * Tests getName at Member.
+	 */
 	public void testGetName(){
 		assertEquals("Classe1",ownedMember1.getName());
 		assertEquals("Classe2",ownedMember2.getName());
 	}
 	
+	/**
+	 * Tests getId at Member.
+	 */
 	public void testGetId(){
 		assertEquals("_12_5_1_12e803d1_1185146568325_708968_547",ownedMember1.getId());
 		assertEquals("_12_5_1_12e803d1_1185146761643_148816_618",ownedMember2.getId());
 	}
 	
+	/**
+	 * Tests getVisibility at Member.
+	 */
 	public void testGetVisibility(){
 		assertEquals(VisibilityType
 				.toValue("public"),ownedMember1.getVisibility());
@@ -59,11 +68,17 @@ public class MemberTest extends TestCase {
 				.toValue("public"),ownedMember2.getVisibility());
 	}
 	
+	/**
+	 * Test getLine at Member.
+	 */
 	public void testGetLine() {
 		assertEquals(1, ownedMember1.getLine());
 		assertEquals(2, ownedMember2.getLine());		
 	}
 	
+	/**
+	 * Test getType at Member.
+	 */
 	public void testGetType(){
 		assertEquals("uml:Class",ownedMember1.getType());
 		assertEquals("uml:Class",ownedMember2.getType());
