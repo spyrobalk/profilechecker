@@ -68,7 +68,7 @@ public class StereotypeApplicationValidationTest extends TestCase {
 		Set<StereotypeApplication> applications = new HashSet<StereotypeApplication>();
 
 		applications.add(new StereotypeApplication("3", type, id,
-				stereotypeName, profileName));
+				stereotypeName, profileName, 1));
 
 		this.model = new Model(profiles, packages, applications);
 	}

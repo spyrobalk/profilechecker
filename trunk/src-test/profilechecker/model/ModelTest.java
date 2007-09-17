@@ -53,7 +53,7 @@ public class ModelTest extends TestCase {
 		applications = new HashSet<StereotypeApplication>();
 
 		applications.add(new StereotypeApplication("3", type, id,
-				stereotypeName, profileName));
+				stereotypeName, profileName, 1));
 
 		this.model1 = new Model(profiles, packages, applications);
 	}

@@ -73,7 +73,7 @@ public class StereotypeAplicationTest extends TestCase {
 		stereotypeApplication1 = new StereotypeApplication(
 				"_12_5_1_12e803d1_1185146581395_917930_569", "uml:Class",
 				"_12_5_1_12e803d1_1185146568325_708968_547", stereotype1
-						.getName(), profile.getName());
+						.getName(), profile.getName(), 1);
 
 		// <TesteProfile:SimpleStereotype2
 		// xmi:id='_12_5_1_12e803d1_1185146581395_917930_777'
@@ -82,7 +82,7 @@ public class StereotypeAplicationTest extends TestCase {
 		stereotypeApplication2 = new StereotypeApplication(
 				"_12_5_1_12e803d1_1185146581395_917930_777", "uml:Class",
 				"_12_5_1_12e803d1_1185146568325_708968_111", stereotype2
-						.getName(), profile.getName());
+						.getName(), profile.getName(), 2);
 	}
 
 	@Override

@@ -180,11 +180,12 @@ class XMIParser extends DefaultHandler {
 		
 		int line = -1;
 		
+		if (locator != null) {
+			line = locator.getLineNumber();
+		}
+		
 		if ("ownedMember".equalsIgnoreCase(qName)) {
 			ownedMemberCount++;
-			if (locator != null) {
-				line = locator.getLineNumber();
-			}
 			if ("uml:Profile".equals(attributes.getValue("xmi:type"))) {
 				parsingProfile = new Profile(attributes.getValue("name"),
 						attributes.getValue("xmi:id"), VisibilityType
@@ -238,7 +239,7 @@ class XMIParser extends DefaultHandler {
 			
 			if (! "".equals(baseName)) {
 				StereotypeApplication stereotypeApp = new StereotypeApplication(attributes.getValue("xmi:id"),
-						baseName,attributes.getValue("base_"+baseName),stereotypeName,profileName);
+						baseName,attributes.getValue("base_"+baseName),stereotypeName,profileName, line);
 				applications.add(stereotypeApp);		
 			}
 		}
@@ -247,7 +248,11 @@ class XMIParser extends DefaultHandler {
 			if ("uml:ProfileApplication".equals(attributes.getValue("xmi:type"))){
 				// TODO what if the key doesnt exist
 				String profileId = attributes.getValue("importedProfile");
-				parsingPackage.addProfile(profileId,profiles.get(profileId));
+				for (Profile profile : profiles.values()) {
+					if (profile.getId().equals( profileId )) {
+						parsingPackage.addProfile( profile.getName(), profile);
+					}
+				}
 			}
 		}
 		

@@ -24,19 +24,27 @@ public abstract class LineMember implements Serializable {
 	}
 
 	/**
-	 * Get the current line where this OwnedMember appears.
+	 * A constructor with line as parameter.
+	 * @param line Current line of the LineMember.
+	 */
+	public LineMember(int line) {
+		setLine(line);
+	}
+	
+	/**
+	 * Get the current line where this LineMember appears.
 	 * 
-	 * @return Current line where this OwnedMember appears.
+	 * @return Current line where this LineMember appears.
 	 */
 	public int getLine() {
 		return this.line;
 	}
 
 	/**
-	 * Set the current line of this OwnedMember.
+	 * Set the current line of this LineMember.
 	 * 
 	 * @param line
-	 *            Current line of this OwnedMember.
+	 *            Current line of this LineMember.
 	 */
 	protected void setLine( int line ) {
 		this.line = line;

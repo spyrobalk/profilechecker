@@ -41,9 +41,11 @@ public class StereotypeApplication extends LineMember {
 	 * @param baseId id of the base type of the application
 	 * @param stereotype name of the stereotype of this application
 	 * @param profile name of the profile of this application
+	 * @param line line number of the stereotype application.
 	 */
 	public StereotypeApplication(String id, String base, 
-			String baseId, String stereotype, String profile){
+			String baseId, String stereotype, String profile, int line){
+		super(line);
 		this.id = id;
 		this.base = base;
 		this.baseId = baseId;
