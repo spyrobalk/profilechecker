@@ -55,6 +55,7 @@ public class ProfileCheckerController {
 		model.setProfiles(parsedModel.getProfiles());
 		model.setPackages(parsedModel.getPackages());
 		model.setApplications(parsedModel.getApplications());
+		model.setValidationExceptions( parsedModel.getValidationExceptions() );
 	}
 
 	/**
