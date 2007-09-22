@@ -1,33 +1,43 @@
 package profilechecker.view;
 
 
-import java.awt.Container;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyVetoException;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.ImageIcon;
-import javax.swing.JDesktopPane;
+import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.event.InternalFrameEvent;
-import javax.swing.event.InternalFrameListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.plaf.basic.BasicButtonUI;
 
 import org.xml.sax.SAXException;
 
@@ -35,6 +45,7 @@ import profilechecker.controller.ProfileCheckerController;
 import profilechecker.model.Model;
 import profilechecker.model.Profile;
 import profilechecker.model.Stereotype;
+import profilechecker.model.StereotypeApplication;
 import profilechecker.model.ValidationException;
 
 /**
@@ -61,7 +72,7 @@ public class XMIParserGUI extends JFrame{
     /**
      * 
      */
-    private JDesktopPane theDesktop;
+    private final JTabbedPane tab = new JTabbedPane();
     
     private final String line = System.getProperty("line.separator");
 
@@ -94,12 +105,10 @@ public class XMIParserGUI extends JFrame{
             e.printStackTrace ();
         }
        
-        theDesktop = new JDesktopPane();
-        getContentPane().add(theDesktop);
-        
+        tab.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
+        add(tab);
         openedFiles = new HashMap<String, File>();
-       
-        makeMenu();
+        initMenu();
        
         //get default screen size to make the application window
         setSize( Toolkit.getDefaultToolkit().getScreenSize());
@@ -111,7 +120,7 @@ public class XMIParserGUI extends JFrame{
     /**
      * 
      */
-    public void makeMenu() {
+    public void initMenu() {
     	JMenuBar menubar = new JMenuBar();
         setJMenuBar(menubar);
        
@@ -156,7 +165,7 @@ public class XMIParserGUI extends JFrame{
      * @param model
      * @param controller
      * @param fileName
-     * @return
+     * @return a string with a parsed file
      */
     public String parse(Model model,ProfileCheckerController controller,File fileName) {
 
@@ -175,6 +184,7 @@ public class XMIParserGUI extends JFrame{
                 sb.append("<li><b>visibility</b> "
                         + profile.getVisibility());
                 sb.append("<p>");
+                
                 Map<String, Stereotype> stereotypes = profiles.get(
                         profileName).getStereotypes();
                 
@@ -194,9 +204,21 @@ public class XMIParserGUI extends JFrame{
                 } // End of 'stereotypes for-each'
                 
                 sb.append("</ul>");
-                //sb.append("<hr />");
             } // End of 'profiles for-each'
             
+            sb.append("<hr />");
+            
+            Set<StereotypeApplication> applications = model.getApplications();
+            
+            for(StereotypeApplication stereotypeApplication : applications) {
+            	sb.append("Application<ul>");
+            	sb.append("<li><b>id</b> " + stereotypeApplication.getId());
+                sb.append("<li><b>base</b> " + stereotypeApplication.getBase());
+                sb.append("<li><b>baseId</b> " + stereotypeApplication.getBaseId());
+                sb.append("<li><b>stereotype</b> " + stereotypeApplication.getStereotype());
+                sb.append("<li><b>profile</b> " + stereotypeApplication.getProfile());
+                sb.append("</ul>");
+            }
             sb.append("</body></html>");
         } catch (SAXException e1) {
             e1.printStackTrace();
@@ -207,7 +229,7 @@ public class XMIParserGUI extends JFrame{
     }
     
     /**
-     * @return
+     * @return a file
      */
     public File openFile() {
     	JFileChooser fileChooser =  new JFileChooser();
@@ -225,7 +247,7 @@ public class XMIParserGUI extends JFrame{
     }
     
     /**
-     * @return 
+     * @return  a file
      * 
      */
     public boolean open() {
@@ -238,9 +260,6 @@ public class XMIParserGUI extends JFrame{
        
        openedFiles.put(fileName.getName(), fileName);
        
-       JInternalFrame frame = new JInternalFrame(fileName.getName(),true,true,true,true);
-       frame.setFrameIcon(new ImageIcon("xml.png"));
-       Container container = frame.getContentPane();
        JEditorPane panel = new JEditorPane();
        
        panel.setEditable(false);
@@ -249,18 +268,15 @@ public class XMIParserGUI extends JFrame{
        panel.setText (parse(model,controller,fileName));
        
        //There are xmi with information that doesn't fit on the screen
+       
        JScrollPane scrollPanel = new JScrollPane(panel);
-       container.add(scrollPanel);
-       frame.pack();
-       theDesktop.add(frame);
-       InternalFrameAction internalFrameClosing = new InternalFrameAction(fileName.getName());
-       frame.addInternalFrameListener(internalFrameClosing);
-       frame.setVisible(true);
-       try {
-           frame.setMaximum(true);
-       } catch (PropertyVetoException e1) {
-           e1.printStackTrace();
-       }
+       tab.add(scrollPanel);
+       tab.setTitleAt(tab.getTabCount()-1, fileName.getName());
+       ButtonTabComponent buttonTab = new ButtonTabComponent(tab);
+       buttonTab.setName(fileName.getName());
+       tab.setTabComponentAt(tab.getTabCount()-1,buttonTab);
+       tab.setSelectedIndex(tab.getTabCount()-1);
+       
        return true;
     }
     
@@ -311,12 +327,12 @@ public class XMIParserGUI extends JFrame{
 
 		public void actionPerformed(ActionEvent e) {
 			
-			JInternalFrame selectedFrame = theDesktop.getSelectedFrame();
-			if(selectedFrame == null) {
+			if(tab.getTabCount() == 0) {
 				JOptionPane.showMessageDialog(null, "You must open a XMI file to run profile check","Warning",JOptionPane.WARNING_MESSAGE);
 				return;
 			}
-			File selectedFile = openedFiles.get(selectedFrame.getTitle());
+		
+			File selectedFile = openedFiles.get(tab.getTitleAt(tab.getSelectedIndex()));
 			try {
 				controller.parser(model,selectedFile);
 			} catch (SAXException e1) {
@@ -333,7 +349,7 @@ public class XMIParserGUI extends JFrame{
 			message.append(line);
 			Set<ValidationException> validationExceptions = model.getValidationExceptions();
 			if(validationExceptions.size() == 0) {
-				message.append("OK");
+				message.append("Profile Check is OK");
 			} else {
 				for(ValidationException ve : validationExceptions) {
 					message.append(ve.getMessage() + line);
@@ -343,49 +359,132 @@ public class XMIParserGUI extends JFrame{
 		}
     }
     
-    private class InternalFrameAction implements InternalFrameListener{
+    /**
+     * Component to be used as tabComponent;
+     * Contains a JLabel to show the text and 
+     * a JButton to close the tab it belongs to 
+     */ 
+    private class ButtonTabComponent extends JPanel {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		private final JTabbedPane pane;
 
-    	private String frameName;
-    	
-    	/**
-    	 * @param frameName
-    	 */
-    	public InternalFrameAction(String frameName) {
-    		this.frameName = frameName;
-    	}
-    	
-		public void internalFrameActivated(InternalFrameEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
+        /**
+         * @param pane
+         */
+        public ButtonTabComponent(final JTabbedPane pane) {
+            //unset default FlowLayout' gaps
+            super(new FlowLayout(FlowLayout.LEFT, 0, 0));
+            if (pane == null) {
+                throw new NullPointerException("TabbedPane is null");
+            }
+            this.pane = pane;
+            setOpaque(false);
+            
+            //make JLabel read titles from JTabbedPane
+            JLabel label = new JLabel() {
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = -7085072637932096254L;
 
-		public void internalFrameClosed(InternalFrameEvent e) {
-			openedFiles.remove(frameName);
-		}
+				public String getText() {
+                    int i = pane.indexOfTabComponent(ButtonTabComponent.this);
+                    if (i != -1) {
+                        return pane.getTitleAt(i);
+                    }
+                    return null;
+                }
+            };
+            
+            add(label);
+            //add more space between the label and the button
+            label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
+            //tab button
+            JButton button = new TabButton();
+            add(button);
+            //add more space to the top of the component
+            setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
+        }
 
-		public void internalFrameClosing(InternalFrameEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
+        private class TabButton extends JButton implements ActionListener {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = -4295957985144684259L;
 
-		public void internalFrameDeactivated(InternalFrameEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
+			/**
+             * 
+             */
+            public TabButton() {
+                int size = 17;
+                setPreferredSize(new Dimension(size, size));
+                setToolTipText("close this tab");
+                //Make the button looks the same for all Laf's
+                setUI(new BasicButtonUI());
+                //Make it transparent
+                setContentAreaFilled(false);
+                //No need to be focusable
+                setFocusable(false);
+                setBorder(BorderFactory.createEtchedBorder());
+                setBorderPainted(false);
+                //Making nice rollover effect
+                //we use the same listener for all buttons
+                addMouseListener(buttonMouseListener);
+                setRolloverEnabled(true);
+                //Close the proper tab by clicking the button
+                addActionListener(this);
+            }
 
-		public void internalFrameDeiconified(InternalFrameEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
+            public void actionPerformed(ActionEvent e) {
+                int i = pane.indexOfTabComponent(ButtonTabComponent.this);
+                openedFiles.remove(pane.getTitleAt(i));
+                if (i != -1) {
+                    pane.remove(i);
+                }
+            }
 
-		public void internalFrameIconified(InternalFrameEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
+            //we don't want to update UI for this button
+            //public void updateUI() {}
 
-		public void internalFrameOpened(InternalFrameEvent e) {
-			// TODO Auto-generated method stub
-		}
-    	
+            //paint the cross
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g.create();
+                //shift the image for pressed buttons
+                if (getModel().isPressed()) {
+                    g2.translate(1, 1);
+                }
+                g2.setStroke(new BasicStroke(2));
+                g2.setColor(Color.RED);
+                if (getModel().isRollover()) {
+                    g2.setColor(Color.MAGENTA);
+                }
+                int delta = 6;
+                g2.drawLine(delta, delta, getWidth() - delta - 1, getHeight() - delta - 1);
+                g2.drawLine(getWidth() - delta - 1, delta, delta, getHeight() - delta - 1);
+                g2.dispose();
+            }
+        }
+
+        private final MouseListener buttonMouseListener = new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                Component component = e.getComponent();
+                if (component instanceof AbstractButton) {
+                    AbstractButton button = (AbstractButton) component;
+                    button.setBorderPainted(true);
+                }
+            }
+
+            public void mouseExited(MouseEvent e) {
+                Component component = e.getComponent();
+                if (component instanceof AbstractButton) {
+                    AbstractButton button = (AbstractButton) component;
+                    button.setBorderPainted(false);
+                }
+            }
+        };
     }
-}
+  }
