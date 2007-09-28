@@ -66,7 +66,7 @@ public class ProfileCheckerController {
 	 */
 	public void validate(Model model) {
 		Set<ValidationException> validate = validator.validate(model);
-		model.setValidationExceptions(validate);
+		model.addValidationExceptions(validate);
 
 	}
 

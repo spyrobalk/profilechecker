@@ -47,7 +47,7 @@ class StereotypeApplicationValidation {
 			
 			// Check for profile, if failed, go to the next application
 			if (!profiles.containsKey(profile)) {
-				result.add(new ValidationException("Profile not found: "
+				result.add(new ValidationException("This profile was not defined: "
 						+ profile, Level.error, stereotypeApp.getLine()));
 				continue;
 			}
@@ -57,7 +57,7 @@ class StereotypeApplicationValidation {
 
 			// Check for stereotype, if failed, go to the next application
 			if (!stereotypes.containsKey(stereotype)) {
-				result.add(new ValidationException("Stereotype not found: "
+				result.add(new ValidationException("This stereotype was not defined: "
 						+ stereotype, Level.error, stereotypeApp.getLine()));
 				continue;
 			}
@@ -66,7 +66,7 @@ class StereotypeApplicationValidation {
 
 			// Check for type, if failed, go to the next application
 			if (!stereotypeImpl.getTypes().contains(base)) {
-				result.add(new ValidationException("Type not valid: " + base, Level.error, stereotypeApp.getLine()));
+				result.add(new ValidationException("Stereotype not appliable to this element: " + base, Level.error, stereotypeApp.getLine()));
 				continue;
 			}
 
@@ -83,7 +83,7 @@ class StereotypeApplicationValidation {
 					if (!member.getType().equals(base)) {
 						result
 								.add(new ValidationException(
-										"Specified type " + base + " cannot be different from application " + member.getType(), Level.error, member.getLine()));
+										"Applied type " + base + " different of used type " + member.getType(), Level.error, member.getLine()));
 						break;
 					}
 				}
