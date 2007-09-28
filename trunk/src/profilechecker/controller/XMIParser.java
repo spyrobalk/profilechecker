@@ -197,7 +197,7 @@ class XMIParser extends DefaultHandler {
 			if ("uml:Profile".equals(attributes.getValue("xmi:type"))) {
 				String parsingProfileName = attributes.getValue("name");
 				if (parsingProfileName == null) {
-					validationExceptions.add( new ValidationException("A profile without name cannot be applied at a stereotype application.", Level.warning, line) );
+					validationExceptions.add( new ValidationException("This profile will not be appliable without a name.", Level.warning, line) );
 				}
 				parsingProfile = new Profile(parsingProfileName,
 						attributes.getValue("xmi:id"), VisibilityType
@@ -205,11 +205,11 @@ class XMIParser extends DefaultHandler {
 				ownedMemberProfileCount = ownedMemberCount;
 			} else if ("uml:Stereotype".equals(attributes.getValue("xmi:type"))) {
 				if (parsingProfile == null) {
-					validationExceptions.add( new ValidationException("Stereotype outside a profile.", Level.fatal, line) );
+					validationExceptions.add( new ValidationException("Stereotype must be part of a profile.", Level.fatal, line) );
 				}
 				String stereotypeName = attributes.getValue("name");
 				if (stereotypeName == null) {
-					validationExceptions.add( new ValidationException("A stereotype without name cannot be applied at a stereotype application.", Level.warning, line) );
+					validationExceptions.add( new ValidationException("This stereotype will not be appliable without a name.", Level.warning, line) );
 				}
 				parsingStereotype = new Stereotype(stereotypeName,
 						attributes.getValue("xmi:id"), VisibilityType
