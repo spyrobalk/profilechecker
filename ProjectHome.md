@@ -1,0 +1,9 @@
+> A OMG define UML como uma linguagem gráfica para especificar, visualizar, construir e documentar artefatos de software unificando linguagens de modelagem previamente existentes. Em UML, sistemas complexos surgem a partir da definição de pequenos blocos (componentes) com acréscimo de regras bem definidas.
+
+Entretanto, estas regras bem definidas sozinhas não contemplam, no sistema, domínios específicos de uma modelagem: usando apenas UML, componentes com intuito especial para o domínio não são distintos dos demais componentes, o que dificulta a visualização do domínio do modelo. Para endereçar este problema, a OMG criou a possibilidade de estender a semântica dos diagramas UML através da adição de perfis UML.
+
+Cada perfil UML define um conjunto de estereótipos que podem ser aplicados a elementos UML adicionando assim uma nova semântica a este elemento. Cada perfil é especificado através de um meta-modelo: ou seja, um modelo que define o modelo em si. Neste modelo, cada estereótipo é associado a uma meta-classe UML (ou seja, ao tipo do elemento, como classe, associação, anotação, …) ligando assim a aplicação do estereótipo a elementos específicos dos diagramas.
+
+Assim, durante o uso de perfis UML, é possível que numa má modelagem, estereótipos venham a ser aplicados em elementos que não são válidos pela especificação dos perfis. Nosso projeto busca desenvolver uma ferramenta que valide, de maneira interoperável, um modelo UML que venha a usar um perfil específico.
+
+Para garantir a interoperabilidade, a ferramenta deve trabalhar com o padrão XMI (XML Metadata Interchange) que é o padrão da OMG para intercâmbio e representação textual de meta-modelos, incluindo os respectivos modelos associados. XMI é um padrão adotado por diversas ferramentas de modelagem UML abrindo a possibilidade do software do nosso projeto se tornar um “plugin” para tais programas.
